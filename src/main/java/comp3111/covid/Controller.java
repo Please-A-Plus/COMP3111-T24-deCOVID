@@ -2,6 +2,7 @@ package comp3111.covid;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
@@ -9,6 +10,7 @@ import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.MenuButton;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.Tab;
@@ -19,6 +21,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.CheckMenuItem;
+import javafx.scene.control.CustomMenuItem;
 import javafx.scene.control.DatePicker;
 
 /**
@@ -132,21 +135,31 @@ public class Controller {
     void processReport1(ActionEvent event) {
     	String iDataset = textfieldDataset.getText();
     	LocalDate iDate = dateReport1.getValue();
+    	if (iDate == null) {
+    		textAreaConsole.setText("Input Error: Empty Date");
+    		return;
+    	}
     	List<String> iISOCodes = new ArrayList<String>();
     	HashMap<String, String> invertedCountriesDict = new HashMap<String, String>();
     	for (String ISOCode: DataAnalysis.countriesDict.keySet()) {
     		invertedCountriesDict.put(DataAnalysis.countriesDict.get(ISOCode), ISOCode);
     	}
     	for (MenuItem item: countryPickerReport1.getItems()) {
-    		CheckMenuItem checkItem = (CheckMenuItem) item;
-    		if (checkItem.isSelected()) {
-    			String ISOCode = invertedCountriesDict.get(checkItem.getText());
+    		CustomMenuItem checkItem = (CustomMenuItem) item;
+    		CheckBox checkBox = (CheckBox) checkItem.getContent();
+    		if (checkBox.isSelected()) {
+    			String ISOCode = invertedCountriesDict.get(checkBox.getText());
     			iISOCodes.add(ISOCode);
     		}
     	}
+    	if (iISOCodes.isEmpty()) {
+    		textAreaConsole.setText("Input Error: No Countries is Selected");
+    		return;
+    	}
     	ReportForm casesReportForm = new ReportForm(iDataset, iDate, iISOCodes, "confirmed_cases");
     	List<List<String>> casesReport = casesReportForm.generateReport();
-    	System.out.println(casesReport);
+//    	System.out.println(casesReport);
+    	reportTable1.getItems().clear();
     	for (List<String> rec: casesReport) {
     		ConfirmedCasesRecord record = new ConfirmedCasesRecord(DataAnalysis.countriesDict.get(rec.get(0)), rec.get(1), rec.get(2));
     		reportTable1.getItems().add(record);
@@ -160,8 +173,22 @@ public class Controller {
     	DataAnalysis.initCountriesDict(iDataset);
     	countryPickerReport1.getItems().removeAll();
     	List<String> countries = new ArrayList<String>(DataAnalysis.countriesDict.values());
+    	List<String> priorityCountries = new ArrayList<String>();
+    	priorityCountries.add("Hong Kong");
+    	priorityCountries.add("India");
+    	priorityCountries.add("World");
+    	countries.removeAll(priorityCountries);
+    	Collections.sort(countries);
+    	Collections.sort(priorityCountries);
+    	countries.addAll(0, priorityCountries);
+    	//    	for (String country: countries) {
+		//		countryPickerReport1.getItems().add(new CheckMenuItem(country));
+		//	}
     	for (String country: countries) {
-    		countryPickerReport1.getItems().add(new CheckMenuItem(country));
+    		CheckBox checkBox = new CheckBox(country);
+    		CustomMenuItem customMenuItem = new CustomMenuItem(checkBox);
+    		customMenuItem.setHideOnClick(false);
+    		countryPickerReport1.getItems().add(customMenuItem);
     	}
     	countryColumn.setCellValueFactory(new PropertyValueFactory<>("country"));
     	totalCasesColumn.setCellValueFactory(new PropertyValueFactory<>("totalCases"));
