@@ -42,12 +42,12 @@ public class MyApplication extends Application {
 	 */
 	@Override
 	public void start(Stage stage) throws Exception {
-    	FXMLLoader loader = new FXMLLoader();
+		FXMLLoader loader = new FXMLLoader();
     	loader.setLocation(getClass().getResource(UI_FILE));
    		VBox root = (VBox) loader.load();
    		Scene scene =  new Scene(root);
    		stage.setScene(scene);
-   		stage.setTitle("Super Team T-00: Data Explorer on COVID-19");
+   		stage.setTitle("Please-A-Plus T-24: Data Explorer on COVID-19");
    		stage.show();
 	}
 
