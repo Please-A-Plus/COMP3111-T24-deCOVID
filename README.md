@@ -5,3 +5,7 @@
 # TANUWIJAYA Randy Stefan
 > email: rstanuwijaya | github: rstanuwijaya | devbranch: feature_taskA
 > task 1 and task 4
+
+# Chan Kei Chi
+> email: kcchanbt | github: gracekccc | devbranch: feature-taskC
+> task 3 and task 6
