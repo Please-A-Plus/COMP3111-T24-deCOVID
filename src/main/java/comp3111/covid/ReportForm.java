@@ -8,7 +8,11 @@ import java.util.List;
 import javax.print.attribute.standard.MediaSize.ISO;
 
 public class ReportForm {
-	
+	private static String dataset;
+	private static LocalDate date;
+	private static List<String> ISOCodes;
+	private static String mode;
+
 	// Report form constructor
 	public ReportForm(String iDataset, LocalDate iDate, List<String> iISOCodes, String iMode) {
 		dataset = iDataset;
@@ -18,14 +22,9 @@ public class ReportForm {
 	}
 	
 	// Prevent default constructor
-	private ReportForm() {};
+	private ReportForm() {}
 	
-	public static String dataset = null;
-	public static LocalDate date = null;
-	public static List<String> ISOCodes = null;
-	public static String mode = null;
-	
-	public static List<List<String>> generateReportConfirmedCases() {
+	private static List<List<String>> generateReportConfirmedCases() {
 		List<List<String>> report = new ArrayList<List<String>>();
 		HashMap<String, Long> populationDict = DataAnalysis.getPopulationBeforeDate(dataset, date);
 		HashMap<String, Integer> confirmedCasesDict = DataAnalysis.getConfirmedCasesBeforeDate(dataset, date);

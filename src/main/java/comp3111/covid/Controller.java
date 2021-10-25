@@ -8,6 +8,7 @@ import java.util.List;
 
 import javafx.event.ActionEvent;
 import javafx.event.Event;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
@@ -188,6 +189,7 @@ public class Controller {
     		CheckBox checkBox = new CheckBox(country);
     		CustomMenuItem customMenuItem = new CustomMenuItem(checkBox);
     		customMenuItem.setHideOnClick(false);
+    		customMenuItem.setOnAction(handleCountryPicker);
     		countryPickerReport1.getItems().add(customMenuItem);
     	}
     	countryColumn.setCellValueFactory(new PropertyValueFactory<>("country"));
@@ -195,10 +197,12 @@ public class Controller {
     	totalCasesPer1MPopulationColumn.setCellValueFactory(new PropertyValueFactory<>("totalCasesPer1MPopulation"));
     }
     
-    @FXML
-    void handleCountryPicker(ActionEvent event) {
-    	System.out.println("kontoll");
-    	event.consume();
-    }
+    EventHandler<ActionEvent> handleCountryPicker = new EventHandler<ActionEvent>() {
+        public void handle(ActionEvent e)
+        {
+        	System.out.println("handle country event fired");
+        }
+    };
+
 }
 
