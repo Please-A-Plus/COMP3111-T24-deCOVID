@@ -1,16 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.MenuButton?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox prefHeight="679.0" prefWidth="719.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="comp3111.covid.Controller">
+<VBox prefHeight="679.0" prefWidth="719.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="comp3111.covid.Controller">
   <children>
     <AnchorPane maxHeight="-1.0" maxWidth="-1.0" prefHeight="437.0" prefWidth="719.0">
       <children>
@@ -32,12 +36,23 @@
                         </AnchorPane>
                   </content>
                 </Tab>
-                  <Tab fx:id="tabReport1" text="Table A">
+                  <Tab fx:id="tabReport1" onSelectionChanged="#onClickTabReport1" text="Table A">
                     <content>
                       <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="384.0" prefWidth="719.0">
                            <children>
                               <Label layoutX="79.0" layoutY="44.0" />
-                              <TextArea layoutX="14.0" layoutY="12.0" prefHeight="296.0" prefWidth="698.0" text="Task A1: Generate data tables showing the number of confirmed COVID-19 cases by country&#10;&#10;Input&#10;•&#9;Specify the date of interest&#10;•&#9;Specify the countries of interest&#10;&#10;Output&#10;•&#9;Label the data table with a proper title: &quot;Number of Confirmed COVID-19 Cases as of [Date of Interest]&quot;&#10;•&#9;Present data in 3 columns with proper headings of &quot;Country&quot;, &quot;Total Cases&quot;, and &quot;Total Cases (per 1M)&quot;&#10;•&#9;Present data for the countries of interest in rows&#10;&#10;" wrapText="true" />
+                              <DatePicker fx:id="dateReport1" layoutX="121.0" layoutY="14.0" />
+                              <Label layoutX="28.0" layoutY="18.0" text="Date" />
+                              <Label layoutX="28.0" layoutY="57.0" text="Countires" />
+                              <TableView fx:id="reportTable1" layoutX="28.0" layoutY="95.0" prefHeight="206.0" prefWidth="674.0">
+                                <columns>
+                                  <TableColumn fx:id="countryColumn" prefWidth="150.0" text="Country" />
+                                  <TableColumn fx:id="totalCasesColumn" minWidth="0.0" prefWidth="200.0" text="Total Cases" />
+                                    <TableColumn fx:id="totalCasesPer1MPopulationColumn" prefWidth="200.0" text="Total Cases (per 1M)" />
+                                </columns>
+                              </TableView>
+                              <MenuButton fx:id="countryPickerReport1" layoutX="121.0" layoutY="53.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="174.0" text="Click to Select" />
+                              <Button fx:id="buttonGetReport1" layoutX="666.0" layoutY="53.0" mnemonicParsing="false" onAction="#processReport1" text="Get" />
                            </children>
                         </AnchorPane>
                     </content>
