@@ -165,7 +165,7 @@ public class DataAnalysis {
 			Float totalCasesPerMillion = parseFloatWithDefault(rec.get("total_cases_per_million"));
 			Float newCasesPerMillion = parseFloatWithDefault(rec.get("new_cases_per_million"));
 			
-			//TODO
+			//TODO: parse death and vaccination data
 			
 			ConfirmedCaseRecord confirmedCaseRecord = new ConfirmedCaseRecord(totalCases, newCases, totalCasesPerMillion, newCasesPerMillion);
 			ConfirmedDeathRecord confirmedDeathRecord = null;
@@ -216,14 +216,14 @@ public class DataAnalysis {
 		return populationDict;
 	}
 	 
-	private static Long parseLongWithDefault(String str) {
+	public static Long parseLongWithDefault(String str) {
 	    if (str == null || str == "") {
 	        return Long.valueOf(0);
 	    }
 	    return Long.parseLong(str);
 	}
 	 
-	private static Float parseFloatWithDefault(String str) {
+	public static Float parseFloatWithDefault(String str) {
 	    if (str == null || str == "") {
 	        return Float.valueOf(0);
 	    }

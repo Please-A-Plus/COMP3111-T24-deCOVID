@@ -12,7 +12,7 @@ public class CovidRecord {
 	public ConfirmedDeathRecord confirmedDeathRecord;
 	public VaccinationRecord vaccinationRecord;
 	
-	CovidRecord(String iso_code, String location, LocalDate date, Long population, 
+	public CovidRecord(String iso_code, String location, LocalDate date, Long population, 
 			ConfirmedCaseRecord confirmedCaseRecord, 
 			ConfirmedDeathRecord confirmedDeathRecord,
 			VaccinationRecord vaccinationRecord

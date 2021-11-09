@@ -7,24 +7,24 @@ import java.util.List;
 
 import javax.print.attribute.standard.MediaSize.ISO;
 
-public class ReportForm {
+public class TableForm {
 	private static String dataset;
 	private static LocalDate date;
 	private static List<String> ISOCodes;
 	private static String mode;
 
 	// Report form constructor
-	public ReportForm(String iDataset, LocalDate iDate, List<String> iISOCodes, String iMode) {
+	public TableForm(String iDataset, LocalDate iDate, List<String> iISOCodes, String iMode) {
 		dataset = iDataset;
 		date = iDate;
 		ISOCodes = iISOCodes;
-		mode = iMode;	
+		mode = iMode;	// either confirmed_cases
 	}
 	
 	// Prevent default constructor
-	private ReportForm() {}
+	private TableForm() {}
 	
-	private static List<List<String>> generateReportConfirmedCases() {
+	public List<List<String>> generateReportConfirmedCases() {
 		List<List<String>> report = new ArrayList<List<String>>();
 //		HashMap<String, Long> populationDict = DataAnalysis.getPopulationBeforeDate(dataset, date);
 		HashMap<String, Float> confirmedCasesPerMillionDict = DataAnalysis.getConfirmedCasesPerMillionBeforeDate(dataset, date);
