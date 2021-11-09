@@ -175,6 +175,7 @@ public class Controller {
     	countryPickerReport1.getItems().removeAll();
     	List<String> countries = new ArrayList<String>(DataAnalysis.countriesDict.values());
     	List<String> priorityCountries = new ArrayList<String>();
+    	//HARDCODE
     	priorityCountries.add("Hong Kong");
     	priorityCountries.add("India");
     	priorityCountries.add("World");
