@@ -157,7 +157,7 @@ public class Controller {
     		textAreaConsole.setText("Input Error: No Countries is Selected");
     		return;
     	}
-    	ReportForm casesReportForm = new ReportForm(iDataset, iDate, iISOCodes, "confirmed_cases");
+    	TableForm casesReportForm = new TableForm(iDataset, iDate, iISOCodes, "confirmed_cases");
     	List<List<String>> casesReport = casesReportForm.generateReport();
 //    	System.out.println(casesReport);
     	reportTable1.getItems().clear();
@@ -175,6 +175,7 @@ public class Controller {
     	countryPickerReport1.getItems().removeAll();
     	List<String> countries = new ArrayList<String>(DataAnalysis.countriesDict.values());
     	List<String> priorityCountries = new ArrayList<String>();
+    	//HARDCODE
     	priorityCountries.add("Hong Kong");
     	priorityCountries.add("India");
     	priorityCountries.add("World");
