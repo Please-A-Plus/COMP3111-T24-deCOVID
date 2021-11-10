@@ -12,9 +12,9 @@ repositories {
 task debug(type:JavaExec) {
 	group 'application'
 	description 'debug'
-   jvmArgs '-Xdebug', '-Xrunjdwp:transport=dt_socket,server=y,suspend=y,address=9099'
-   main = 'comp3111.covid.MyApplication'
-   classpath = sourceSets.main.runtimeClasspath
+   	jvmArgs '-Xdebug', '-Xrunjdwp:transport=dt_socket,server=y,suspend=y,address=9099'
+  	main = 'comp3111.covid.MyApplication'
+   	classpath = sourceSets.main.runtimeClasspath
 } 
 
 dependencies {
@@ -49,6 +49,10 @@ run {
 		// Temporal fix for Eclipse with JDK 1.8 and Windows
 		systemProperty "java.library.path", "C:\tmp"
 		}
+}
+
+jacoco {
+    toolVersion = '0.8.7'
 }
 
 mainClassName = 'comp3111.covid.MyApplication'

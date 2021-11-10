@@ -77,7 +77,7 @@ public class DataAnalysis {
 				if (!s.equals("")) {
 					confirmedCases += Long.parseLong(s);
 					numRecord++;
-				}
+				}				
 			}		
 			totalNumRecord++;
 		}
@@ -89,42 +89,6 @@ public class DataAnalysis {
 		
 		return oReport;
 	}
-	
-	public static HashMap<String, Long> getPopulationBeforeDate(String dataset, LocalDate date) {
-		HashMap<String, Long> populationDict = new HashMap<String, Long>();
-		for (CSVRecord rec : getFileParser(dataset)) {
-			String iso_code = rec.get("iso_code");
-			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("M/d/yyyy");
-			LocalDate recDate = LocalDate.parse(rec.get("date"), formatter);
-			String populationString = rec.get("population");
-			if (recDate.isAfter(date) || populationString.equals("")) continue;
-			Long population = Long.parseLong(populationString);
-			populationDict.put(iso_code, population);	
-		}
-		return populationDict;
-	}
-
-	public static HashMap<String, Integer> getConfirmedCasesBeforeDate(String dataset, LocalDate date) {
-		HashMap<String, Integer> totalCasesDict = new HashMap<String, Integer>();
-		for (CSVRecord rec : getFileParser(dataset)) {
-			try {
-				String iso_code = rec.get("iso_code");
-				DateTimeFormatter formatter = DateTimeFormatter.ofPattern("M/d/yyyy");
-				LocalDate recDate = LocalDate.parse(rec.get("date"), formatter);
-				String recCasesString = rec.get("new_cases");
-				if (recDate.isAfter(date) || recCasesString.equals("")) continue;
-				Integer recCases = Integer.parseInt(recCasesString);
-				if (!totalCasesDict.containsKey(iso_code)) {
-					totalCasesDict.put(iso_code, 0);
-				}
-				totalCasesDict.put(iso_code, recCases + totalCasesDict.get(iso_code));	
-			}
-			finally {				
-			}
-		}
-		return totalCasesDict;
-	}
-
 	
 	public static String getConfirmedDeaths(String dataset, String iso_code) {
 			String oReport = "";	
@@ -187,5 +151,83 @@ public class DataAnalysis {
 			
 			return oReport;
 	 }
- 
+	 
+	 public static CovidRecord parseDataset(CSVRecord rec) {			
+			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("M/d/yyyy");
+			
+			String iso_code = rec.get("iso_code");
+			String location = rec.get("location");
+			LocalDate recDate = LocalDate.parse(rec.get("date"), formatter);
+			Long population = parseLongWithDefault(rec.get("population"));
+			
+			Long totalCases = parseLongWithDefault(rec.get("total_cases"));
+			Long newCases = parseLongWithDefault(rec.get("new_cases"));
+			Float totalCasesPerMillion = parseFloatWithDefault(rec.get("total_cases_per_million"));
+			Float newCasesPerMillion = parseFloatWithDefault(rec.get("new_cases_per_million"));
+			
+			//TODO: parse death and vaccination data
+			
+			ConfirmedCaseRecord confirmedCaseRecord = new ConfirmedCaseRecord(totalCases, newCases, totalCasesPerMillion, newCasesPerMillion);
+			ConfirmedDeathRecord confirmedDeathRecord = null;
+			VaccinationRecord vaccinationRecord = null;
+			
+			CovidRecord covidRecord = new CovidRecord(iso_code, location, recDate, population, confirmedCaseRecord, confirmedDeathRecord, vaccinationRecord);
+			
+			return covidRecord;
+	 }
+	 
+	public static HashMap<String, Long> getConfirmedCasesBeforeDate(String dataset, LocalDate date) {
+		HashMap<String, Long> totalCasesDict = new HashMap<String, Long>();
+		for (CSVRecord rec : getFileParser(dataset)) {
+			CovidRecord covidRecord = parseDataset(rec);
+			
+			if (!totalCasesDict.containsKey(covidRecord.iso_code)) {
+				totalCasesDict.put(covidRecord.iso_code, Long.valueOf(0));
+			}
+			totalCasesDict.put(covidRecord.iso_code, covidRecord.confirmedCaseRecord.totalCases);	
+		}
+		return totalCasesDict;
+	}
+
+	public static HashMap<String, Float> getConfirmedCasesPerMillionBeforeDate(String dataset, LocalDate date) {
+		HashMap<String, Float> totalCasesDict = new HashMap<String, Float>();
+		for (CSVRecord rec : getFileParser(dataset)) {
+			CovidRecord covidRecord = parseDataset(rec);
+			
+			if (!totalCasesDict.containsKey(covidRecord.iso_code)) {
+				totalCasesDict.put(covidRecord.iso_code, Float.valueOf(0));
+			}
+			totalCasesDict.put(covidRecord.iso_code, covidRecord.confirmedCaseRecord.totalCasesPerMillion);	
+		}
+		return totalCasesDict;
+	}
+
+	public static HashMap<String, Long> getPopulationBeforeDate(String dataset, LocalDate date) {
+		HashMap<String, Long> populationDict = new HashMap<String, Long>();
+		for (CSVRecord rec : getFileParser(dataset)) {
+			String iso_code = rec.get("iso_code");
+			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("M/d/yyyy");
+			LocalDate recDate = LocalDate.parse(rec.get("date"), formatter);
+			String populationString = rec.get("population");
+			if (recDate.isAfter(date) || populationString.equals("")) continue;
+			Long population = Long.parseLong(populationString);
+			populationDict.put(iso_code, population);	
+		}
+		return populationDict;
+	}
+	 
+	public static Long parseLongWithDefault(String str) {
+	    if (str == null || str == "") {
+	        return Long.valueOf(0);
+	    }
+	    return Long.parseLong(str);
+	}
+	 
+	public static Float parseFloatWithDefault(String str) {
+	    if (str == null || str == "") {
+	        return Float.valueOf(0);
+	    }
+	    return Float.parseFloat(str);
+	}
+
 }
