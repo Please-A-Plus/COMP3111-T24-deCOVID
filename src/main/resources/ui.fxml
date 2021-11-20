@@ -72,24 +72,24 @@
                         </AnchorPane>
                   </content>
                 </Tab>
-                  <Tab fx:id="tabReport3" text="Table C">
+                  <Tab fx:id="tabReport3" onSelectionChanged="#onClickTabReport3" text="Table C">
                     <content>
                         <AnchorPane>
                            <children>
                             <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="318.0" prefWidth="719.0">
                                  <children>
-                                    <DatePicker layoutX="130.0" layoutY="25.0" />
-                                    <ChoiceBox layoutX="130.0" layoutY="62.0" prefHeight="25.0" prefWidth="175.0" />
+                                    <DatePicker fx:id="dateReport3" layoutX="130.0" layoutY="25.0" />
+                                    <MenuButton fx:id="countryPickerReport3" layoutX="130.0" layoutY="62.0" prefHeight="25.0" prefWidth="175.0" mnemonicParsing="false" text="Click to Select" />
                                     <Label layoutX="50.0" layoutY="29.0" text="Date:" />
                                     <Label layoutX="50.0" layoutY="66.0" text="Country:" />
-                                    <TableView layoutX="25.0" layoutY="114.0" prefHeight="194.0" prefWidth="668.0">
+                                    <TableView fx:id="reportTable3" layoutX="25.0" layoutY="114.0" prefHeight="194.0" prefWidth="668.0">
                                       <columns>
-                                        <TableColumn prefWidth="186.0" text="Country" />
-                                        <TableColumn prefWidth="235.0" text="Fully Vaccinated" />
-                                          <TableColumn prefWidth="246.0" text="Rate of Vaccination" />
+                                        <TableColumn fx:id="countryColumn3" prefWidth="186.0" text="Country" />
+                                        <TableColumn fx:id="fullyVaccinatedColumn" prefWidth="235.0" text="Fully Vaccinated" />
+                                          <TableColumn fx:id="rateOfVaccinationColumn" prefWidth="246.0" text="Rate of Vaccination" />
                                       </columns>
                                     </TableView>
-                                    <Button layoutX="547.0" layoutY="62.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="93.0" text="Generate" AnchorPane.rightAnchor="79.0" />
+                                    <Button fx:id="buttonGetReport3" layoutX="547.0" layoutY="62.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="93.0"  onAction="#processReport3" text="Generate" AnchorPane.rightAnchor="79.0" />
                                  </children>
                               </AnchorPane>
                            </children>

@@ -26,12 +26,15 @@ public class CovidRecordTester {
 		Long newCases = Long.valueOf(200);
 		Float totalCasesPerMillion = Float.valueOf(totalCases/population);
 		Float newCasesPerMillion = Float.valueOf(newCases/population);
+
+		Long vaccinated = Long.valueOf(2000);
+		Float vaccinatedRate = Float.valueOf(vaccinated / population);
 		
 		//TODO: parse death and vaccination data
 		
 		ConfirmedCaseRecord confirmedCaseRecord = new ConfirmedCaseRecord(totalCases, newCases, totalCasesPerMillion, newCasesPerMillion);
 		ConfirmedDeathRecord confirmedDeathRecord = null;
-		VaccinationRecord vaccinationRecord = null;
+		VaccinationRecord vaccinationRecord = new VaccinationRecord(vaccinated);
 		
 		covidRecord = new CovidRecord(iso_code, location, recDate, population, confirmedCaseRecord, confirmedDeathRecord, vaccinationRecord);
 		
