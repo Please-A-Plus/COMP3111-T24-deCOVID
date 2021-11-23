@@ -164,11 +164,17 @@ public class DataAnalysis {
 			Long newCases = parseLongWithDefault(rec.get("new_cases"));
 			Float totalCasesPerMillion = parseFloatWithDefault(rec.get("total_cases_per_million"));
 			Float newCasesPerMillion = parseFloatWithDefault(rec.get("new_cases_per_million"));
+
+			//Death Data Parsing
+			Long totalDeaths = parseLongWithDefault(rec.get("total_deaths"));
+			Long newDeaths = parseLongWithDefault(rec.get("new_deaths"));
+			Float totalDeathsPerMillion = parseFloatWithDefault(rec.get("total_deaths_per_million"));
+			Float newDeathsPerMillion = parseFloatWithDefault(rec.get("new_deaths_per_million"));
 			
-			//TODO: parse death and vaccination data
+			//TODO: parse vaccination data
 			
 			ConfirmedCaseRecord confirmedCaseRecord = new ConfirmedCaseRecord(totalCases, newCases, totalCasesPerMillion, newCasesPerMillion);
-			ConfirmedDeathRecord confirmedDeathRecord = null;
+			ConfirmedDeathRecord confirmedDeathRecord = new ConfirmedDeathRecord(totalDeaths, newDeaths, totalDeathsPerMillion, newDeathsPerMillion);
 			VaccinationRecord vaccinationRecord = null;
 			
 			CovidRecord covidRecord = new CovidRecord(iso_code, location, recDate, population, confirmedCaseRecord, confirmedDeathRecord, vaccinationRecord);
@@ -214,6 +220,45 @@ public class DataAnalysis {
 			populationDict.put(iso_code, population);	
 		}
 		return populationDict;
+	}
+
+	public static HashMap<String, Long> getTotalDeath(String dataset, LocalDate date) {
+		HashMap<String, Long> totalDeathCasesMap = new HashMap<String, Long>();
+		for (CSVRecord rec : getFileParser(dataset)) {
+			CovidRecord covidRecord = parseDataset(rec);
+			
+			if (!totalDeathCasesMap.containsKey(covidRecord.iso_code)) {
+				totalDeathCasesMap.put(covidRecord.iso_code, Long.valueOf(0));
+			}
+			totalDeathCasesMap.put(covidRecord.iso_code, covidRecord.confirmedDeathRecord.getTotalDeaths());	
+		}
+		return totalDeathCasesMap;
+	}
+
+	public static HashMap<String, Float> getTotalDeathPerMillion(String dataset, LocalDate date) {
+		HashMap<String, Float> totalDeathCasesMap = new HashMap<String, Float>();
+		for (CSVRecord rec : getFileParser(dataset)) {
+			CovidRecord covidRecord = parseDataset(rec);
+			
+			if (!totalDeathCasesMap.containsKey(covidRecord.iso_code)) {
+				totalDeathCasesMap.put(covidRecord.iso_code, Float.valueOf(0));
+			}
+			totalDeathCasesMap.put(covidRecord.iso_code, covidRecord.confirmedDeathRecord.getTotalDeathsPerMillion());	
+		}
+		return totalDeathCasesMap;
+	}
+
+	public static HashMap<String, Long> getNewDeath(String dataset, LocalDate date) {
+		HashMap<String, Long> newDeathCasesMap = new HashMap<String, Long>();
+		for (CSVRecord rec : getFileParser(dataset)) {
+			CovidRecord covidRecord = parseDataset(rec);
+			
+			if (!newDeathCasesMap.containsKey(covidRecord.iso_code)) {
+				newDeathCasesMap.put(covidRecord.iso_code, Long.valueOf(0));
+			}
+			newDeathCasesMap.put(covidRecord.iso_code, covidRecord.confirmedDeathRecord.getNewDeaths());	
+		}
+		return newDeathCasesMap;
 	}
 	 
 	public static Long parseLongWithDefault(String str) {
