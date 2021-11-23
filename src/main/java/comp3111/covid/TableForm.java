@@ -5,8 +5,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import javax.print.attribute.standard.MediaSize.ISO;
-
 public class TableForm {
 	private static String dataset;
 	private static LocalDate date;
