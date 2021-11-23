@@ -60,16 +60,16 @@
                   </Tab>
                 <Tab fx:id="tabReport2" onSelectionChanged="#onClickTabReport2" text="Table B">
                   <content>
-                        <AnchorPane maxHeight="-1.0" maxWidth="-1.0" prefHeight="-1.0" prefWidth="-1.0" VBox.vgrow="ALWAYS">
+                        <AnchorPane maxHeight="-1.0" maxWidth="-1.0" prefHeight="-1.0" prefWidth="-1.0">
                           <children>
                                 <Button fx:id="deathButton" layoutX="268.0" layoutY="96.0" mnemonicParsing="false" onAction="#deathButtonPressed" text="Find" />
                                 <DatePicker fx:id="dateDeathTable" layoutX="28.0" layoutY="96.0" promptText="Enter a Date" />
                                 <Text fx:id="deathTitle" layoutX="28.0" layoutY="14.0" text="Confirmed COVID-19 Deaths"/>
-                                <TableView layoutX="28.0" layoutY="142.0" prefHeight="182.0" prefWidth="584.0">
+                                <TableView fx:id="reportTableB1" layoutX="28.0" layoutY="142.0" prefHeight="182.0" prefWidth="584.0">
                                   <columns>
-                                    <TableColumn prefWidth="203.0" text="Country" />
-                                    <TableColumn prefWidth="186.0" text="Total Deaths" />
-                                      <TableColumn prefWidth="191.0" text="Total Deaths (per 1M)" />
+                                    <TableColumn fx:id="countryColumnB1" prefWidth="203.0" text="Country" />
+                                    <TableColumn fx:id="totalDeathColumn" prefWidth="186.0" text="Total Deaths" />
+                                      <TableColumn fx:id="totalDeathPerMillionColumn" prefWidth="191.0" text="Total Deaths (per 1M)" />
                                   </columns>
                                 </TableView>
                                 <MenuButton fx:id="deathCountryPicker" layoutX="28.0" layoutY="52.0" mnemonicParsing="false" text="Country" />

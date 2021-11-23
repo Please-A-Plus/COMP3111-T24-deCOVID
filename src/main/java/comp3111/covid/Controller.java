@@ -215,6 +215,18 @@ public class Controller {
     private DatePicker dateDeathTable;
 
     @FXML
+    private TableView<ConfirmedCaseTable> reportTableB1;
+
+    @FXML
+    private TableColumn<?, ?> countryColumnB1;
+
+    @FXML
+    private TableColumn<?, ?> totalDeathColumn;
+
+    @FXML
+    private TableColumn<?, ?> totalDeathPerMillionColumn;
+
+    @FXML
     private Button deathButton;
 
     @FXML
@@ -225,6 +237,12 @@ public class Controller {
 
     @FXML
     void onClickTabReport2(Event event){
+        if (DataAnalysis.countriesDict == null){
+            String iDataset = textfieldDataset.getText();
+    	    DataAnalysis.initCountriesDict(iDataset);
+        };
+    	deathCountryPicker.getItems().removeAll();
+
         List<String> countries = new ArrayList<String>(DataAnalysis.countriesDict.values());
         List<String> priorityCountries = Arrays.asList("Hong Kong", "India", "World");
         Collections.sort(countries);
@@ -235,8 +253,12 @@ public class Controller {
             CheckBox checkBox = new CheckBox(country);
             CustomMenuItem customMenuItem = new CustomMenuItem(checkBox);
             customMenuItem.setHideOnClick(false);
+            customMenuItem.setOnAction(handleCountryPicker);
             deathCountryPicker.getItems().add(customMenuItem);
         }
+        countryColumnB1.setCellValueFactory(new PropertyValueFactory<>("country"));
+        totalDeathColumn.setCellValueFactory(new PropertyValueFactory<>("totalCases"));
+    	totalDeathPerMillionColumn.setCellValueFactory(new PropertyValueFactory<>("totalCasesPer1MPopulation"));
     }
 
     @FXML
@@ -250,7 +272,34 @@ public class Controller {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd LLLL yyyy");
         String formattedDate = deathDateParsed.format(formatter);
         deathTitle.setText("Confirmed COVID-19 Deaths as of " + formattedDate);
+
+        List<String> inverseISOCodes = new ArrayList<String>();
+        HashMap<String, String> inverseCountriesDict = new HashMap<String, String>();
         
+        for(String ISOCode: DataAnalysis.countriesDict.keySet()){
+            inverseCountriesDict.put(DataAnalysis.countriesDict.get(ISOCode), ISOCode);
+        }
+
+        for(MenuItem item: deathCountryPicker.getItems()){
+            CustomMenuItem checkCountry = (CustomMenuItem) item;
+            CheckBox checkBox = (CheckBox) checkCountry.getContent();
+            if(checkBox.isSelected()){
+                String ISOCode = inverseCountriesDict.get(checkBox.getText());
+                inverseISOCodes.add(ISOCode);
+            }
+        }
+
+        if(inverseISOCodes.isEmpty()) return;
+
+        TableForm deathReportForm = new TableForm(textfieldDataset.getText(), deathDateParsed, inverseISOCodes, "death_cases");
+        List<List<String>> deathReport = deathReportForm.generateReport();
+        reportTableB1.getItems().clear();
+        for(List<String> rec: deathReport){
+            ConfirmedCaseTable record = new ConfirmedCaseTable(DataAnalysis.countriesDict.get(rec.get(0)), rec.get(1), rec.get(2));
+    		reportTableB1.getItems().add(record);
+        }
+
+
     }
 
 }
