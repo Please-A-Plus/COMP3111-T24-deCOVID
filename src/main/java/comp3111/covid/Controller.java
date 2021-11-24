@@ -203,10 +203,10 @@ public class Controller {
     		return;
     	}
     	TableForm casesReportForm = new TableForm(iDataset, iDate, iISOCodes, "confirmed_cases");
-    	List<List<String>> casesReport = casesReportForm.generateReport();
+    	List<HashMap<String, String>> casesReport = casesReportForm.generateReport();
     	tableA_tableView.getItems().clear();
-    	for (List<String> rec: casesReport) {
-    		ConfirmedCaseTable record = new ConfirmedCaseTable(DataAnalysis.countriesDict.get(rec.get(0)), rec.get(1), rec.get(2));
+    	for (HashMap<String, String> rec: casesReport) {
+    		ConfirmedCaseTable record = new ConfirmedCaseTable(DataAnalysis.countriesDict.get(rec.get("iso_code")), rec.get("total_cases"), rec.get("total_cases_per_million"));
     		tableA_tableView.getItems().add(record);
     	}
     }   
@@ -278,6 +278,7 @@ public class Controller {
     	HashMap<String, HashMap<LocalDate, Float>> casesChart = chartForm.generateChart();
 
         for (var entry : casesChart.entrySet()) {
+			System.out.println("Country: " + entry.getKey());
             String country = entry.getKey();
             HashMap<LocalDate, Float> cases = entry.getValue();
             XYChart.Series<String, Float> series = new XYChart.Series<>();
