@@ -6,4 +6,4 @@ jvm.arguments=
 # Ignore Gradle build output directory
 build
 .settings
-.vscode/settings.json
+.vscode
