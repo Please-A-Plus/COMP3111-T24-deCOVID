@@ -85,7 +85,7 @@ public class Controller {
 	private DatePicker tableC_date;
 
     @FXML
-    private TableView<ConfirmedCasesRecord> tableA_tableView;
+    private TableView<ConfirmedCaseTable> tableA_tableView;
 
 	@FXML
 	private TableView<VaccinationAndRateRecord> tableC_tableView;
@@ -209,7 +209,7 @@ public class Controller {
     	List<List<String>> casesReport = casesReportForm.generateReport();
     	tableA_tableView.getItems().clear();
     	for (List<String> rec: casesReport) {
-    		ConfirmedCasesRecord record = new ConfirmedCasesRecord(DataAnalysis.countriesDict.get(rec.get(0)), rec.get(1), rec.get(2));
+    		ConfirmedCaseTable record = new ConfirmedCaseTable(DataAnalysis.countriesDict.get(rec.get(0)), rec.get(1), rec.get(2));
     		tableA_tableView.getItems().add(record);
     	}
     }   
