@@ -17,6 +17,7 @@ import javafx.scene.chart.LineChart;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
+import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.MenuButton;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.Tab;
@@ -66,10 +67,28 @@ public class Controller {
     private MenuButton tableA_countriesPicker;
 
     @FXML
+    private TableColumn<?, ?> countryColumn;
+
+	@FXML
+	private TableColumn<?, ?> tableC_countryColumn;
+
+    @FXML
+    private MenuButton countryPickerReport1;
+
+	@FXML
+	private MenuButton tableC_countriesPicker;
+
+    @FXML
     private DatePicker tableA_date;
+
+	@FXML
+	private DatePicker tableC_date;
 
     @FXML
     private TableView<ConfirmedCasesRecord> tableA_tableView;
+
+	@FXML
+	private TableView<VaccinationAndRateRecord> tableC_tableView;
 
     @FXML
     private Tab tabApp1;
@@ -109,6 +128,15 @@ public class Controller {
 
     @FXML
     private TableColumn<?, ?> tableA_totalCasesPerMillionColumn;
+
+    @FXML
+    private TableColumn<?, ?> totalCasesPer1MPopulationColumn;
+
+	@FXML
+	private TableColumn<VaccinationAndRateRecord, String> tableC_fullyVaccinatedColumn;
+
+	@FXML
+	private TableColumn<VaccinationAndRateRecord, String> tableC_rateOfVaccinationColumn;
   
 
     /**
@@ -185,7 +213,42 @@ public class Controller {
     		tableA_tableView.getItems().add(record);
     	}
     }   
-    
+	@FXML
+	void submitTableC(ActionEvent event) {
+    	//sample input: date = 14/1/2021, location = Asia
+		String iDataset = textfieldDataset.getText();
+		LocalDate iDate = tableC_date.getValue();
+		if (iDate == null) {
+			textAreaConsole.setText("Input Error: Empty date");
+			return;
+		}
+
+		List<String> iISOCodes = new ArrayList<String>();
+		HashMap<String, String> invertedCountriesDict = new HashMap<String, String>();
+		for (String ISOCode: DataAnalysis.countriesDict.keySet()) {
+			invertedCountriesDict.put(DataAnalysis.countriesDict.get(ISOCode), ISOCode);
+		}
+		for (MenuItem item: tableC_countriesPicker.getItems()) {
+			CustomMenuItem checkItem = (CustomMenuItem) item;
+			CheckBox checkBox = (CheckBox) checkItem.getContent();
+			if (checkBox.isSelected()) {
+				String ISOCode = invertedCountriesDict.get(checkBox.getText());
+				iISOCodes.add(ISOCode);
+			}
+		}
+		if (iISOCodes.isEmpty()) {
+			textAreaConsole.setText("Input Error: No countries are selected");
+			return;
+		}
+
+		List<List<String>> vaccineReport = DataAnalysis.getVaccinationTable(iDataset, iDate, iISOCodes);
+		tableC_tableView.getItems().clear();
+		for (List<String> rec: vaccineReport) {
+			VaccinationAndRateRecord record = new VaccinationAndRateRecord(DataAnalysis.countriesDict.get(rec.get(0)), rec.get(1), rec.get(2));
+			tableC_tableView.getItems().add(record);
+		}
+	}
+
     @FXML
     void submitChartA(ActionEvent event) {
     	String iDataset = textfieldDataset.getText();
@@ -237,7 +300,9 @@ public class Controller {
         List<String> countries = new ArrayList<String>(DataAnalysis.countriesDict.values());
     	Collections.sort(countries);
         
-        for (MenuButton menuButton: Arrays.asList(tableA_countriesPicker, chartA_countriesPicker)) {
+        for (MenuButton menuButton: Arrays.asList(tableA_countriesPicker, chartA_countriesPicker, 
+
+                                    tableC_countriesPicker)) {
             for (String country: countries) {
                 CheckBox checkBox = new CheckBox(country);
                 CustomMenuItem customMenuItem = new CustomMenuItem(checkBox);
@@ -249,9 +314,12 @@ public class Controller {
     	tableA_totalCasesColumn.setCellValueFactory(new PropertyValueFactory<>("totalCases"));
     	tableA_totalCasesPerMillionColumn.setCellValueFactory(new PropertyValueFactory<>("totalCasesPer1MPopulation"));
 
+        tableC_countryColumn.setCellValueFactory(new PropertyValueFactory<>("country"));
+    	tableC_fullyVaccinatedColumn.setCellValueFactory(new PropertyValueFactory<>("fullyVaccinated"));
+    	tableC_rateOfVaccinationColumn.setCellValueFactory(new PropertyValueFactory<>("rateOfVaccination"));
+
         chartA_lineChart.setTitle("Cumulative Confirmed COVID-19 Cases (per 1M)");
 
     }
-
 }
 
