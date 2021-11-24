@@ -2,6 +2,7 @@
 .gradle
 .idea
 local.properties
+jvm.arguments=
 # Ignore Gradle build output directory
 build
 .settings

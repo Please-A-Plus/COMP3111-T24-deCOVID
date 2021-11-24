@@ -14,6 +14,7 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
+import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.MenuButton;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.Tab;
@@ -50,14 +51,26 @@ public class Controller {
     @FXML
     private TableColumn<?, ?> countryColumn;
 
+	@FXML
+	private TableColumn<?, ?> countryColumn3;
+
     @FXML
     private MenuButton countryPickerReport1;
+
+	@FXML
+	private MenuButton countryPickerReport3;
 
     @FXML
     private DatePicker dateReport1;
 
+	@FXML
+	private DatePicker dateReport3;
+
     @FXML
     private TableView<ConfirmedCaseTable> reportTable1;
+
+	@FXML
+	private TableView<VaccinationAndRateRecord> reportTable3;
 
     @FXML
     private Tab tabApp1;
@@ -94,6 +107,12 @@ public class Controller {
 
     @FXML
     private TableColumn<?, ?> totalCasesPer1MPopulationColumn;
+
+	@FXML
+	private TableColumn<VaccinationAndRateRecord, String> fullyVaccinatedColumn;
+
+	@FXML
+	private TableColumn<VaccinationAndRateRecord, String> rateOfVaccinationColumn;
   
 
     /**
@@ -170,9 +189,45 @@ public class Controller {
     		ConfirmedCaseTable record = new ConfirmedCaseTable(DataAnalysis.countriesDict.get(rec.get(0)), rec.get(1), rec.get(2));
     		reportTable1.getItems().add(record);
     	}
-    }   
-    
-    @FXML
+    }
+
+	@FXML
+	void processReport3(ActionEvent event) {
+    	//sample input: date = 14/1/2021, location = Asia
+		String iDataset = textfieldDataset.getText();
+		LocalDate iDate = dateReport3.getValue();
+		if (iDate == null) {
+			textAreaConsole.setText("Input Error: Empty date");
+			return;
+		}
+
+		List<String> iISOCodes = new ArrayList<String>();
+		HashMap<String, String> invertedCountriesDict = new HashMap<String, String>();
+		for (String ISOCode: DataAnalysis.countriesDict.keySet()) {
+			invertedCountriesDict.put(DataAnalysis.countriesDict.get(ISOCode), ISOCode);
+		}
+		for (MenuItem item: countryPickerReport3.getItems()) {
+			CustomMenuItem checkItem = (CustomMenuItem) item;
+			CheckBox checkBox = (CheckBox) checkItem.getContent();
+			if (checkBox.isSelected()) {
+				String ISOCode = invertedCountriesDict.get(checkBox.getText());
+				iISOCodes.add(ISOCode);
+			}
+		}
+		if (iISOCodes.isEmpty()) {
+			textAreaConsole.setText("Input Error: No countries are selected");
+			return;
+		}
+
+		List<List<String>> vaccineReport = DataAnalysis.getVaccinationTable(iDataset, iDate, iISOCodes);
+		reportTable3.getItems().clear();
+		for (List<String> rec: vaccineReport) {
+			VaccinationAndRateRecord record = new VaccinationAndRateRecord(DataAnalysis.countriesDict.get(rec.get(0)), rec.get(1), rec.get(2));
+			reportTable3.getItems().add(record);
+		}
+	}
+
+	@FXML
     void onClickTabReport1(Event event) {
     	if (DataAnalysis.countriesDict != null) return;
     	String iDataset = textfieldDataset.getText();
@@ -301,6 +356,26 @@ public class Controller {
 
 
     }
+
+	@FXML
+	void onClickTabReport3(Event event) {
+		if (DataAnalysis.countriesDict != null) return;
+		String iDataset = textfieldDataset.getText();
+		DataAnalysis.initCountriesDict(iDataset);
+		countryPickerReport3.getItems().removeAll();
+		List<String> countries = new ArrayList<String>(DataAnalysis.countriesDict.values());
+		List<String> priorityCountries = new ArrayList<String>();
+		for (String country: countries) {
+			CheckBox checkBox = new CheckBox(country);
+			CustomMenuItem customMenuItem = new CustomMenuItem(checkBox);
+			customMenuItem.setHideOnClick(false);
+			customMenuItem.setOnAction(handleCountryPicker);
+			countryPickerReport3.getItems().add(customMenuItem);
+		}
+		countryColumn3.setCellValueFactory(new PropertyValueFactory<>("Country"));
+		fullyVaccinatedColumn.setCellValueFactory(new PropertyValueFactory<VaccinationAndRateRecord, String>("fullyVaccinated"));
+		rateOfVaccinationColumn.setCellValueFactory(new PropertyValueFactory<VaccinationAndRateRecord, String>("rateOfVaccination"));
+	}
 
 }
 

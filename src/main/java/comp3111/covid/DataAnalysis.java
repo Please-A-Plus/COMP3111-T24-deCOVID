@@ -8,6 +8,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Set;
 
 /**
  * 
@@ -117,38 +118,38 @@ public class DataAnalysis {
 	 }
 	 
 	 public static String getRateOfVaccination(String dataset, String iso_code) {
-			String oReport = "";	
+			String oReport = "";
 			long fullyVaccinated = 0;
 			long numRecord = 0;
 			long totalNumRecord = 0;
 			long population = 0;
 			float rate = 0.0f;
-						
+
 			for (CSVRecord rec : getFileParser(dataset)) {
-				
+
 				if (rec.get("iso_code").equals(iso_code)) {
-					
+
 					String s1 = rec.get("people_fully_vaccinated");
-					String s2 = rec.get("population");		
+					String s2 = rec.get("population");
 					if (!s1.equals("") && !s2.equals("")) {
 						fullyVaccinated = Long.parseLong(s1);
-						population = Long.parseLong(s2);						
+						population = Long.parseLong(s2);
 						numRecord++;
 					}
-				}		
+				}
 				totalNumRecord++;
 			}
-			
+
 			if (population !=0)
 				rate = (float) fullyVaccinated / population * 100;
-			
+
 			oReport = String.format("Dataset (%s): %,d Records\n\n", dataset, totalNumRecord);
 			oReport += String.format("[Summary (%s)]\n", iso_code);
 			oReport += String.format("Number of People Fully Vaccinated: %,d\n", fullyVaccinated);
 			oReport += String.format("Population: %,d\n", population);
 			oReport += String.format("Rate of Vaccination: %.2f%%\n", rate);
 			oReport += String.format("Number of Days Reported: %,d\n", numRecord);
-			
+
 			return oReport;
 	 }
 	 
@@ -170,12 +171,13 @@ public class DataAnalysis {
 			Long newDeaths = parseLongWithDefault(rec.get("new_deaths"));
 			Float totalDeathsPerMillion = parseFloatWithDefault(rec.get("total_deaths_per_million"));
 			Float newDeathsPerMillion = parseFloatWithDefault(rec.get("new_deaths_per_million"));
+			Long vaccinated = parseLongWithDefault(rec.get("people_fully_vaccinated"));
 			
 			//TODO: parse vaccination data
 			
 			ConfirmedCaseRecord confirmedCaseRecord = new ConfirmedCaseRecord(totalCases, newCases, totalCasesPerMillion, newCasesPerMillion);
 			ConfirmedDeathRecord confirmedDeathRecord = new ConfirmedDeathRecord(totalDeaths, newDeaths, totalDeathsPerMillion, newDeathsPerMillion);
-			VaccinationRecord vaccinationRecord = null;
+			VaccinationRecord vaccinationRecord = new VaccinationRecord(vaccinated);
 			
 			CovidRecord covidRecord = new CovidRecord(iso_code, location, recDate, population, confirmedCaseRecord, confirmedDeathRecord, vaccinationRecord);
 			
@@ -259,6 +261,39 @@ public class DataAnalysis {
 			newDeathCasesMap.put(covidRecord.iso_code, covidRecord.confirmedDeathRecord.getNewDeaths());	
 		}
 		return newDeathCasesMap;
+	}
+
+	public static List<List<String>> getVaccinationTable(String dataset, LocalDate date, List<String> ISOCodes) {
+		List<List<String>> table = new ArrayList<List<String>>();
+		for (CSVRecord rec : getFileParser(dataset)) {
+
+			if (ISOCodes.contains(rec.get("iso_code"))){
+				DateTimeFormatter formatter = DateTimeFormatter.ofPattern("M/d/yyyy");
+				LocalDate recDate = LocalDate.parse(rec.get("date"), formatter);
+
+				if (recDate.equals(date)){
+					String populationString = rec.get("population");
+					String vaccinationString = rec.get("people_fully_vaccinated");
+					if (populationString.equals("") || vaccinationString.equals("")) continue;
+
+					List<String> entry = new ArrayList<String>();
+					Float rate = (float) Long.parseLong(vaccinationString) / Long.parseLong((populationString)) * 100;
+					entry.add(rec.get("iso_code"));
+					entry.add(vaccinationString);
+					entry.add(String.format("%.2f%%",rate));
+					table.add(entry);
+					ISOCodes.remove((rec.get("iso_code")));
+				}
+			}
+		}
+		for (String iso : ISOCodes){
+			List<String> entry = new ArrayList<String>();
+			entry.add(iso);
+			entry.add("Data not found");
+			entry.add("Data not found");
+			table.add(entry);
+		}
+		return table;
 	}
 	 
 	public static Long parseLongWithDefault(String str) {
