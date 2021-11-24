@@ -210,6 +210,23 @@ public class DataAnalysis {
 		return totalCasesDict;
 	}
 
+	public static HashMap<String, HashMap<LocalDate, Float>> getConfirmedCasesPerMillionBetweenDate(String dataset, LocalDate startDate, LocalDate endDate) {
+		var totalCasesDict = new HashMap<String, HashMap<LocalDate, Float>>();
+		for (CSVRecord rec : getFileParser(dataset)) {
+			CovidRecord covidRecord = parseDataset(rec);
+			
+			if (!totalCasesDict.containsKey(covidRecord.iso_code)) {
+				totalCasesDict.put(covidRecord.iso_code, new HashMap<LocalDate, Float>());
+			}
+			
+			// if the date is between startDate and endDate, add it to the dictionary
+			if (covidRecord.date.isAfter(startDate) && covidRecord.date.isBefore(endDate)) {
+				totalCasesDict.get(covidRecord.iso_code).put(covidRecord.date, covidRecord.confirmedCaseRecord.totalCasesPerMillion);
+			}
+		}
+		return totalCasesDict;
+	}
+
 	public static HashMap<String, Long> getPopulationBeforeDate(String dataset, LocalDate date) {
 		HashMap<String, Long> populationDict = new HashMap<String, Long>();
 		for (CSVRecord rec : getFileParser(dataset)) {
