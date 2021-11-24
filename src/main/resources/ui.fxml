@@ -92,14 +92,14 @@
                            <children>
                               <Button fx:id="chartA_getButton" layoutX="641.0" layoutY="65.0" mnemonicParsing="false" onAction="#submitChartA" text="Get" />
                               <Label layoutX="40.0" layoutY="25.0" text="Date of Interest:" />
-                              <DatePicker fx:id="chartA_doiEnd" layoutX="388.0" layoutY="21.0" />
-                              <DatePicker fx:id="chartA_doiStart" layoutX="147.0" layoutY="21.0" />
+                              <DatePicker fx:id="chartA_endDate" layoutX="388.0" layoutY="21.0" />
+                              <DatePicker fx:id="chartA_startDate" layoutX="147.0" layoutY="21.0" />
                               <Label layoutX="347.0" layoutY="25.0" text="to" />
                               <Label layoutX="40.0" layoutY="69.0" text="Countries:" />
                               <MenuButton fx:id="chartA_countriesPicker" layoutX="147.0" layoutY="65.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="175.0" text="Click to select" />
                               <LineChart fx:id="chartA_lineChart" layoutX="114.0" layoutY="105.0" prefHeight="202.0" prefWidth="491.0">
                                 <xAxis>
-                                  <CategoryAxis side="BOTTOM" />
+                                  <NumberAxis side="BOTTOM" />
                                 </xAxis>
                                 <yAxis>
                                   <NumberAxis side="LEFT" />
