@@ -129,9 +129,6 @@ public class Controller {
     @FXML
     private TableColumn<?, ?> tableA_totalCasesPerMillionColumn;
 
-    @FXML
-    private TableColumn<?, ?> totalCasesPer1MPopulationColumn;
-
 	@FXML
 	private TableColumn<VaccinationAndRateRecord, String> tableC_fullyVaccinatedColumn;
 
@@ -312,7 +309,7 @@ public class Controller {
     	}
         tableA_countryColumn.setCellValueFactory(new PropertyValueFactory<>("country"));
     	tableA_totalCasesColumn.setCellValueFactory(new PropertyValueFactory<>("totalCases"));
-    	tableA_totalCasesPerMillionColumn.setCellValueFactory(new PropertyValueFactory<>("totalCasesPer1MPopulation"));
+    	tableA_totalCasesPerMillionColumn.setCellValueFactory(new PropertyValueFactory<>("totalCasesPerMillion"));
 
         tableC_countryColumn.setCellValueFactory(new PropertyValueFactory<>("country"));
     	tableC_fullyVaccinatedColumn.setCellValueFactory(new PropertyValueFactory<>("fullyVaccinated"));
