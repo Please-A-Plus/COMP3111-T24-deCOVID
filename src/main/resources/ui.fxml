@@ -133,7 +133,21 @@
                     <content>
                       <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                            <children>
-                              <TextArea layoutX="18.0" layoutY="7.0" prefHeight="298.0" prefWidth="682.0" text="Task C2: Generate data charts showing the cumulative rate of vaccination against COVID-19 by country&#10;&#10;Input&#10;•&#9;Specify the period of interest&#10;•&#9;Specify the countries of interest&#10;&#10;Output&#10;•&#9;Label the data chart with a proper title: &quot;Cumulative Rate of Vaccination against COVID-19 &quot;&#10;•&#9;Label the x-axis and y-axis with proper scales&#10;•&#9;Present data in coloured cumulative curves labelled with corresponding countries&#10;&#10;" wrapText="true" />
+                              <DatePicker fx:id="chartC_startDate" layoutX="140.0" layoutY="35.0" />
+                              <MenuButton fx:id="chartC_countriesPicker" layoutX="475.0" layoutY="35.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="175.0" text="Click to Select" />
+                              <Label layoutX="60.0" layoutY="39.0" text="Start date:" />
+                              <Label layoutX="395.0" layoutY="39.0" text="Country:" />
+                              <Button fx:id="buttonGetChart3" layoutX="557.0" layoutY="72.0" mnemonicParsing="false" onAction="#submitChartC" prefHeight="25.0" prefWidth="93.0" text="Generate" />
+                              <DatePicker fx:id="chartC_endDate" layoutX="140.0" layoutY="72.0" />
+                              <Label layoutX="60.0" layoutY="76.0" text="End date:" />
+                              <LineChart fx:id="chartC_lineChart" layoutX="26.0" layoutY="119.0" prefHeight="194.0" prefWidth="663.0" title="Cumulative Rate of Vaccination against COVID-19">
+                                <xAxis>
+                                  <NumberAxis side="BOTTOM" fx:id="chartC_xAxis"/>
+                                </xAxis>
+                                <yAxis>
+                                  <NumberAxis side="LEFT" fx:id="chartC_yAxis" />
+                                </yAxis>
+                              </LineChart>
                            </children>
                         </AnchorPane>
                     </content>
@@ -143,6 +157,7 @@
       </children>
     </AnchorPane>
       <Label text="Console" />
+      <TextArea prefHeight="488.0" prefWidth="719.0" text="Task C2: Generate data charts showing the cumulative rate of vaccination against COVID-19 by country&#10;&#10;Input&#10;•&#9;Specify the period of interest&#10;•&#9;Specify the countries of interest&#10;&#10;Output&#10;•&#9;Label the data chart with a proper title: &quot;Cumulative Rate of Vaccination against COVID-19 &quot;&#10;•&#9;Label the x-axis and y-axis with proper scales&#10;•&#9;Present data in coloured cumulative curves labelled with corresponding countries&#10;&#10;" wrapText="true" />
       <ScrollPane prefHeight="387.0" prefWidth="719.0">
          <content>
             <TextArea fx:id="textAreaConsole" prefHeight="300.0" prefWidth="718.0" />
