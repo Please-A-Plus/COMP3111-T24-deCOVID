@@ -142,10 +142,10 @@
                               <Label layoutX="60.0" layoutY="76.0" text="End date:" />
                               <LineChart fx:id="chartC_lineChart" layoutX="26.0" layoutY="119.0" prefHeight="194.0" prefWidth="663.0" title="Cumulative Rate of Vaccination against COVID-19">
                                 <xAxis>
-                                  <NumberAxis side="BOTTOM" fx:id="chartC_xAxis"/>
+                                  <NumberAxis fx:id="chartC_xAxis" side="BOTTOM" />
                                 </xAxis>
                                 <yAxis>
-                                  <NumberAxis side="LEFT" fx:id="chartC_yAxis" />
+                                  <NumberAxis fx:id="chartC_yAxis" side="LEFT" />
                                 </yAxis>
                               </LineChart>
                            </children>
