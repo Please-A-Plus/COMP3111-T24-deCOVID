@@ -1,11 +1,11 @@
 package comp3111.covid;
 
-public class VaccinationAndRateRecord {
+public class VaccinationTable {
 	public String country;
 	public String fullyVaccinated;
 	public String rateOfVaccination;
 
-	public VaccinationAndRateRecord(String country, String fullyVaccinated, String rateOfVaccination) {
+	public VaccinationTable(String country, String fullyVaccinated, String rateOfVaccination) {
 		this.country = country;
 		this.fullyVaccinated = fullyVaccinated;
 		this.rateOfVaccination = rateOfVaccination;
