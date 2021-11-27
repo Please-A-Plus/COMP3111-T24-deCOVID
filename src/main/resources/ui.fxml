@@ -299,10 +299,10 @@
             </TabPane>
       </children>
     </AnchorPane>
-      <Label text="Console" />
+      <Label alignment="CENTER" prefHeight="17.0" prefWidth="59.0" text="Console" />
       <ScrollPane prefHeight="387.0" prefWidth="719.0">
          <content>
-            <TextArea fx:id="textAreaConsole" prefHeight="300.0" prefWidth="718.0" />
+            <TextArea fx:id="textAreaConsole" prefHeight="229.0" prefWidth="704.0" />
          </content>
       </ScrollPane>
   </children>
