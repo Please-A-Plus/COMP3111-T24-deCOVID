@@ -14,6 +14,7 @@ import comp3111.tableColumns.ConfirmedCaseTable;
 import comp3111.tableColumns.DeathCaseTable;
 import comp3111.tableColumns.VaccinationTable;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
@@ -31,7 +32,9 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.CustomMenuItem;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
+import javafx.scene.control.Menu;
 import javafx.scene.text.Text;
+import javafx.scene.Node;
 
 
 /**
@@ -132,6 +135,7 @@ public class Controller {
 				CheckBox checkBox = new CheckBox(country);
 				CustomMenuItem customMenuItem = new CustomMenuItem(checkBox);
 				customMenuItem.setHideOnClick(false);
+				customMenuItem.setOnAction(countryPickedCounts);
 				menuButton.getItems().add(customMenuItem);
 			}
 		}
@@ -579,41 +583,90 @@ public class Controller {
 
 		textAreaConsole.setText("COVID-19 deaths chart generated successfully.");
 	}
-	// @FXML
-	// void sumbitChartB(ActionEvent event) {
-	// 	String iDataset = textfieldDataset.getText();
-	// 	LocalDate iStartDate = startDeathDate.getValue();
-	// 	LocalDate iEndDate = finishDeathDate.getValue();
 
-	// 	List<String> ilocations = new ArrayList<String>();
-	// 	for (MenuItem item : deathGraphCountryPicker.getItems()) {
-	// 		CustomMenuItem checkItem = (CustomMenuItem) item;
-	// 		CheckBox checkBox = (CheckBox) checkItem.getContent();
-	// 		if (checkBox.isSelected()) {
-	// 			String location = checkBox.getText();
-	// 			ilocations.add(location);
-	// 		}
-	// 	}
+	Integer deathTablePickedCountryAmount = 0;
+	final EventHandler<ActionEvent> countryPickedCounts = new EventHandler<ActionEvent>(){
+		public void handle(final ActionEvent event) {
+			Integer pickedCountryAmount = 0;
+			MenuItem pickedCountry = (MenuItem) event.getSource();
+			MenuButton parentMenuButton = (MenuButton) ((Node)((pickedCountry.getParentPopup())).getOwnerNode());
+			if(parentMenuButton.equals(tableA_countriesPicker)){
+				for(MenuItem customMenu: tableA_countriesPicker.getItems()){
+					if(((CheckBox)((CustomMenuItem) customMenu).getContent()).isSelected()){
+						pickedCountryAmount += 1;
+						textAreaConsole.setText("Picked Amount Updated");
+					}
+				}
+				if(pickedCountryAmount > 0){
+					parentMenuButton.setText(pickedCountryAmount.toString() + " Selected");
+				}
+				else parentMenuButton.setText("Click to Select");
+			}
 
-	// 	if (!chartInputValidate(iStartDate, iEndDate, ilocations))
-	// 		return;
+			if(parentMenuButton.equals(tableB_countriesPicker)){
+				for(MenuItem customMenu: tableB_countriesPicker.getItems()){
+					if(((CheckBox)((CustomMenuItem) customMenu).getContent()).isSelected()){
+						pickedCountryAmount += 1;
+						textAreaConsole.setText("Picked Amount Updated");
+					}
+				}
+				if(pickedCountryAmount > 0){
+					parentMenuButton.setText(pickedCountryAmount.toString() + " Selected");
+				}
+				else parentMenuButton.setText("Click to Select");
+			}
 
-	// 	chartB_xAxis.setAutoRanging(false);
-	// 	chartB_xAxis.setLowerBound(iStartDate.toEpochDay());
-	// 	chartB_xAxis.setUpperBound(iEndDate.toEpochDay());
+			if(parentMenuButton.equals(tableC_countriesPicker)){
+				for(MenuItem customMenu: tableC_countriesPicker.getItems()){
+					if(((CheckBox)((CustomMenuItem) customMenu).getContent()).isSelected()){
+						pickedCountryAmount += 1;
+						textAreaConsole.setText("Picked Amount Updated");
+					}
+				}
+				if(pickedCountryAmount > 0){
+					parentMenuButton.setText(pickedCountryAmount.toString() + " Selected");
+				}
+				else parentMenuButton.setText("Click to Select");
+			}
 
-	// 	HashMap<String, List<FloatCoordinates>> deathChart = DataAnalysis.getTotalDeathPerMillionPeriod(iDataset,
-	// 			iStartDate, iEndDate, ilocations);
-	// 	for (String key : deathChart.keySet()) {
-	// 		System.out.println(key);
-	// 	}
-	// 	chartB_lineChart.getData().clear();
-	// 	deathChart.forEach((location, line) -> {
-	// 		XYChart.Series<Long, Float> series = new XYChart.Series<>();
-	// 		for (FloatCoordinates coordinates : line) {
-	// 			series.getData().add(new XYChart.Data<>(coordinates.getDate().toEpochDay(), coordinates.getValue()));
-	// 		}
-	// 		chartB_lineChart.getData().add(series);
-	// 	});
-	// }
+			if(parentMenuButton.equals(chartA_countriesPicker)){
+				for(MenuItem customMenu: chartA_countriesPicker.getItems()){
+					if(((CheckBox)((CustomMenuItem) customMenu).getContent()).isSelected()){
+						pickedCountryAmount += 1;
+						textAreaConsole.setText("Picked Amount Updated");
+					}
+				}
+				if(pickedCountryAmount > 0){
+					parentMenuButton.setText(pickedCountryAmount.toString() + " Selected");
+				}
+				else parentMenuButton.setText("Click to Select");
+			}
+
+			if(parentMenuButton.equals(chartB_countriesPicker)){
+				for(MenuItem customMenu: chartB_countriesPicker.getItems()){
+					if(((CheckBox)((CustomMenuItem) customMenu).getContent()).isSelected()){
+						pickedCountryAmount += 1;
+						textAreaConsole.setText("Picked Amount Updated");
+					}
+				}
+				if(pickedCountryAmount > 0){
+					parentMenuButton.setText(pickedCountryAmount.toString() + " Selected");
+				}
+				else parentMenuButton.setText("Click to Select");
+			}
+			
+			if(parentMenuButton.equals(chartC_countriesPicker)){
+				for(MenuItem customMenu: chartC_countriesPicker.getItems()){
+					if(((CheckBox)((CustomMenuItem) customMenu).getContent()).isSelected()){
+						pickedCountryAmount += 1;
+						textAreaConsole.setText("Picked Amount Updated");
+					}
+				}
+				if(pickedCountryAmount > 0){
+					parentMenuButton.setText(pickedCountryAmount.toString() + " Selected");
+				}
+				else parentMenuButton.setText("Click to Select");
+			}
+		}
+	};
 }
