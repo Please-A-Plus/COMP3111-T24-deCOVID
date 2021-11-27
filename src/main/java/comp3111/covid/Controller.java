@@ -9,11 +9,14 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
+import com.gargoylesoftware.htmlunit.javascript.host.html.Image;
+
 import comp3111.covidEntity.CovidRecord;
 import comp3111.tableColumns.ConfirmedCaseTable;
 import comp3111.tableColumns.VaccinationTable;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.geometry.Insets;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
@@ -28,6 +31,8 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.control.CustomMenuItem;
 import javafx.scene.control.DatePicker;
 
@@ -118,9 +123,9 @@ public class Controller {
 
 	@FXML
 	private TextField textfieldISO;
-
+	
 	// initialize the controller class
-	public void initialize() {
+	private void initialize() {
 		String iDataset = textfieldDataset.getText();
 		DataAnalysis.initCountriesDict(iDataset);
 		List<String> countries = new ArrayList<String>(DataAnalysis.countriesDict.values());
@@ -157,6 +162,8 @@ public class Controller {
 
 		chartC_yAxis.setTickLabelFormatter(new NumberAxis.DefaultFormatter(chartC_yAxis, null, "%"));
 		chartC_xAxis.setTickLabelFormatter(xAxisLabelFactory(chartC_xAxis));
+
+
 	}
 
 	// Table input validation
