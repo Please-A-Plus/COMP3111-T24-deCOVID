@@ -14,6 +14,7 @@ import javafx.fxml.FXML;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
+import javafx.scene.chart.PieChart.Data;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.MenuButton;
@@ -209,10 +210,6 @@ public class Controller {
     void submitTableA(ActionEvent event) {
     	String iDataset = textfieldDataset.getText();
     	LocalDate iDate = tableA_date.getValue();
-    	if (iDate == null) {
-    		textAreaConsole.setText("Input Error: Empty Date");
-    		return;
-    	}
     	List<String> iISOCodes = new ArrayList<String>();
     	HashMap<String, String> invertedCountriesDict = new HashMap<String, String>();
     	for (String ISOCode: DataAnalysis.countriesDict.keySet()) {
@@ -226,16 +223,17 @@ public class Controller {
     			iISOCodes.add(ISOCode);
     		}
     	}
-    	if (iISOCodes.isEmpty()) {
-    		textAreaConsole.setText("Input Error: No Countries is Selected");
-    		return;
-    	}
-    	TableForm casesReportForm = new TableForm(iDataset, iDate, iISOCodes, "confirmed_cases");
-    	List<HashMap<String, String>> casesReport = casesReportForm.generateReport();
+
+		if (!TableInputValidate(iDate, iISOCodes)) return;
+
+    	HashMap<String, CovidRecord> casesTable = DataAnalysis.getCasesTable(iDataset, iDate, iISOCodes);
     	tableA_tableView.getItems().clear();
-    	for (HashMap<String, String> rec: casesReport) {
-    		ConfirmedCaseTable record = new ConfirmedCaseTable(DataAnalysis.countriesDict.get(rec.get("iso_code")), rec.get("total_cases"), rec.get("total_cases_per_million"));
-    		tableA_tableView.getItems().add(record);
+    	for (var key: casesTable.keySet()) {
+			var rec = casesTable.get(key);
+			ConfirmedCaseTable entry;
+			if (rec == null) entry = new ConfirmedCaseTable(DataAnalysis.countriesDict.get(key), "Data not found", "Data not found");
+			else entry = new ConfirmedCaseTable(DataAnalysis.countriesDict.get(key), rec.confirmedCaseRecord.totalCases.toString(), rec.confirmedCaseRecord.totalCasesPerMillion.toString());
+    		tableA_tableView.getItems().add(entry);
     	}
     }   
 	@FXML
@@ -243,11 +241,6 @@ public class Controller {
     	//sample input: date = 14/1/2021, location = Asia
 		String iDataset = textfieldDataset.getText();
 		LocalDate iDate = tableC_date.getValue();
-		if (iDate == null) {
-			textAreaConsole.setText("Input Error: Empty date");
-			return;
-		}
-
 		List<String> iISOCodes = new ArrayList<String>();
 		HashMap<String, String> invertedCountriesDict = new HashMap<String, String>();
 		for (String ISOCode: DataAnalysis.countriesDict.keySet()) {
@@ -261,10 +254,8 @@ public class Controller {
 				iISOCodes.add(ISOCode);
 			}
 		}
-		if (iISOCodes.isEmpty()) {
-			textAreaConsole.setText("Input Error: No countries are selected");
-			return;
-		}
+
+		if (!TableInputValidate(iDate, iISOCodes)) return;
 
 		List<List<String>> vaccineReport = DataAnalysis.getVaccinationTable(iDataset, iDate, iISOCodes);
 		tableC_tableView.getItems().clear();
@@ -272,6 +263,18 @@ public class Controller {
 			VaccinationTable record = new VaccinationTable(DataAnalysis.countriesDict.get(rec.get(0)), rec.get(1), rec.get(2));
 			tableC_tableView.getItems().add(record);
 		}
+	}
+
+	public boolean TableInputValidate(LocalDate date, List<String> iISOs) {
+		if (date == null) {
+			textAreaConsole.setText("Input Error: Please input start date.");
+			return false;
+		}
+		if (iISOs.isEmpty()) {
+			textAreaConsole.setText("Input Error: Please select countries.");
+			return false;
+		}
+		return true;
 	}
 
 	@FXML
@@ -431,13 +434,13 @@ public class Controller {
 
         if(inverseISOCodes.isEmpty()) return;
 
-        TableForm deathReportForm = new TableForm(textfieldDataset.getText(), deathDateParsed, inverseISOCodes, "death_cases");
-        List<List<String>> deathReport = deathReportForm.generateReport();
-        reportTableB1.getItems().clear();
-        for(List<String> rec: deathReport){
-            ConfirmedCaseTable record = new ConfirmedCaseTable(DataAnalysis.countriesDict.get(rec.get(0)), rec.get(1), rec.get(2));
-    		reportTableB1.getItems().add(record);
-        }
+        // TableForm deathReportForm = new TableForm(textfieldDataset.getText(), deathDateParsed, inverseISOCodes, "death_cases");
+        // List<List<String>> deathReport = deathReportForm.generateReport();
+        // reportTableB1.getItems().clear();
+        // for(List<String> rec: deathReport){
+        //     ConfirmedCaseTable record = new ConfirmedCaseTable(DataAnalysis.countriesDict.get(rec.get(0)), rec.get(1), rec.get(2));
+    	// 	reportTableB1.getItems().add(record);
+        // }
 
 
     }
