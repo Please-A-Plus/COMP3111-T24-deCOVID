@@ -1,15 +1,31 @@
 package comp3111.covid;
 
 public class ConfirmedDeathRecord {
-	public Long totalDeaths;
-	public Long newDeaths;
-	public Float totalDeathsPerMillion;
-	public Float newDeathsPerMillion;
+	Long totalDeaths;
+	Long newDeaths;
+	Float totalDeathsPerMillion;
+	Float newDeathsPerMillion;
 
-	public ConfirmedDeathRecord(Long totalCases, Long newCases, Float totalCasesPerMillion, Float newCasesPerMillion) {
-        this.totalDeaths = totalCases;
-        this.newDeaths = newCases;
-        this.totalDeathsPerMillion = totalCasesPerMillion;
-        this.newDeathsPerMillion = newCasesPerMillion;
+	public ConfirmedDeathRecord(Long totalDeaths, Long newDeaths, Float totalDeathsPerMillion, Float newDeathsPerMillion) {
+        this.totalDeaths = totalDeaths;
+        this.newDeaths = newDeaths;
+        this.totalDeathsPerMillion = totalDeathsPerMillion;
+        this.newDeathsPerMillion = newDeathsPerMillion;
+    }
+
+    public Long getTotalDeaths(){
+        return totalDeaths;
+    }
+
+    public Long getNewDeaths(){
+        return newDeaths;
+    }
+
+    public Float getTotalDeathsPerMillion(){
+        return totalDeathsPerMillion;
+    }
+
+    public Float getNewDeathsPerMillion(){
+        return newDeathsPerMillion;
     }
 }

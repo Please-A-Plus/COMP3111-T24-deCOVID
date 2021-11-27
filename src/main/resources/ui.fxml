@@ -16,6 +16,8 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Text?>
+<?import javafx.scene.text.Font?>
 
 <VBox prefHeight="679.0" prefWidth="719.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="comp3111.covid.Controller">
   <children>
@@ -62,14 +64,20 @@
                   </Tab>
                 <Tab fx:id="tabReport2" text="Table B">
                   <content>
-                        <AnchorPane>
-                           <children>
-                          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="450.0" prefWidth="722.0">
-                                 <children>
-                                    <TextArea layoutX="14.0" layoutY="14.0" prefHeight="315.0" prefWidth="695.0" text="Task B1: Generate data tables showing the number of confirmed COVID-19 deaths by country&#10;&#10;Input&#10;•&#9;Specify the date of interest&#10;•&#9;Specify the countries of interest&#10;&#10;Output&#10;•&#9;Label the data table with a proper title: &quot;Number of Confirmed COVID-19 Deaths as of [Date of Interest]&quot;&#10;•&#9;Present data in 3 columns with proper headings of &quot;Country&quot;, &quot;Total Deaths&quot;, and &quot;Total Deaths (per 1M)&quot;&#10;•&#9;Present data for the countries of interest in rows&#10;&#10;" wrapText="true" />
-                                 </children>
-                              </AnchorPane>
-                           </children>
+                        <AnchorPane maxHeight="-1.0" maxWidth="-1.0" prefHeight="-1.0" prefWidth="-1.0">
+                          <children>
+                                <Button fx:id="deathButton" layoutX="268.0" layoutY="96.0" mnemonicParsing="false" onAction="#deathButtonPressed" text="Find" />
+                                <DatePicker fx:id="dateDeathTable" layoutX="28.0" layoutY="96.0" promptText="Enter a Date" />
+                                <Text fx:id="deathTitle" layoutX="28.0" layoutY="14.0" text="Confirmed COVID-19 Deaths"/>
+                                <TableView fx:id="reportTableB1" layoutX="28.0" layoutY="142.0" prefHeight="182.0" prefWidth="584.0">
+                                  <columns>
+                                    <TableColumn fx:id="countryColumnB1" prefWidth="203.0" text="Country" />
+                                    <TableColumn fx:id="totalDeathColumn" prefWidth="186.0" text="Total Deaths" />
+                                      <TableColumn fx:id="totalDeathPerMillionColumn" prefWidth="191.0" text="Total Deaths (per 1M)" />
+                                  </columns>
+                                </TableView>
+                                <MenuButton fx:id="deathCountryPicker" layoutX="28.0" layoutY="52.0" mnemonicParsing="false" text="Country" />
+                          </children>
                         </AnchorPane>
                   </content>
                 </Tab>
@@ -123,8 +131,24 @@
                   <Tab fx:id="tabApp2" text="Chart B">
                     <content>
                       <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-                           <children>
-                              <TextArea layoutX="14.0" layoutY="14.0" prefHeight="290.0" prefWidth="694.0" text="Task B2: Generate data charts showing the cumulative confirmed COVID-19 deaths (per 1M) by country&#10;&#10;Input&#10;•&#9;Specify the period of interest&#10;•&#9;Specify the countries of interest&#10;&#10;Output&#10;•&#9;Label the data chart with a proper title: &quot;Cumulative Confirmed COVID-19 Deaths (per 1M)&quot;&#10;•&#9;Label the x-axis and y-axis with proper scales&#10;•&#9;Present data in coloured cumulative curves labelled with corresponding countries&#10;&#10;" wrapText="true" />
+                        <children>
+                          <Label layoutX="77.0" layoutY="14.0" text="Cumulative Confirmed COVID-19 Deaths (per 1M)">
+                            <font>
+                                <Font size="20.0" />
+                            </font>
+                          </Label>
+                          <LineChart fx:id="chartB_lineChart" layoutX="26.0" layoutY="119.0" prefHeight="194.0" prefWidth="663.0">
+                            <xAxis>
+                              <NumberAxis fx:id="chartB_xAxis" side="BOTTOM" label="Date" />
+                            </xAxis>
+                            <yAxis>
+                              <NumberAxis fx:id="chartB_yAxis" side="LEFT" label="Deaths (per 1M)"/>
+                            </yAxis>
+                          </LineChart>
+                          <DatePicker fx:id="startDeathDate" layoutX="77.0" layoutY="93.0" />
+                          <DatePicker fx:id="finishDeathDate" layoutX="320.0" layoutY="93.0" />
+                          <MenuButton fx:id="deathGraphCountryPicker" layoutX="77.0" layoutY="50.0" mnemonicParsing="false" text="Pick Country"/>
+                          <Button fx:id="processDeathGraph" layoutX="456.0" layoutY="50.0" mnemonicParsing="false" onAction="#processDeathGraph" text="Fetch" />
                            </children>
                         </AnchorPane>
                     </content>
@@ -157,7 +181,6 @@
       </children>
     </AnchorPane>
       <Label text="Console" />
-      <TextArea prefHeight="488.0" prefWidth="719.0" text="Task C2: Generate data charts showing the cumulative rate of vaccination against COVID-19 by country&#10;&#10;Input&#10;•&#9;Specify the period of interest&#10;•&#9;Specify the countries of interest&#10;&#10;Output&#10;•&#9;Label the data chart with a proper title: &quot;Cumulative Rate of Vaccination against COVID-19 &quot;&#10;•&#9;Label the x-axis and y-axis with proper scales&#10;•&#9;Present data in coloured cumulative curves labelled with corresponding countries&#10;&#10;" wrapText="true" />
       <ScrollPane prefHeight="387.0" prefWidth="719.0">
          <content>
             <TextArea fx:id="textAreaConsole" prefHeight="300.0" prefWidth="718.0" />
