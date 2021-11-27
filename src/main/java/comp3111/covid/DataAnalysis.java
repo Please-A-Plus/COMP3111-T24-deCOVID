@@ -1,14 +1,13 @@
 package comp3111.covid;
 
 import org.apache.commons.csv.*;
+
 import edu.duke.*;
 import java.util.List;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Set;
 
 /**
  * 
@@ -312,7 +311,43 @@ public class DataAnalysis {
 		}
 		return table;
 	}
-	 
+
+	public static HashMap<String, List<FloatCoordinates>> getVaccinationChart(String dataset, LocalDate startDate, LocalDate endDate, List<String> locations) {
+		//initialize return hashmap
+		HashMap<String, List<FloatCoordinates>> table = new HashMap<String, List<FloatCoordinates>>();
+		for (String location: locations) {
+			List<FloatCoordinates> series = new ArrayList<FloatCoordinates>();
+			table.put(location, series);
+		}
+		//search csv
+		for (CSVRecord rec : getFileParser(dataset)) {
+			String recLoc = rec.get("location");
+
+			if (locations.contains(recLoc)) {
+				Float prevRate = Float.valueOf(0);
+				DateTimeFormatter formatter = DateTimeFormatter.ofPattern("M/d/yyyy");
+				LocalDate recDate = LocalDate.parse(rec.get("date"), formatter);
+
+				if (recDate.isAfter(startDate)){
+					if (recDate.isBefore(endDate)){
+						String populationString = rec.get("population");
+						String vaccinationString = rec.get("people_fully_vaccinated");
+						Float rate = prevRate;
+						if (!(populationString.equals("") || vaccinationString.equals(""))) {
+							rate = (float) Long.parseLong(vaccinationString) / Long.parseLong((populationString)) * 100;
+							assert rate >= prevRate;
+							assert rate <= 1;
+							prevRate = rate;
+						}
+						FloatCoordinates coordinates = new FloatCoordinates(recDate, rate);
+						table.get(recLoc).add(coordinates);
+					}
+				}
+			}
+		}
+		return table;
+	}
+
 	public static Long parseLongWithDefault(String str) {
 	    if (str == null || str == "") {
 	        return Long.valueOf(0);
