@@ -1,18 +1,25 @@
-# Please-A-Plus T-24
+# COMP3111 T-24 - DeCovid
 
-> https://github.com/Please-A-Plus/COMP3111-T24-deCOVID
+A simple JavaFX application which displays the worldwide COVID-19 statistics.
 
-# TANUWIJAYA Randy Stefan
-> email: rstanuwijaya | github: rstanuwijaya | devbranch: feature-taskA
-<br>
-> task 1 and task 4
+## Features
 
-# Chan Kei Chi
-> email: kcchanbt | github: gracekccc | devbranch: feature-taskC
-<br>
-> task 3 and task 6
+DeCovid features data analysis and visualization of the COVID-19 pandemic statistics, including the confirmed cases, deaths, and vaccination rate.
 
-# GANI Bryan Suryaraso
-> email: bsgani | github: airflow101 | devbranch: feature-taskB
-<br>
-> task 2 and task 5
+### Table Generation
+
+To generate a table of the statistics, the user must first input the date of the interest. The user can then select the list of countries to be displayed in the table, or select the "Select All" option to display all countries. The table containing the COVID-19 cases/death/vaccination rate will then be generated based on the latest data available.
+
+### Chart Generation
+
+To generate a chart of the statistics, the user must first input the starting and ending date of interest. The user can then select the list of countries to be displayed in the table. The line chart of COVID-19 cases/death/vaccination rate statistics will be generated based on the latest data available.
+
+## List of Contributors
+
+1. [TANUWIJAYA Randy Stefan](https://github.com/rstanuwijaya) ([rstanuwijaya](mailto:rstanuwijaya@connect.ust.hk))
+2. [Chan Kei Chi](https://github.com/gracekccc) ([gracekccc](mailto:kcchanbt@connect.ust.hk))
+3. [GANI Bryan Suryaraso](https://github.com/airflow101) ([bsgani](mailto:bsgani@connect.ust.hk))
+
+## Special Thanks
+
+Special thanks to the HKUST COMP3111 Team (Prof. Kenneth Leung, Namkiu Chan, and Dimitrios Tsaras) for preparing and continuously supporting the project.
