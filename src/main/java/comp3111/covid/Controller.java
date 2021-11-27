@@ -122,6 +122,10 @@ public class Controller {
 		DataAnalysis.initCountriesDict(iDataset);
 		List<String> countries = new ArrayList<String>(DataAnalysis.countriesDict.values());
 		Collections.sort(countries);
+		for (String prioritizedCountry: Arrays.asList( "World", "United Kingdom", "Singapore", "Macao", "Japan", "Israel", "India", "Hong Kong")){
+			countries.remove(prioritizedCountry);
+			countries.add(0, prioritizedCountry);
+		}
 
 		for (MenuButton menuButton : Arrays.asList(tableA_countriesPicker, chartA_countriesPicker,
 				tableB_countriesPicker, chartB_countriesPicker,
@@ -423,7 +427,6 @@ public class Controller {
 		chartC_lineChart.getData().clear();
 		vaccineChart.forEach((location, line) -> {
 			XYChart.Series<Long, Float> series = new XYChart.Series<>();
-
 			series.setName(location);
 			for (FloatCoordinates coordinates: line) {
 				series.getData().add(new XYChart.Data<>(coordinates.getDate().toEpochDay(), coordinates.getValue()));
