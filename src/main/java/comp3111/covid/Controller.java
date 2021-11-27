@@ -439,6 +439,63 @@ public class Controller {
 
     }
 
+	//Task B2
+	@FXML
+	private DatePicker startDeathDate;
+
+	@FXML
+	private DatePicker finishDeathDate;
+
+	@FXML
+	private MenuButton deathGraphCountryPicker;
+
+	@FXML
+	private Button processDeathGraph;
+
+	@FXML
+	private LineChart<Long, Float> chartB_lineChart;
+
+	@FXML
+	private NumberAxis chartB_xAxis;
+
+	@FXML
+	private NumberAxis chartB_yAxis;
+
+	@FXML
+	void processDeathGraph(ActionEvent event){
+		String iDataset = textfieldDataset.getText();
+		LocalDate iStartDate = startDeathDate.getValue();
+		LocalDate iEndDate = finishDeathDate.getValue();
+
+		List<String> ilocations = new ArrayList<String>();
+		for (MenuItem item: deathGraphCountryPicker.getItems()) {
+			CustomMenuItem checkItem = (CustomMenuItem) item;
+			CheckBox checkBox = (CheckBox) checkItem.getContent();
+			if (checkBox.isSelected()) {
+				String location = checkBox.getText();
+				ilocations.add(location);
+			}
+		}
+
+		if (!chartInputValidate(iStartDate,iEndDate,ilocations)) return;
+
+		chartB_xAxis.setAutoRanging(false);
+		chartB_xAxis.setLowerBound(iStartDate.toEpochDay());
+		chartB_xAxis.setUpperBound(iEndDate.toEpochDay());
+
+		HashMap<String, List<FloatCoordinates>> deathChart = DataAnalysis.getTotalDeathPerMillionPeriod(iDataset, iStartDate, iEndDate, ilocations);
+		for ( String key : deathChart.keySet() ) {
+			System.out.println( key );
+		}
+		chartB_lineChart.getData().clear();
+		deathChart.forEach((location, line) -> {
+			XYChart.Series<Long, Float> series = new XYChart.Series<>();
+			for (FloatCoordinates coordinates: line) {
+				series.getData().add(new XYChart.Data<>(coordinates.getDate().toEpochDay(), coordinates.getValue()));
+			}
+			chartB_lineChart.getData().add(series);
+		});
+	}
 
     public void initialize() {
     	String iDataset = textfieldDataset.getText();
@@ -447,7 +504,7 @@ public class Controller {
     	Collections.sort(countries);
         
         for (MenuButton menuButton: Arrays.asList(tableA_countriesPicker, chartA_countriesPicker, tableC_countriesPicker, 
-		deathCountryPicker, chartC_countriesPicker)) {
+		deathCountryPicker, deathGraphCountryPicker, chartC_countriesPicker)) {
             for (String country: countries) {
                 CheckBox checkBox = new CheckBox(country);
                 CustomMenuItem customMenuItem = new CustomMenuItem(checkBox);
@@ -468,6 +525,9 @@ public class Controller {
     	tableC_rateOfVaccinationColumn.setCellValueFactory(new PropertyValueFactory<>("rateOfVaccination"));
 
         chartA_lineChart.setTitle("Cumulative Confirmed COVID-19 Cases (per 1M)");
+
+		chartB_yAxis.setTickLabelFormatter( new NumberAxis.DefaultFormatter(chartB_yAxis,null, "Million"));
+		chartB_xAxis.setTickLabelFormatter(xAxisLabelFactory(chartB_xAxis));
 
 		chartC_yAxis.setTickLabelFormatter( new NumberAxis.DefaultFormatter(chartC_yAxis,null, "%"));
 		chartC_xAxis.setTickLabelFormatter(xAxisLabelFactory(chartC_xAxis));

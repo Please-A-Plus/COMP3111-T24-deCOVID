@@ -137,23 +137,18 @@
                                 <Font size="20.0" />
                             </font>
                           </Label>
-                          <LineChart layoutX="41.0" layoutY="146.0" prefHeight="305.0" prefWidth="558.0">
+                          <LineChart fx:id="chartB_lineChart" layoutX="26.0" layoutY="119.0" prefHeight="194.0" prefWidth="663.0">
                             <xAxis>
-                              <NumberAxis side="BOTTOM" />
+                              <NumberAxis fx:id="chartB_xAxis" side="BOTTOM" label="Date" />
                             </xAxis>
                             <yAxis>
-                              <NumberAxis side="LEFT" />
+                              <NumberAxis fx:id="chartB_yAxis" side="LEFT" label="Deaths (per 1M)"/>
                             </yAxis>
                           </LineChart>
                           <DatePicker fx:id="startDeathDate" layoutX="77.0" layoutY="93.0" />
                           <DatePicker fx:id="finishDeathDate" layoutX="320.0" layoutY="93.0" />
-                          <MenuButton fx:id="deathGraphCountryPicker" layoutX="77.0" layoutY="50.0" mnemonicParsing="false" text="MenuButton">
-                            <items>
-                              <MenuItem mnemonicParsing="false" text="Action 1" />
-                              <MenuItem mnemonicParsing="false" text="Action 2" />
-                            </items>
-                          </MenuButton>
-                          <Button fx:id="processDeathGraph" layoutX="456.0" layoutY="50.0" mnemonicParsing="false" text="Fetch" />
+                          <MenuButton fx:id="deathGraphCountryPicker" layoutX="77.0" layoutY="50.0" mnemonicParsing="false" text="Pick Country"/>
+                          <Button fx:id="processDeathGraph" layoutX="456.0" layoutY="50.0" mnemonicParsing="false" onAction="#processDeathGraph" text="Fetch" />
                            </children>
                         </AnchorPane>
                     </content>
@@ -186,7 +181,6 @@
       </children>
     </AnchorPane>
       <Label text="Console" />
-      <TextArea prefHeight="488.0" prefWidth="719.0" text="Task C2: Generate data charts showing the cumulative rate of vaccination against COVID-19 by country&#10;&#10;Input&#10;•&#9;Specify the period of interest&#10;•&#9;Specify the countries of interest&#10;&#10;Output&#10;•&#9;Label the data chart with a proper title: &quot;Cumulative Rate of Vaccination against COVID-19 &quot;&#10;•&#9;Label the x-axis and y-axis with proper scales&#10;•&#9;Present data in coloured cumulative curves labelled with corresponding countries&#10;&#10;" wrapText="true" />
       <ScrollPane prefHeight="387.0" prefWidth="719.0">
          <content>
             <TextArea fx:id="textAreaConsole" prefHeight="300.0" prefWidth="718.0" />

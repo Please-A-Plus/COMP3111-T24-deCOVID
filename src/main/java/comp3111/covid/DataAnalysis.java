@@ -266,6 +266,36 @@ public class DataAnalysis {
 		return totalDeathCasesMap;
 	}
 
+	public static HashMap<String, List<FloatCoordinates>> getTotalDeathPerMillionPeriod(String dataset, LocalDate startDate, LocalDate endDate, List<String> locations) {
+		//initialize return hashmap
+		HashMap<String, List<FloatCoordinates>> table = new HashMap<String, List<FloatCoordinates>>();
+		for (String location: locations) {
+			List<FloatCoordinates> series = new ArrayList<FloatCoordinates>();
+			table.put(location, series);
+		}
+		//search csv
+		for (CSVRecord rec : getFileParser(dataset)) {
+			String recLoc = rec.get("location");
+
+			if (locations.contains(recLoc)) {
+				DateTimeFormatter formatter = DateTimeFormatter.ofPattern("M/d/yyyy");
+				LocalDate recDate = LocalDate.parse(rec.get("date"), formatter);
+
+				if (recDate.isAfter(startDate)){
+					if (recDate.isBefore(endDate)){
+						Float deathPerMillion;
+						String deathPerMillionString = rec.get("total_deaths_per_million");
+						// System.out.println(deathPerMillionString);
+						deathPerMillion = Float.parseFloat(deathPerMillionString);
+						FloatCoordinates coordinates = new FloatCoordinates(recDate, deathPerMillion);
+						table.get(recLoc).add(coordinates);
+					}
+				}
+			}
+		}
+		return table;
+	}
+
 	public static HashMap<String, Long> getNewDeath(String dataset, LocalDate date) {
 		HashMap<String, Long> newDeathCasesMap = new HashMap<String, Long>();
 		for (CSVRecord rec : getFileParser(dataset)) {
