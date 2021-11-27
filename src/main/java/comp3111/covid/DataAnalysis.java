@@ -18,12 +18,12 @@ import java.util.HashMap;
  */
 public class DataAnalysis {
 	public static HashMap<String, String> countriesDict = null;
-	
+
 	public static CSVParser getFileParser(String dataset) {
 	     FileResource fr = new FileResource("dataset/" + dataset);
 	     return fr.getCSVParser(true);
 		}
-	
+
 	public static void initCountriesDict(String dataset) {
 		if (dataset == null) {
 			dataset = "COVID_Dataset_v1.0.csv";
@@ -37,35 +37,35 @@ public class DataAnalysis {
 			}
 		}
 	}
-	
+
 	public static String getConfirmedCases(String dataset, String iso_code) {
-		String oReport = "";	
+		String oReport = "";
 		long confirmedCases = 0;
 		long numRecord = 0;
 		long totalNumRecord = 0;
-		
+
 		for (CSVRecord rec : getFileParser(dataset)) {
-			
+
 			if (rec.get("iso_code").equals(iso_code)) {
 				String s = rec.get("new_cases");
 				if (!s.equals("")) {
 					confirmedCases += Long.parseLong(s);
 					numRecord++;
 				}
-			}		
+			}
 			totalNumRecord++;
 		}
-		
+
 		oReport = String.format("Dataset (%s): %,d Records\n\n", dataset, totalNumRecord);
 		oReport += String.format("[Summary (%s)]\n", iso_code);
 		oReport += String.format("Number of Confirmed Cases: %,d\n", confirmedCases);
 		oReport += String.format("Number of Days Reported: %,d\n", numRecord);
-		
+
 		return oReport;
 	}
-	
+
 	public static String getConfirmedCasesReport(String dataset, LocalDate date, List<String> countries) {
-		String oReport = "";	
+		String oReport = "";
 		long confirmedCases = 0;
 		long numRecord = 0;
 		long totalNumRecord = 0;
@@ -77,45 +77,45 @@ public class DataAnalysis {
 				if (!s.equals("")) {
 					confirmedCases += Long.parseLong(s);
 					numRecord++;
-				}				
-			}		
+				}
+			}
 			totalNumRecord++;
 		}
-		
+
 		oReport = String.format("Dataset (%s): %,d Records\n\n", dataset, totalNumRecord);
 		oReport += String.format("[Summary (%s)]\n", date, countries);
 		oReport += String.format("Number of Confirmed Cases: %,d\n", confirmedCases);
 		oReport += String.format("Number of Days Reported: %,d\n", numRecord);
-		
+
 		return oReport;
 	}
-	
+
 	public static String getConfirmedDeaths(String dataset, String iso_code) {
-			String oReport = "";	
+			String oReport = "";
 			long confirmedDeaths = 0;
 			long numRecord = 0;
 			long totalNumRecord = 0;
-			
+
 			for (CSVRecord rec : getFileParser(dataset)) {
-				
+
 				if (rec.get("iso_code").equals(iso_code)) {
 					String s = rec.get("new_deaths");
 					if (!s.equals("")) {
 						confirmedDeaths += Long.parseLong(s);
 						numRecord++;
 					}
-				}		
+				}
 				totalNumRecord++;
 			}
-			
+
 			oReport = String.format("Dataset (%s): %,d Records\n\n", dataset, totalNumRecord);
 			oReport += String.format("[Summary (%s)]\n", iso_code);
 			oReport += String.format("Number of Deaths: %,d\n", confirmedDeaths);
 			oReport += String.format("Number of Days Reported: %,d\n", numRecord);
-			
+
 			return oReport;
 	 }
-	 
+
 	 public static String getRateOfVaccination(String dataset, String iso_code) {
 			String oReport = "";
 			long fullyVaccinated = 0;
@@ -151,15 +151,15 @@ public class DataAnalysis {
 
 			return oReport;
 	 }
-	 
-	 public static CovidRecord parseDataset(CSVRecord rec) {			
+
+	 public static CovidRecord parseDataset(CSVRecord rec) {
 			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("M/d/yyyy");
-			
+
 			String iso_code = rec.get("iso_code");
 			String location = rec.get("location");
 			LocalDate recDate = LocalDate.parse(rec.get("date"), formatter);
 			Long population = parseLongWithDefault(rec.get("population"));
-			
+
 			Long totalCases = parseLongWithDefault(rec.get("total_cases"));
 			Long newCases = parseLongWithDefault(rec.get("new_cases"));
 			Float totalCasesPerMillion = parseFloatWithDefault(rec.get("total_cases_per_million"));
@@ -173,25 +173,25 @@ public class DataAnalysis {
 			Long vaccinated = parseLongWithDefault(rec.get("people_fully_vaccinated"));
 			
 			//TODO: parse vaccination data
-			
+
 			ConfirmedCaseRecord confirmedCaseRecord = new ConfirmedCaseRecord(totalCases, newCases, totalCasesPerMillion, newCasesPerMillion);
 			ConfirmedDeathRecord confirmedDeathRecord = new ConfirmedDeathRecord(totalDeaths, newDeaths, totalDeathsPerMillion, newDeathsPerMillion);
 			VaccinationRecord vaccinationRecord = new VaccinationRecord(vaccinated);
-			
+
 			CovidRecord covidRecord = new CovidRecord(iso_code, location, recDate, population, confirmedCaseRecord, confirmedDeathRecord, vaccinationRecord);
-			
+
 			return covidRecord;
 	 }
-	 
+
 	public static HashMap<String, Long> getConfirmedCasesBeforeDate(String dataset, LocalDate date) {
 		HashMap<String, Long> totalCasesDict = new HashMap<String, Long>();
 		for (CSVRecord rec : getFileParser(dataset)) {
 			CovidRecord covidRecord = parseDataset(rec);
-			
+
 			if (!totalCasesDict.containsKey(covidRecord.iso_code)) {
 				totalCasesDict.put(covidRecord.iso_code, Long.valueOf(0));
 			}
-			totalCasesDict.put(covidRecord.iso_code, covidRecord.confirmedCaseRecord.totalCases);	
+			totalCasesDict.put(covidRecord.iso_code, covidRecord.confirmedCaseRecord.totalCases);
 		}
 		return totalCasesDict;
 	}
@@ -200,11 +200,11 @@ public class DataAnalysis {
 		HashMap<String, Float> totalCasesDict = new HashMap<String, Float>();
 		for (CSVRecord rec : getFileParser(dataset)) {
 			CovidRecord covidRecord = parseDataset(rec);
-			
+
 			if (!totalCasesDict.containsKey(covidRecord.iso_code)) {
 				totalCasesDict.put(covidRecord.iso_code, Float.valueOf(0));
 			}
-			totalCasesDict.put(covidRecord.iso_code, covidRecord.confirmedCaseRecord.totalCasesPerMillion);	
+			totalCasesDict.put(covidRecord.iso_code, covidRecord.confirmedCaseRecord.totalCasesPerMillion);
 		}
 		return totalCasesDict;
 	}
@@ -213,11 +213,11 @@ public class DataAnalysis {
 		var totalCasesDict = new HashMap<String, HashMap<LocalDate, Float>>();
 		for (CSVRecord rec : getFileParser(dataset)) {
 			CovidRecord covidRecord = parseDataset(rec);
-			
+
 			if (!totalCasesDict.containsKey(covidRecord.iso_code)) {
 				totalCasesDict.put(covidRecord.iso_code, new HashMap<LocalDate, Float>());
 			}
-			
+
 			// if the date is between startDate and endDate, add it to the dictionary
 			if (covidRecord.date.isAfter(startDate) && covidRecord.date.isBefore(endDate)) {
 				totalCasesDict.get(covidRecord.iso_code).put(covidRecord.date, covidRecord.confirmedCaseRecord.totalCasesPerMillion);
@@ -235,7 +235,7 @@ public class DataAnalysis {
 			String populationString = rec.get("population");
 			if (recDate.isAfter(date) || populationString.equals("")) continue;
 			Long population = Long.parseLong(populationString);
-			populationDict.put(iso_code, population);	
+			populationDict.put(iso_code, population);
 		}
 		return populationDict;
 	}
@@ -309,35 +309,40 @@ public class DataAnalysis {
 		return newDeathCasesMap;
 	}
 
-	public static List<List<String>> getVaccinationTable(String dataset, LocalDate date, List<String> ISOCodes) {
-		List<List<String>> table = new ArrayList<List<String>>();
+	public static HashMap<String, VaccinationTable> getVaccinationTable(String dataset, LocalDate date, List<String> locations) {
+		var table = new HashMap<String, VaccinationTable>();
+		var prev = new HashMap<String, ArrayList<String>>();
+		for (String location: locations) {
+			var arr = new ArrayList<String>();
+			arr.add("0");
+			arr.add("0");
+			prev.put(location, arr);
+		}
 		for (CSVRecord rec : getFileParser(dataset)) {
 
-			if (ISOCodes.contains(rec.get("iso_code"))){
+			if (locations.contains(rec.get("location"))){
 				DateTimeFormatter formatter = DateTimeFormatter.ofPattern("M/d/yyyy");
 				LocalDate recDate = LocalDate.parse(rec.get("date"), formatter);
 
-				if (recDate.equals(date)){
-					String populationString = rec.get("population");
-					String vaccinationString = rec.get("people_fully_vaccinated");
-					if (populationString.equals("") || vaccinationString.equals("")) continue;
-
+				if (recDate.isBefore(date)){
+					//set to prev value
+					String populationString = prev.get(rec.get("location")).get(0);
+					String vaccinationString = prev.get(rec.get("location")).get(1);
+					//if record exist, use current record
+					if (!(rec.get("population").equals("") || rec.get("people_fully_vaccinated").equals(""))){
+						populationString = rec.get("population");
+						vaccinationString = rec.get("people_fully_vaccinated");
+						var arr = new ArrayList<String>();
+						arr.add(populationString);
+						arr.add(vaccinationString);
+						prev.put(rec.get("location"), arr);
+					}
 					List<String> entry = new ArrayList<String>();
 					Float rate = (float) Long.parseLong(vaccinationString) / Long.parseLong((populationString)) * 100;
-					entry.add(rec.get("iso_code"));
-					entry.add(vaccinationString);
-					entry.add(String.format("%.2f%%",rate));
-					table.add(entry);
-					ISOCodes.remove((rec.get("iso_code")));
+					var row = new VaccinationTable(rec.get("location"), vaccinationString, String.format("%.2f%%",rate));
+					table.put(rec.get("location"), row);
 				}
 			}
-		}
-		for (String iso : ISOCodes){
-			List<String> entry = new ArrayList<String>();
-			entry.add(iso);
-			entry.add("Data not found");
-			entry.add("Data not found");
-			table.add(entry);
 		}
 		return table;
 	}
@@ -345,33 +350,31 @@ public class DataAnalysis {
 	public static HashMap<String, List<FloatCoordinates>> getVaccinationChart(String dataset, LocalDate startDate, LocalDate endDate, List<String> locations) {
 		//initialize return hashmap
 		HashMap<String, List<FloatCoordinates>> table = new HashMap<String, List<FloatCoordinates>>();
+		//to tackle missing values in dataset
+		var prevRate = new HashMap<String, Float>();
 		for (String location: locations) {
 			List<FloatCoordinates> series = new ArrayList<FloatCoordinates>();
 			table.put(location, series);
+			prevRate.put(location, Float.valueOf(0));
 		}
 		//search csv
 		for (CSVRecord rec : getFileParser(dataset)) {
 			String recLoc = rec.get("location");
 
 			if (locations.contains(recLoc)) {
-				Float prevRate = Float.valueOf(0);
 				DateTimeFormatter formatter = DateTimeFormatter.ofPattern("M/d/yyyy");
 				LocalDate recDate = LocalDate.parse(rec.get("date"), formatter);
 
-				if (recDate.isAfter(startDate)){
-					if (recDate.isBefore(endDate)){
-						String populationString = rec.get("population");
-						String vaccinationString = rec.get("people_fully_vaccinated");
-						Float rate = prevRate;
-						if (!(populationString.equals("") || vaccinationString.equals(""))) {
-							rate = (float) Long.parseLong(vaccinationString) / Long.parseLong((populationString)) * 100;
-							assert rate >= prevRate;
-							assert rate <= 1;
-							prevRate = rate;
-						}
-						FloatCoordinates coordinates = new FloatCoordinates(recDate, rate);
-						table.get(recLoc).add(coordinates);
+				if (recDate.isAfter(startDate) && recDate.isBefore(endDate)){
+					String populationString = rec.get("population");
+					String vaccinationString = rec.get("people_fully_vaccinated");
+					Float rate = prevRate.get(rec.get("location"));
+					if (!(populationString.equals("") || vaccinationString.equals(""))) {
+						rate = (float) Long.parseLong(vaccinationString) / Long.parseLong((populationString)) * 100;
+						prevRate.put(rec.get("location"), rate);
 					}
+					FloatCoordinates coordinates = new FloatCoordinates(recDate, rate);
+					table.get(recLoc).add(coordinates);
 				}
 			}
 		}
@@ -384,7 +387,7 @@ public class DataAnalysis {
 	    }
 	    return Long.parseLong(str);
 	}
-	 
+
 	public static Float parseFloatWithDefault(String str) {
 	    if (str == null || str == "") {
 	        return Float.valueOf(0);

@@ -242,30 +242,25 @@ public class Controller {
 			return;
 		}
 
-		List<String> iISOCodes = new ArrayList<String>();
-		HashMap<String, String> invertedCountriesDict = new HashMap<String, String>();
-		for (String ISOCode: DataAnalysis.countriesDict.keySet()) {
-			invertedCountriesDict.put(DataAnalysis.countriesDict.get(ISOCode), ISOCode);
-		}
+		List<String> ilocations = new ArrayList<String>();
 		for (MenuItem item: tableC_countriesPicker.getItems()) {
 			CustomMenuItem checkItem = (CustomMenuItem) item;
 			CheckBox checkBox = (CheckBox) checkItem.getContent();
 			if (checkBox.isSelected()) {
-				String ISOCode = invertedCountriesDict.get(checkBox.getText());
-				iISOCodes.add(ISOCode);
+				String ISOCode = checkBox.getText();
+				ilocations.add(ISOCode);
 			}
 		}
-		if (iISOCodes.isEmpty()) {
+		if (ilocations.isEmpty()) {
 			textAreaConsole.setText("Input Error: No countries are selected");
 			return;
 		}
 
-		List<List<String>> vaccineReport = DataAnalysis.getVaccinationTable(iDataset, iDate, iISOCodes);
+		HashMap<String, VaccinationTable> vaccineReport = DataAnalysis.getVaccinationTable(iDataset, iDate, ilocations);
 		tableC_tableView.getItems().clear();
-		for (List<String> rec: vaccineReport) {
-			VaccinationTable record = new VaccinationTable(DataAnalysis.countriesDict.get(rec.get(0)), rec.get(1), rec.get(2));
-			tableC_tableView.getItems().add(record);
-		}
+		vaccineReport.forEach((location, row) -> {
+			tableC_tableView.getItems().add(row);
+		});
 	}
 
 	@FXML
@@ -333,10 +328,11 @@ public class Controller {
 		chartC_lineChart.getData().clear();
 		vaccineChart.forEach((location, line) -> {
 			XYChart.Series<Long, Float> series = new XYChart.Series<>();
+			series.setName(location);
 			for (FloatCoordinates coordinates: line) {
 				series.getData().add(new XYChart.Data<>(coordinates.getDate().toEpochDay(), coordinates.getValue()));
 			}
-			chartC_lineChart.getData().add(series);
+			chartC_lineChart.getData().addAll(series);
 		});
 	}
 
