@@ -5,6 +5,7 @@ import javafx.stage.Stage;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.layout.VBox;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 
 
 /**
@@ -46,7 +47,9 @@ public class MyApplication extends Application {
     	loader.setLocation(getClass().getResource(UI_FILE));
    		VBox root = (VBox) loader.load();
    		Scene scene =  new Scene(root);
-   		stage.setScene(scene);
+		// set stage icon virus solid from src/resources/
+		stage.getIcons().add(new Image(getClass().getResourceAsStream("/icons/virus-solid.png")));
+		stage.setScene(scene);
    		stage.setTitle("Please-A-Plus T-24: Data Explorer on COVID-19");
    		stage.show();
 	}

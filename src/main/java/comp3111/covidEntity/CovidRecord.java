@@ -1,4 +1,4 @@
-package comp3111.covid;
+package comp3111.covidEntity;
 
 import java.time.LocalDate;
 

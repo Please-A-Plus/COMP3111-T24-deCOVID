@@ -10,6 +10,10 @@ import org.junit.Test;
 
 import comp3111.covid.*;
 import comp3111.covid.DataAnalysis;
+import comp3111.covidEntity.ConfirmedCaseRecord;
+import comp3111.covidEntity.ConfirmedDeathRecord;
+import comp3111.covidEntity.CovidRecord;
+import comp3111.covidEntity.VaccinationRecord;
 
 public class CovidRecordErrorInputTester {
     CovidRecord covidRecord;

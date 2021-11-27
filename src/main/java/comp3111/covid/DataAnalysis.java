@@ -2,6 +2,10 @@ package comp3111.covid;
 
 import org.apache.commons.csv.*;
 
+import comp3111.covidEntity.ConfirmedCaseRecord;
+import comp3111.covidEntity.ConfirmedDeathRecord;
+import comp3111.covidEntity.CovidRecord;
+import comp3111.covidEntity.VaccinationRecord;
 import edu.duke.*;
 import java.util.List;
 import java.time.LocalDate;

@@ -1,4 +1,4 @@
-package comp3111.covid;
+package comp3111.tableColumns;
 
 public class VaccinationTable {
 	public String country;
