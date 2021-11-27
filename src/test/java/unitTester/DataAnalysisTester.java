@@ -44,11 +44,4 @@ public class DataAnalysisTester {
 		assertTrue(!DataAnalysis.countriesDict.isEmpty());
 	}
 
-	@Test
-	public void testTotalDeathMap() {
-		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("M/d/yyyy");
-		LocalDate recDate = LocalDate.parse("05/21/2020", formatter);
-		assertTrue(!DataAnalysis.getTotalDeath("COVID_Dataset_v1.0.csv", recDate).isEmpty());
-	}
-
 }

@@ -584,7 +584,6 @@ public class Controller {
 		textAreaConsole.setText("COVID-19 deaths chart generated successfully.");
 	}
 
-	Integer deathTablePickedCountryAmount = 0;
 	final EventHandler<ActionEvent> countryPickedCounts = new EventHandler<ActionEvent>(){
 		public void handle(final ActionEvent event) {
 			Integer pickedCountryAmount = 0;
