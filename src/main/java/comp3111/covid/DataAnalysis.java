@@ -268,6 +268,29 @@ public class DataAnalysis {
 		return table;
 	}
 
+	public static HashMap<String, List<FloatCoordinates>> getCasesChart(String dataset, LocalDate startDate, LocalDate endDate, List<String> locations) {
+		//initialize return hashmap
+		HashMap<String, List<FloatCoordinates>> table = new HashMap<String, List<FloatCoordinates>>();
+		for (String location: locations) {
+			List<FloatCoordinates> series = new ArrayList<FloatCoordinates>();
+			table.put(location, series);
+		}
+		//search csv
+		for (CSVRecord rec : getFileParser(dataset)) {
+			CovidRecord covidRecord = parseDataset(rec);
+
+			if (locations.contains(covidRecord.location)) {
+				LocalDate recDate = covidRecord.date;
+				if (recDate.isAfter(startDate) && recDate.isBefore(endDate)) {
+					Float rate = covidRecord.confirmedCaseRecord.totalCasesPerMillion;
+					FloatCoordinates coord = new FloatCoordinates(recDate, rate);
+					table.get(covidRecord.location).add(coord);
+				}
+			}
+		}
+		return table;
+	}
+
 	public static HashMap<String, List<FloatCoordinates>> getVaccinationChart(String dataset, LocalDate startDate, LocalDate endDate, List<String> locations) {
 		//initialize return hashmap
 		HashMap<String, List<FloatCoordinates>> table = new HashMap<String, List<FloatCoordinates>>();

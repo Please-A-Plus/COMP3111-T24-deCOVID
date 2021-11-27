@@ -110,10 +110,10 @@
                               <MenuButton fx:id="chartA_countriesPicker" layoutX="147.0" layoutY="65.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="175.0" text="Click to select" />
                               <LineChart fx:id="chartA_lineChart" layoutX="114.0" layoutY="105.0" prefHeight="202.0" prefWidth="491.0">
                                 <xAxis>
-                                  <CategoryAxis side="BOTTOM" />
+                                  <NumberAxis fx:id="chartA_xAxis" side="BOTTOM" />
                                 </xAxis>
                                 <yAxis>
-                                  <NumberAxis side="LEFT" />
+                                  <NumberAxis fx:id="chartA_yAxis" side="LEFT" />
                                 </yAxis>
                               </LineChart>
                            </children>

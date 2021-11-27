@@ -44,7 +44,13 @@ public class Controller {
 	private Button chartA_getButton;
 
     @FXML
-    private LineChart<String, Integer> chartA_lineChart;
+    private LineChart<Long, Float> chartA_lineChart;
+
+	@FXML
+	private NumberAxis chartA_xAxis;
+
+	@FXML
+	private NumberAxis chartA_yAxis;
 
 	//chartC
 
@@ -265,44 +271,38 @@ public class Controller {
 
 	@FXML
 	void submitChartA(ActionEvent event) {
-    	String iDataset = textfieldDataset.getText();
-    	LocalDate iStartDate = chartA_startDate.getValue();
-    	LocalDate iEndDate = chartA_endDate.getValue();
+		String iDataset = textfieldDataset.getText();
+		LocalDate iStartDate = chartA_startDate.getValue();
+		LocalDate iEndDate = chartA_endDate.getValue();
 
-    	List<String> iISOCodes = new ArrayList<String>();
-    	HashMap<String, String> invertedCountriesDict = new HashMap<String, String>();
-    	for (String ISOCode: DataAnalysis.countriesDict.keySet()) {
-    		invertedCountriesDict.put(DataAnalysis.countriesDict.get(ISOCode), ISOCode);
-    	}
-    	for (MenuItem item: chartA_countriesPicker.getItems()) {
-    		CustomMenuItem checkItem = (CustomMenuItem) item;
-    		CheckBox checkBox = (CheckBox) checkItem.getContent();
-    		if (checkBox.isSelected()) {
-    			String ISOCode = invertedCountriesDict.get(checkBox.getText());
-    			iISOCodes.add(ISOCode);
-    		}
-    	}
+		List<String> ilocations = new ArrayList<String>();
+		for (MenuItem item: chartA_countriesPicker.getItems()) {
+			CustomMenuItem checkItem = (CustomMenuItem) item;
+			CheckBox checkBox = (CheckBox) checkItem.getContent();
+			if (checkBox.isSelected()) {
+				String location = checkBox.getText();
+				ilocations.add(location);
+				System.out.println(location);
+			}
+		}
 
-		if (!chartInputValidate(iStartDate,iEndDate,iISOCodes)) return;
+		if (!chartInputValidate(iStartDate,iEndDate,ilocations)) return;
 
-    	ChartForm chartForm = new ChartForm(iDataset, iStartDate, iEndDate, iISOCodes, "confirmed_cases");
-    	HashMap<String, HashMap<String, Float>> casesChart = chartForm.generateChart();
+		chartA_xAxis.setAutoRanging(false);
+		chartA_xAxis.setLowerBound(iStartDate.toEpochDay());
+		chartA_xAxis.setUpperBound(iEndDate.toEpochDay());
 
-        for (var entry : casesChart.entrySet()) {
-			System.out.println("Country: " + entry.getKey());
-            String country = entry.getKey();
-            HashMap<String, Float> cases = entry.getValue();
-            XYChart.Series<String, Integer> series = new XYChart.Series<>();
-            series.setName(country);
-            // for (var entry2 : cases.entrySet()) {
-            //     String date = entry2.getKey();
-            //     Float value = entry2.getValue();
-            //     series.getData().add(new XYChart.Data<>(date, value));
-            // }
-			series.getData().add(new XYChart.Data<String, Integer>("1/1/2020", 100));
-			series.getData().add(new XYChart.Data<String, Integer>("2/2/2020", 200));
-            chartA_lineChart.getData().add(series);
-        }
+		HashMap<String, List<FloatCoordinates>> casesChart = DataAnalysis.getCasesChart(iDataset, iStartDate, iEndDate, ilocations);
+		chartA_lineChart.getData().clear();
+		casesChart.forEach((location, line) -> {
+			XYChart.Series<Long, Float> series = new XYChart.Series<>();
+			for (FloatCoordinates coordinates: line) {
+				series.getData().add(new XYChart.Data<>(coordinates.getDate().toEpochDay(), coordinates.getValue()));
+			}
+			chartA_lineChart.getData().add(series);
+		});
+
+		textAreaConsole.setText("Chart A generated successfully.");
     }
 
 	@FXML
@@ -396,6 +396,8 @@ public class Controller {
     	tableC_rateOfVaccinationColumn.setCellValueFactory(new PropertyValueFactory<>("rateOfVaccination"));
 
         chartA_lineChart.setTitle("Cumulative Confirmed COVID-19 Cases (per 1M)");
+		chartA_yAxis.setTickLabelFormatter( new NumberAxis.DefaultFormatter(chartA_yAxis, null, ""));
+		chartA_xAxis.setTickLabelFormatter(xAxisLabelFactory(chartA_xAxis));
 
 		chartC_yAxis.setTickLabelFormatter( new NumberAxis.DefaultFormatter(chartC_yAxis,null, "%"));
 		chartC_xAxis.setTickLabelFormatter(xAxisLabelFactory(chartC_xAxis));
