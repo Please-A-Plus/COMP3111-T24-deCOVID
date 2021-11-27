@@ -235,7 +235,7 @@
                                                    <columns>
                                                       <TableColumn fx:id="tableC_countryColumn" prefWidth="150.0" text="Country" />
                                                       <TableColumn fx:id="tableC_fullyVaccinatedColumn" minWidth="0.0" prefWidth="200.0" text="Fully Vaccinated" />
-                                                      <TableColumn fx:id="tableC_totalCasesPerMillionColumn" prefWidth="200.0" text="Rate of Vaccination" />
+                                                      <TableColumn fx:id="tableC_rateOfVaccinationColumn" prefWidth="200.0" text="Rate of Vaccination" />
                                                    </columns>
                                                 </TableView>
                                                 <CheckBox fx:id="tableC_selectAll" layoutX="330.0" layoutY="60.0" mnemonicParsing="false" text="Select All" />

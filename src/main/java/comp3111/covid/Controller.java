@@ -118,7 +118,7 @@ public class Controller {
 	private TextField textfieldISO;
 	
 	// initialize the controller class
-	private void initialize() {
+	public void initialize() {
 		String iDataset = textfieldDataset.getText();
 		DataAnalysis.initCountriesDict(iDataset);
 		List<String> countries = new ArrayList<String>(DataAnalysis.countriesDict.values());
@@ -263,6 +263,8 @@ public class Controller {
 						rec.confirmedCaseRecord.totalCasesPerMillion.toString());
 			tableA_tableView.getItems().add(entry);
 		}
+
+		textAreaConsole.setText("COVID-19 cases table generated successfully.");
 	}
 
 	// ChartA - Confirmed cases chart
@@ -322,7 +324,7 @@ public class Controller {
 			chartA_lineChart.getData().add(series);
 		});
 
-		textAreaConsole.setText("Chart A generated successfully.");
+		textAreaConsole.setText("COVID-19 cases chart generated successfully.");
 	}
 
 	// Table C - Vaccination record table
@@ -373,6 +375,8 @@ public class Controller {
 					rec.get(2));
 			tableC_tableView.getItems().add(record);
 		}
+		
+		textAreaConsole.setText("COVID-19 vaccination rate table generated successfully.");
 	}
 
 	// ChartC - Vaccination chart
@@ -431,6 +435,8 @@ public class Controller {
 			}
 			chartC_lineChart.getData().add(series);
 		});
+
+		textAreaConsole.setText("COVID-19 vaccination rate chart generated successfully.");
 	}
 
 	// Table B - Deaths table
