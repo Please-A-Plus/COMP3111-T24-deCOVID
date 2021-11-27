@@ -9,6 +9,9 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
+import comp3111.covidEntity.CovidRecord;
+import comp3111.tableColumns.ConfirmedCaseTable;
+import comp3111.tableColumns.VaccinationTable;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.chart.LineChart;
