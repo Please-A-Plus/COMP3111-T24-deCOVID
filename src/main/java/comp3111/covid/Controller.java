@@ -349,34 +349,27 @@ public class Controller {
 
 	@FXML
 	void submitTableC(ActionEvent event) {
-		// sample input: date = 14/1/2021, location = Asia
 		String iDataset = textfieldDataset.getText();
 		LocalDate iDate = tableC_date.getValue();
-		List<String> iISOCodes = new ArrayList<String>();
-		HashMap<String, String> invertedCountriesDict = new HashMap<String, String>();
-		for (String ISOCode : DataAnalysis.countriesDict.keySet()) {
-			invertedCountriesDict.put(DataAnalysis.countriesDict.get(ISOCode), ISOCode);
-		}
-		for (MenuItem item : tableC_countriesPicker.getItems()) {
+
+		List<String> ilocations = new ArrayList<String>();
+		for (MenuItem item: tableC_countriesPicker.getItems()) {
 			CustomMenuItem checkItem = (CustomMenuItem) item;
 			CheckBox checkBox = (CheckBox) checkItem.getContent();
 			if (checkBox.isSelected()) {
-				String ISOCode = invertedCountriesDict.get(checkBox.getText());
-				iISOCodes.add(ISOCode);
+				String location = checkBox.getText();
+				ilocations.add(location);
 			}
 		}
 
-		if (!tableInputValidate(iDate, iISOCodes))
+		if (!tableInputValidate(iDate, ilocations))
 			return;
 
-		List<List<String>> vaccineReport = DataAnalysis.getVaccinationTable(iDataset, iDate, iISOCodes);
+		HashMap<String, VaccinationTable> vaccineReport = DataAnalysis.getVaccinationTable(iDataset, iDate, ilocations);
 		tableC_tableView.getItems().clear();
-		for (List<String> rec : vaccineReport) {
-			VaccinationTable record = new VaccinationTable(DataAnalysis.countriesDict.get(rec.get(0)), rec.get(1),
-					rec.get(2));
-			tableC_tableView.getItems().add(record);
-		}
-		
+		vaccineReport.forEach((location, row) -> {
+			tableC_tableView.getItems().add(row);
+		});
 		textAreaConsole.setText("COVID-19 vaccination rate table generated successfully.");
 	}
 
@@ -431,10 +424,12 @@ public class Controller {
 		chartC_lineChart.getData().clear();
 		vaccineChart.forEach((location, line) -> {
 			XYChart.Series<Long, Float> series = new XYChart.Series<>();
-			for (FloatCoordinates coordinates : line) {
+
+			series.setName(location);
+			for (FloatCoordinates coordinates: line) {
 				series.getData().add(new XYChart.Data<>(coordinates.getDate().toEpochDay(), coordinates.getValue()));
 			}
-			chartC_lineChart.getData().add(series);
+			chartC_lineChart.getData().addAll(series);
 		});
 
 		textAreaConsole.setText("COVID-19 vaccination rate chart generated successfully.");
