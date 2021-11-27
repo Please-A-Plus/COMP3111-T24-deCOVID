@@ -27,13 +27,18 @@ public class CovidRecordTester {
 		Float totalCasesPerMillion = Float.valueOf(totalCases/population);
 		Float newCasesPerMillion = Float.valueOf(newCases/population);
 
+		//Death Data Parsing
+		Long totalDeaths = Long.valueOf(3000);
+		Long newDeaths = Long.valueOf(200);
+		Float totalDeathsPerMillion = Float.valueOf(totalDeaths/population);
+		Float newDeathsPerMillion = Float.valueOf(newDeaths/population);
 		Long vaccinated = Long.valueOf(2000);
 		Float vaccinatedRate = Float.valueOf(vaccinated / population);
 		
-		//TODO: parse death and vaccination data
+		//TODO: parse vaccination data
 		
 		ConfirmedCaseRecord confirmedCaseRecord = new ConfirmedCaseRecord(totalCases, newCases, totalCasesPerMillion, newCasesPerMillion);
-		ConfirmedDeathRecord confirmedDeathRecord = null;
+		ConfirmedDeathRecord confirmedDeathRecord = new ConfirmedDeathRecord(totalDeaths, newDeaths, totalDeathsPerMillion, newDeathsPerMillion);
 		VaccinationRecord vaccinationRecord = new VaccinationRecord(vaccinated);
 		
 		covidRecord = new CovidRecord(iso_code, location, recDate, population, confirmedCaseRecord, confirmedDeathRecord, vaccinationRecord);
@@ -68,6 +73,16 @@ public class CovidRecordTester {
 	@Test
 	public void assertPopulation() {
 		assertEquals(Long.valueOf(5000000), covidRecord.population);
+	}
+
+	@Test
+	public void assertTotalDeaths(){
+		assertEquals(Long.valueOf(3000), covidRecord.confirmedDeathRecord.getTotalDeaths());
+	}
+
+	@Test
+	public void assertNewDeaths(){
+		assertEquals(Long.valueOf(200), covidRecord.confirmedDeathRecord.getNewDeaths());
 	}
 
 

@@ -12,9 +12,11 @@ import comp3111.covid.DataAnalysis;
 import org.apache.commons.csv.*;
 
 public class DataAnalysisTester {	
+
 	@Before
 	public void setUp() throws Exception {
 	}
+
 
 	@Test
 	public void testNullLongParser() {
@@ -40,6 +42,13 @@ public class DataAnalysisTester {
 	public void testCountriedDict() {
 		DataAnalysis.initCountriesDict(null);
 		assertTrue(!DataAnalysis.countriesDict.isEmpty());
+	}
+
+	@Test
+	public void testTotalDeathMap() {
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("M/d/yyyy");
+		LocalDate recDate = LocalDate.parse("05/21/2020", formatter);
+		assertTrue(!DataAnalysis.getTotalDeath("COVID_Dataset_v1.0.csv", recDate).isEmpty());
 	}
 
 }
