@@ -178,74 +178,74 @@ public class DataAnalysis {
 		return table;
 	}
 
-	public static HashMap<String, Long> getTotalDeath(String dataset, LocalDate date) {
-		HashMap<String, Long> totalDeathCasesMap = new HashMap<String, Long>();
-		for (CSVRecord rec : getFileParser(dataset)) {
-			CovidRecord covidRecord = parseDataset(rec);
+	// public static HashMap<String, Long> getTotalDeath(String dataset, LocalDate date) {
+	// 	HashMap<String, Long> totalDeathCasesMap = new HashMap<String, Long>();
+	// 	for (CSVRecord rec : getFileParser(dataset)) {
+	// 		CovidRecord covidRecord = parseDataset(rec);
 			
-			if (!totalDeathCasesMap.containsKey(covidRecord.iso_code)) {
-				totalDeathCasesMap.put(covidRecord.iso_code, Long.valueOf(0));
-			}
-			totalDeathCasesMap.put(covidRecord.iso_code, covidRecord.confirmedDeathRecord.getTotalDeaths());	
-		}
-		return totalDeathCasesMap;
-	}
+	// 		if (!totalDeathCasesMap.containsKey(covidRecord.iso_code)) {
+	// 			totalDeathCasesMap.put(covidRecord.iso_code, Long.valueOf(0));
+	// 		}
+	// 		totalDeathCasesMap.put(covidRecord.iso_code, covidRecord.confirmedDeathRecord.getTotalDeaths());	
+	// 	}
+	// 	return totalDeathCasesMap;
+	// }
 
-	public static HashMap<String, Float> getTotalDeathPerMillion(String dataset, LocalDate date) {
-		HashMap<String, Float> totalDeathCasesMap = new HashMap<String, Float>();
-		for (CSVRecord rec : getFileParser(dataset)) {
-			CovidRecord covidRecord = parseDataset(rec);
+	// public static HashMap<String, Float> getTotalDeathPerMillion(String dataset, LocalDate date) {
+	// 	HashMap<String, Float> totalDeathCasesMap = new HashMap<String, Float>();
+	// 	for (CSVRecord rec : getFileParser(dataset)) {
+	// 		CovidRecord covidRecord = parseDataset(rec);
 			
-			if (!totalDeathCasesMap.containsKey(covidRecord.iso_code)) {
-				totalDeathCasesMap.put(covidRecord.iso_code, Float.valueOf(0));
-			}
-			totalDeathCasesMap.put(covidRecord.iso_code, covidRecord.confirmedDeathRecord.getTotalDeathsPerMillion());	
-		}
-		return totalDeathCasesMap;
-	}
+	// 		if (!totalDeathCasesMap.containsKey(covidRecord.iso_code)) {
+	// 			totalDeathCasesMap.put(covidRecord.iso_code, Float.valueOf(0));
+	// 		}
+	// 		totalDeathCasesMap.put(covidRecord.iso_code, covidRecord.confirmedDeathRecord.getTotalDeathsPerMillion());	
+	// 	}
+	// 	return totalDeathCasesMap;
+	// }
 
-	public static HashMap<String, List<FloatCoordinates>> getTotalDeathPerMillionPeriod(String dataset, LocalDate startDate, LocalDate endDate, List<String> locations) {
-		//initialize return hashmap
-		HashMap<String, List<FloatCoordinates>> table = new HashMap<String, List<FloatCoordinates>>();
-		for (String location: locations) {
-			List<FloatCoordinates> series = new ArrayList<FloatCoordinates>();
-			table.put(location, series);
-		}
-		//search csv
-		for (CSVRecord rec : getFileParser(dataset)) {
-			String recLoc = rec.get("location");
+	// public static HashMap<String, List<FloatCoordinates>> getTotalDeathPerMillionPeriod(String dataset, LocalDate startDate, LocalDate endDate, List<String> locations) {
+	// 	//initialize return hashmap
+	// 	HashMap<String, List<FloatCoordinates>> table = new HashMap<String, List<FloatCoordinates>>();
+	// 	for (String location: locations) {
+	// 		List<FloatCoordinates> series = new ArrayList<FloatCoordinates>();
+	// 		table.put(location, series);
+	// 	}
+	// 	//search csv
+	// 	for (CSVRecord rec : getFileParser(dataset)) {
+	// 		String recLoc = rec.get("location");
 
-			if (locations.contains(recLoc)) {
-				DateTimeFormatter formatter = DateTimeFormatter.ofPattern("M/d/yyyy");
-				LocalDate recDate = LocalDate.parse(rec.get("date"), formatter);
+	// 		if (locations.contains(recLoc)) {
+	// 			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("M/d/yyyy");
+	// 			LocalDate recDate = LocalDate.parse(rec.get("date"), formatter);
 
-				if (recDate.isAfter(startDate)){
-					if (recDate.isBefore(endDate)){
-						Float deathPerMillion;
-						String deathPerMillionString = rec.get("total_deaths_per_million");
-						// System.out.println(deathPerMillionString);
-						deathPerMillion = Float.parseFloat(deathPerMillionString);
-						FloatCoordinates coordinates = new FloatCoordinates(recDate, deathPerMillion);
-						table.get(recLoc).add(coordinates);
-					}
-				}
-			}
-		}
-		return table;
-	}
+	// 			if (recDate.isAfter(startDate)){
+	// 				if (recDate.isBefore(endDate)){
+	// 					Float deathPerMillion;
+	// 					String deathPerMillionString = rec.get("total_deaths_per_million");
+	// 					// System.out.println(deathPerMillionString);
+	// 					deathPerMillion = Float.parseFloat(deathPerMillionString);
+	// 					FloatCoordinates coordinates = new FloatCoordinates(recDate, deathPerMillion);
+	// 					table.get(recLoc).add(coordinates);
+	// 				}
+	// 			}
+	// 		}
+	// 	}
+	// 	return table;
+	// }
 
-	public static HashMap<String, Long> getNewDeath(String dataset, LocalDate date) {
-		HashMap<String, Long> newDeathCasesMap = new HashMap<String, Long>();
-		for (CSVRecord rec : getFileParser(dataset)) {
-			CovidRecord covidRecord = parseDataset(rec);
+	// public static HashMap<String, Long> getNewDeath(String dataset, LocalDate date) {
+	// 	HashMap<String, Long> newDeathCasesMap = new HashMap<String, Long>();
+	// 	for (CSVRecord rec : getFileParser(dataset)) {
+	// 		CovidRecord covidRecord = parseDataset(rec);
 			
-			if (!newDeathCasesMap.containsKey(covidRecord.iso_code)) {
-				newDeathCasesMap.put(covidRecord.iso_code, Long.valueOf(0));
-			}
-			newDeathCasesMap.put(covidRecord.iso_code, covidRecord.confirmedDeathRecord.getNewDeaths());	
-		}
-		return newDeathCasesMap;
-	}
+	// 		if (!newDeathCasesMap.containsKey(covidRecord.iso_code)) {
+	// 			newDeathCasesMap.put(covidRecord.iso_code, Long.valueOf(0));
+	// 		}
+	// 		newDeathCasesMap.put(covidRecord.iso_code, covidRecord.confirmedDeathRecord.getNewDeaths());	
+	// 	}
+	// 	return newDeathCasesMap;
+	// }
 
 	public static List<List<String>> getVaccinationTable(String dataset, LocalDate date, List<String> ISOCodes) {
 		List<List<String>> table = new ArrayList<List<String>>();
@@ -296,6 +296,29 @@ public class DataAnalysis {
 				if (recDate.isAfter(startDate) && recDate.isBefore(endDate)) {
 					Float rate = covidRecord.confirmedCaseRecord.totalCasesPerMillion;
 					FloatCoordinates coord = new FloatCoordinates(recDate, rate);
+					table.get(covidRecord.location).add(coord);
+				}
+			}
+		}
+		return table;
+	}
+
+	public static HashMap<String, List<FloatCoordinates>> getDeathsChart(String dataset, LocalDate startDate, LocalDate endDate, List<String> locations) {
+		//initialize return hashmap
+		HashMap<String, List<FloatCoordinates>> table = new HashMap<String, List<FloatCoordinates>>();
+		for (String location: locations) {
+			List<FloatCoordinates> series = new ArrayList<FloatCoordinates>();
+			table.put(location, series);
+		}
+		//search csv
+		for (CSVRecord rec : getFileParser(dataset)) {
+			CovidRecord covidRecord = parseDataset(rec);
+
+			if (locations.contains(covidRecord.location)) {
+				LocalDate recDate = covidRecord.date;
+				if (recDate.isAfter(startDate) && recDate.isBefore(endDate)) {
+					Float deaths = covidRecord.confirmedDeathRecord.totalDeathsPerMillion;
+					FloatCoordinates coord = new FloatCoordinates(recDate, deaths);
 					table.get(covidRecord.location).add(coord);
 				}
 			}

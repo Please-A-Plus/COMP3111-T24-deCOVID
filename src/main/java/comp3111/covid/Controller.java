@@ -11,6 +11,7 @@ import java.util.List;
 
 import comp3111.covidEntity.CovidRecord;
 import comp3111.tableColumns.ConfirmedCaseTable;
+import comp3111.tableColumns.DeathCaseTable;
 import comp3111.tableColumns.VaccinationTable;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -126,7 +127,7 @@ public class Controller {
 
 		for (MenuButton menuButton : Arrays.asList(tableA_countriesPicker, chartA_countriesPicker,
 				tableB_countriesPicker, chartB_countriesPicker,
-				tableC_countriesPicker, tableC_countriesPicker)) {
+				tableC_countriesPicker, chartC_countriesPicker)) {
 			for (String country : countries) {
 				CheckBox checkBox = new CheckBox(country);
 				CustomMenuItem customMenuItem = new CustomMenuItem(checkBox);
@@ -139,8 +140,8 @@ public class Controller {
 		tableA_totalCasesPerMillionColumn.setCellValueFactory(new PropertyValueFactory<>("totalCasesPerMillion"));
 
 		tableB_countryColumn.setCellValueFactory(new PropertyValueFactory<>("country"));
-		tableB_totalDeathsColumn.setCellValueFactory(new PropertyValueFactory<>("totalCases"));
-		tableB_totalDeathsPerMillionColumn.setCellValueFactory(new PropertyValueFactory<>("totalCasesPer1MPopulation"));
+		tableB_totalDeathsColumn.setCellValueFactory(new PropertyValueFactory<>("totalDeaths"));
+		tableB_totalDeathsPerMillionColumn.setCellValueFactory(new PropertyValueFactory<>("totalDeathsPerMillion"));
 
 		tableC_countryColumn.setCellValueFactory(new PropertyValueFactory<>("country"));
 		tableC_fullyVaccinatedColumn.setCellValueFactory(new PropertyValueFactory<>("fullyVaccinated"));
@@ -460,7 +461,7 @@ public class Controller {
     private Tab tableB_tab;
 
     @FXML
-    private TableView<?> tableB_tableView;
+    private TableView<DeathCaseTable> tableB_tableView;
 
     @FXML
     private Label tableB_title;
@@ -470,55 +471,45 @@ public class Controller {
 
     @FXML
     private TableColumn<?, ?> tableB_totalDeathsPerMillionColumn;
-	
+
 	@FXML
 	void submitTableB(ActionEvent event) {
-		// TODO Refactor this
+		String iDataset = textfieldDataset.getText();
+		LocalDate iDate = tableB_date.getValue();
+		List<String> iISOCodes = new ArrayList<String>();
+		HashMap<String, String> invertedCountriesDict = new HashMap<String, String>();
+		for (String ISOCode : DataAnalysis.countriesDict.keySet()) {
+			invertedCountriesDict.put(DataAnalysis.countriesDict.get(ISOCode), ISOCode);
+		}
+		for (MenuItem item : tableB_countriesPicker.getItems()) {
+			CustomMenuItem checkItem = (CustomMenuItem) item;
+			CheckBox checkBox = (CheckBox) checkItem.getContent();
+			if (checkBox.isSelected()) {
+				String ISOCode = invertedCountriesDict.get(checkBox.getText());
+				iISOCodes.add(ISOCode);
+			}
+		}
+
+
+		if (!tableInputValidate(iDate, iISOCodes))
+			return;
+
+			HashMap<String, CovidRecord> casesTable = DataAnalysis.getCasesTable(iDataset, iDate, iISOCodes);
+		tableB_tableView.getItems().clear();
+		for (var key : casesTable.keySet()) {
+			var rec = casesTable.get(key);
+			DeathCaseTable entry;
+			if (rec == null)
+				entry = new DeathCaseTable(DataAnalysis.countriesDict.get(key), "Data not found", "Data not found");
+			else
+				entry = new DeathCaseTable(DataAnalysis.countriesDict.get(key),
+						rec.confirmedDeathRecord.totalDeaths.toString(),
+						rec.confirmedDeathRecord.totalDeathsPerMillion.toString());
+			tableB_tableView.getItems().add(entry);
+		}
+
+		textAreaConsole.setText("COVID-19 deaths table generated successfully.");
 	}
-
-	// @FXML
-	// void submitTableB(ActionEvent event) {
-	// 	// Get date and display as title
-	// 	LocalDate deathDateParsed = dateDeathTable.getValue();
-	// 	if (deathDateParsed == null) {
-	// 		return;
-	// 	}
-
-	// 	DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd LLLL yyyy");
-	// 	String formattedDate = deathDateParsed.format(formatter);
-	// 	deathTitle.setText("Confirmed COVID-19 Deaths as of " + formattedDate);
-
-	// 	List<String> inverseISOCodes = new ArrayList<String>();
-	// 	HashMap<String, String> inverseCountriesDict = new HashMap<String, String>();
-
-	// 	for (String ISOCode : DataAnalysis.countriesDict.keySet()) {
-	// 		inverseCountriesDict.put(DataAnalysis.countriesDict.get(ISOCode), ISOCode);
-	// 	}
-
-	// 	for (MenuItem item : deathCountryPicker.getItems()) {
-	// 		CustomMenuItem checkCountry = (CustomMenuItem) item;
-	// 		CheckBox checkBox = (CheckBox) checkCountry.getContent();
-	// 		if (checkBox.isSelected()) {
-	// 			String ISOCode = inverseCountriesDict.get(checkBox.getText());
-	// 			inverseISOCodes.add(ISOCode);
-	// 		}
-	// 	}
-
-	// 	if (inverseISOCodes.isEmpty())
-	// 		return;
-
-	// 	// TableForm deathReportForm = new TableForm(textfieldDataset.getText(),
-	// 	// deathDateParsed, inverseISOCodes, "death_cases");
-	// 	// List<List<String>> deathReport = deathReportForm.generateReport();
-	// 	// reportTableB1.getItems().clear();
-	// 	// for(List<String> rec: deathReport){
-	// 	// ConfirmedCaseTable record = new
-	// 	// ConfirmedCaseTable(DataAnalysis.countriesDict.get(rec.get(0)), rec.get(1),
-	// 	// rec.get(2));
-	// 	// reportTableB1.getItems().add(record);
-	// 	// }
-
-	// }
 
 	// Task B2
 
@@ -529,7 +520,7 @@ public class Controller {
     private DatePicker chartB_endDate;
 
     @FXML
-    private LineChart<?, ?> chartB_lineChart;
+    private LineChart<Long, Float> chartB_lineChart;
 
     @FXML
     private CheckBox chartB_selectAll;
@@ -554,9 +545,40 @@ public class Controller {
 	
 	@FXML
 	void submitChartB(ActionEvent event) {
-		// TODO Refactor this
-	}
+		String iDataset = textfieldDataset.getText();
+		LocalDate iStartDate = chartB_startDate.getValue();
+		LocalDate iEndDate = chartB_endDate.getValue();
 
+		List<String> ilocations = new ArrayList<String>();
+		for (MenuItem item : chartB_countriesPicker.getItems()) {
+			CustomMenuItem checkItem = (CustomMenuItem) item;
+			CheckBox checkBox = (CheckBox) checkItem.getContent();
+			if (checkBox.isSelected()) {
+				String location = checkBox.getText();
+				ilocations.add(location);
+			}
+		}
+
+		if (!chartInputValidate(iStartDate, iEndDate, ilocations))
+			return;
+
+		chartB_xAxis.setAutoRanging(false);
+		chartB_xAxis.setLowerBound(iStartDate.toEpochDay());
+		chartB_xAxis.setUpperBound(iEndDate.toEpochDay());
+
+		HashMap<String, List<FloatCoordinates>> deathChart = DataAnalysis.getDeathsChart(iDataset, iStartDate,
+				iEndDate, ilocations);
+		chartB_lineChart.getData().clear();
+		deathChart.forEach((location, line) -> {
+			XYChart.Series<Long, Float> series = new XYChart.Series<>();
+			for (FloatCoordinates coordinates : line) {
+				series.getData().add(new XYChart.Data<>(coordinates.getDate().toEpochDay(), coordinates.getValue()));
+			}
+			chartB_lineChart.getData().add(series);
+		});
+
+		textAreaConsole.setText("COVID-19 deaths chart generated successfully.");
+	}
 	// @FXML
 	// void sumbitChartB(ActionEvent event) {
 	// 	String iDataset = textfieldDataset.getText();
