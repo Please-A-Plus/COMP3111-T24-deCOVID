@@ -49,7 +49,7 @@ public class Controller {
     private Button chartA_getButton;
 
     @FXML
-    private LineChart<String, Float> chartA_lineChart;
+    private LineChart<String, Integer> chartA_lineChart;
 
     @FXML
     private Button buttonConfirmedCases;
@@ -275,19 +275,21 @@ public class Controller {
     	}
 
     	ChartForm chartForm = new ChartForm(iDataset, iStartDate, iEndDate, iISOCodes, "confirmed_cases");
-    	HashMap<String, HashMap<LocalDate, Float>> casesChart = chartForm.generateChart();
+    	HashMap<String, HashMap<String, Float>> casesChart = chartForm.generateChart();
 
         for (var entry : casesChart.entrySet()) {
 			System.out.println("Country: " + entry.getKey());
             String country = entry.getKey();
-            HashMap<LocalDate, Float> cases = entry.getValue();
-            XYChart.Series<String, Float> series = new XYChart.Series<>();
+            HashMap<String, Float> cases = entry.getValue();
+            XYChart.Series<String, Integer> series = new XYChart.Series<>();
             series.setName(country);
-            for (var entry2 : cases.entrySet()) {
-                LocalDate date = entry2.getKey();
-                Float value = entry2.getValue();
-                series.getData().add(new XYChart.Data<>(date.toString(), value));
-            }
+            // for (var entry2 : cases.entrySet()) {
+            //     String date = entry2.getKey();
+            //     Float value = entry2.getValue();
+            //     series.getData().add(new XYChart.Data<>(date, value));
+            // }
+			series.getData().add(new XYChart.Data<String, Integer>("1/1/2020", 100));
+			series.getData().add(new XYChart.Data<String, Integer>("2/2/2020", 200));
             chartA_lineChart.getData().add(series);
         }
     }   

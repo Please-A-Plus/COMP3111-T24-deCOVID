@@ -27,13 +27,20 @@ public class ChartForm {
 	// Prevent default constructor
 	private ChartForm() {}
 	
-	public HashMap<String, HashMap<LocalDate, Float>> generateChartConfirmedCases() {
+	public HashMap<String, HashMap<String, Float>> generateChartConfirmedCases() {
 		HashMap<String, HashMap<LocalDate, Float>> confirmedCasesPerMillionDict = DataAnalysis.getConfirmedCasesPerMillionBetweenDate(dataset, startDate, endDate);
-		return confirmedCasesPerMillionDict;
+		HashMap<String, HashMap<String, Float>> chartEntries = new HashMap<String, HashMap<String, Float>>();
+		for (String ISOCode: ISOCodes) {
+			chartEntries.put(ISOCode, new HashMap<String, Float>());
+			for (var entry: confirmedCasesPerMillionDict.get(ISOCode).entrySet()) {
+				chartEntries.get(ISOCode).put(entry.getKey().toString(), entry.getValue());
+			}
+		}
+		return chartEntries;
 	};
 	
-	public HashMap<String, HashMap<LocalDate, Float>> generateChart() {
-		HashMap<String, HashMap<LocalDate, Float>> report = null;
+	public HashMap<String, HashMap<String, Float>> generateChart() {
+		HashMap<String, HashMap<String, Float>> report = null;
 		if (mode.equals("confirmed_cases")) {
 			report = generateChartConfirmedCases();
 		}
