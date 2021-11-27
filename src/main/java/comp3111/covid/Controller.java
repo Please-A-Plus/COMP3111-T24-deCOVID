@@ -594,7 +594,6 @@ public class Controller {
 				for(MenuItem customMenu: tableA_countriesPicker.getItems()){
 					if(((CheckBox)((CustomMenuItem) customMenu).getContent()).isSelected()){
 						pickedCountryAmount += 1;
-						textAreaConsole.setText("Picked Amount Updated");
 					}
 				}
 				if(pickedCountryAmount > 0){
@@ -607,7 +606,6 @@ public class Controller {
 				for(MenuItem customMenu: tableB_countriesPicker.getItems()){
 					if(((CheckBox)((CustomMenuItem) customMenu).getContent()).isSelected()){
 						pickedCountryAmount += 1;
-						textAreaConsole.setText("Picked Amount Updated");
 					}
 				}
 				if(pickedCountryAmount > 0){
@@ -620,7 +618,6 @@ public class Controller {
 				for(MenuItem customMenu: tableC_countriesPicker.getItems()){
 					if(((CheckBox)((CustomMenuItem) customMenu).getContent()).isSelected()){
 						pickedCountryAmount += 1;
-						textAreaConsole.setText("Picked Amount Updated");
 					}
 				}
 				if(pickedCountryAmount > 0){
@@ -633,7 +630,6 @@ public class Controller {
 				for(MenuItem customMenu: chartA_countriesPicker.getItems()){
 					if(((CheckBox)((CustomMenuItem) customMenu).getContent()).isSelected()){
 						pickedCountryAmount += 1;
-						textAreaConsole.setText("Picked Amount Updated");
 					}
 				}
 				if(pickedCountryAmount > 0){
@@ -646,7 +642,6 @@ public class Controller {
 				for(MenuItem customMenu: chartB_countriesPicker.getItems()){
 					if(((CheckBox)((CustomMenuItem) customMenu).getContent()).isSelected()){
 						pickedCountryAmount += 1;
-						textAreaConsole.setText("Picked Amount Updated");
 					}
 				}
 				if(pickedCountryAmount > 0){
@@ -659,7 +654,6 @@ public class Controller {
 				for(MenuItem customMenu: chartC_countriesPicker.getItems()){
 					if(((CheckBox)((CustomMenuItem) customMenu).getContent()).isSelected()){
 						pickedCountryAmount += 1;
-						textAreaConsole.setText("Picked Amount Updated");
 					}
 				}
 				if(pickedCountryAmount > 0){
