@@ -1,4 +1,4 @@
-package comp3111.covid;
+package comp3111.covidEntity;
 
 public class ConfirmedCaseRecord {
 	public Long totalCases;
