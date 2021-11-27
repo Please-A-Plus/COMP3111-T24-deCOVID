@@ -146,7 +146,6 @@ public class Controller {
 		tableC_fullyVaccinatedColumn.setCellValueFactory(new PropertyValueFactory<>("fullyVaccinated"));
 		tableC_rateOfVaccinationColumn.setCellValueFactory(new PropertyValueFactory<>("rateOfVaccination"));
 
-		chartA_lineChart.setTitle("Cumulative Confirmed COVID-19 Cases (per 1M)");
 		chartA_yAxis.setTickLabelFormatter(new NumberAxis.DefaultFormatter(chartA_yAxis, null, ""));
 		chartA_xAxis.setTickLabelFormatter(xAxisLabelFactory(chartA_xAxis));
 
