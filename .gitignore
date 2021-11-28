@@ -4,6 +4,8 @@
 local.properties
 jvm.arguments=
 # Ignore Gradle build output directory
-build
+build/*
+!build/jacocoHTML
+!build/reports
 .settings
 .vscode

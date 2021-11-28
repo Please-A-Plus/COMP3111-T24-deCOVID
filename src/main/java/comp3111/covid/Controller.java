@@ -117,7 +117,7 @@ public class Controller {
 	private TextField textfieldISO;
 	
 	// initialize the controller class
-	private final List<String> prioritizedCountries = Arrays.asList("Hong Kong", "India", "Israel", "Japan", "Macao", "Singapore", "United Kingdom",  "World");
+	private final List<String> prioritizedCountries = Arrays.asList("Hong Kong", "India", "Israel", "Japan", "Macao", "Singapore", "United Kingdom", "World");
 
 	public void initialize() {
 		String iDataset = textfieldDataset.getText();
