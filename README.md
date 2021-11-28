@@ -38,7 +38,7 @@ Please find the project documentation in the the [JavaDoc Documentation](https:/
 
 ## Supplementary Notes
 
-Please find the supplementary notes in the the [supplementary notes](https://please-a-plus.github.io/COMP3111-T24-deCOVID/docs/supplementaryNotes/supplementaryNotes.pdf).
+Please find the supplementary notes in the the [supplementary notes](https://please-a-plus.github.io/COMP3111-T24-deCOVID/build/docs/supplementaryNotes/supplementaryNotes.pdf).
 
 ## List of Contributors
 
