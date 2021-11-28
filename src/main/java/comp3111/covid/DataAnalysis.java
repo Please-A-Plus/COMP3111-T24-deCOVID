@@ -22,7 +22,7 @@ import java.util.HashMap;
  * 
  */
 public class DataAnalysis {
-	public static HashMap<String, String> countriesDict = null;
+	public static TwoWaysHashMap<String, String> countriesDict = null;
 
 	public static CSVParser getFileParser(String dataset) {
 		FileResource fr = new FileResource("dataset/" + dataset);
@@ -33,11 +33,11 @@ public class DataAnalysis {
 		if (dataset == null) {
 			dataset = "COVID_Dataset_v1.0.csv";
 		}
-		countriesDict = new HashMap<String, String>();
+		countriesDict = new TwoWaysHashMap<String, String>();
 		for (CSVRecord rec : getFileParser(dataset)) {
 			String loc = rec.get("location");
 			String ISO = rec.get("iso_code");
-			if (!countriesDict.containsKey(ISO)) {
+			if (!countriesDict.containsKeyForward(ISO)) {
 				countriesDict.put(ISO, loc);
 			}
 		}

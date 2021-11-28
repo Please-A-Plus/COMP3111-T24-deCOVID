@@ -117,12 +117,12 @@ public class Controller {
 	private TextField textfieldISO;
 	
 	// initialize the controller class
-	private final List<String> prioritizedCountries = Arrays.asList("Hong Kong", "India", "Israel", "Japan", "Macao", "Singapore", "United Kingdom",  "World");
+	private final List<String> prioritizedCountries = Arrays.asList("Hong Kong", "India", "Israel", "Japan", "Macao", "Singapore", "United Kingdom", "World");
 
 	public void initialize() {
 		String iDataset = textfieldDataset.getText();
 		DataAnalysis.initCountriesDict(iDataset);
-		List<String> countries = new ArrayList<String>(DataAnalysis.countriesDict.values());
+		List<String> countries = new ArrayList<String>(DataAnalysis.countriesDict.keySetBackward());
 		Collections.sort(countries);
 		Collections.reverse(prioritizedCountries);
 		for (String prioritizedCountry: prioritizedCountries){
@@ -275,15 +275,11 @@ public class Controller {
 		String iDataset = textfieldDataset.getText();
 		LocalDate iDate = tableA_date.getValue();
 		List<String> iISOCodes = new ArrayList<String>();
-		HashMap<String, String> invertedCountriesDict = new HashMap<String, String>();
-		for (String ISOCode : DataAnalysis.countriesDict.keySet()) {
-			invertedCountriesDict.put(DataAnalysis.countriesDict.get(ISOCode), ISOCode);
-		}
 		for (MenuItem item : tableA_countriesPicker.getItems()) {
 			CustomMenuItem checkItem = (CustomMenuItem) item;
 			CheckBox checkBox = (CheckBox) checkItem.getContent();
 			if (checkBox.isSelected()) {
-				String ISOCode = invertedCountriesDict.get(checkBox.getText());
+				String ISOCode = DataAnalysis.countriesDict.getBackward(checkBox.getText());
 				iISOCodes.add(ISOCode);
 			}
 		}
@@ -293,13 +289,13 @@ public class Controller {
 
 		HashMap<String, CovidRecord> casesTable = DataAnalysis.getCasesTable(iDataset, iDate, iISOCodes);
 		tableA_tableView.getItems().clear();
-		for (var key : casesTable.keySet()) {
+		for (var key : iISOCodes) {
 			var rec = casesTable.get(key);
 			ConfirmedCaseTable entry;
 			if (rec == null)
-				entry = new ConfirmedCaseTable(DataAnalysis.countriesDict.get(key), "Data not found", "Data not found");
+				entry = new ConfirmedCaseTable(DataAnalysis.countriesDict.getForward(key), "Data not found", "Data not found");
 			else
-				entry = new ConfirmedCaseTable(DataAnalysis.countriesDict.get(key),
+				entry = new ConfirmedCaseTable(DataAnalysis.countriesDict.getForward(key),
 						rec.confirmedCaseRecord.totalCases.toString(),
 						rec.confirmedCaseRecord.totalCasesPerMillion.toString());
 			tableA_tableView.getItems().add(entry);
@@ -562,32 +558,27 @@ public class Controller {
 		String iDataset = textfieldDataset.getText();
 		LocalDate iDate = tableB_date.getValue();
 		List<String> iISOCodes = new ArrayList<String>();
-		HashMap<String, String> invertedCountriesDict = new HashMap<String, String>();
-		for (String ISOCode : DataAnalysis.countriesDict.keySet()) {
-			invertedCountriesDict.put(DataAnalysis.countriesDict.get(ISOCode), ISOCode);
-		}
 		for (MenuItem item : tableB_countriesPicker.getItems()) {
 			CustomMenuItem checkItem = (CustomMenuItem) item;
 			CheckBox checkBox = (CheckBox) checkItem.getContent();
 			if (checkBox.isSelected()) {
-				String ISOCode = invertedCountriesDict.get(checkBox.getText());
+				String ISOCode = DataAnalysis.countriesDict.getBackward(checkBox.getText());
 				iISOCodes.add(ISOCode);
 			}
 		}
 
-
 		if (!tableInputValidate(iDate, iISOCodes))
 			return;
 
-			HashMap<String, CovidRecord> casesTable = DataAnalysis.getCasesTable(iDataset, iDate, iISOCodes);
+		HashMap<String, CovidRecord> casesTable = DataAnalysis.getCasesTable(iDataset, iDate, iISOCodes);
 		tableB_tableView.getItems().clear();
-		for (var key : casesTable.keySet()) {
+		for (var key : iISOCodes) {
 			var rec = casesTable.get(key);
 			DeathCaseTable entry;
 			if (rec == null)
-				entry = new DeathCaseTable(DataAnalysis.countriesDict.get(key), "Data not found", "Data not found");
+				entry = new DeathCaseTable(DataAnalysis.countriesDict.getForward(key), "Data not found", "Data not found");
 			else
-				entry = new DeathCaseTable(DataAnalysis.countriesDict.get(key),
+				entry = new DeathCaseTable(DataAnalysis.countriesDict.getForward(key),
 						rec.confirmedDeathRecord.totalDeaths.toString(),
 						rec.confirmedDeathRecord.totalDeathsPerMillion.toString());
 			tableB_tableView.getItems().add(entry);
@@ -663,44 +654,7 @@ public class Controller {
 
 		textAreaConsole.setText("COVID-19 deaths chart generated successfully.");
 	}
-	// @FXML
-	// void sumbitChartB(ActionEvent event) {
-	// 	String iDataset = textfieldDataset.getText();
-	// 	LocalDate iStartDate = startDeathDate.getValue();
-	// 	LocalDate iEndDate = finishDeathDate.getValue();
 
-	// 	List<String> ilocations = new ArrayList<String>();
-	// 	for (MenuItem item : deathGraphCountryPicker.getItems()) {
-	// 		CustomMenuItem checkItem = (CustomMenuItem) item;
-	// 		CheckBox checkBox = (CheckBox) checkItem.getContent();
-	// 		if (checkBox.isSelected()) {
-	// 			String location = checkBox.getText();
-	// 			ilocations.add(location);
-	// 		}
-	// 	}
-
-	// 	if (!chartInputValidate(iStartDate, iEndDate, ilocations))
-	// 		return;
-
-	// 	chartB_xAxis.setAutoRanging(false);
-	// 	chartB_xAxis.setLowerBound(iStartDate.toEpochDay());
-	// 	chartB_xAxis.setUpperBound(iEndDate.toEpochDay());
-
-	// 	HashMap<String, List<FloatCoordinates>> deathChart = DataAnalysis.getTotalDeathPerMillionPeriod(iDataset,
-	// 			iStartDate, iEndDate, ilocations);
-	// 	for (String key : deathChart.keySet()) {
-	// 		System.out.println(key);
-	// 	}
-	// 	chartB_lineChart.getData().clear();
-	// 	deathChart.forEach((location, line) -> {
-	// 		XYChart.Series<Long, Float> series = new XYChart.Series<>();
-	// 		for (FloatCoordinates coordinates : line) {
-	// 			series.getData().add(new XYChart.Data<>(coordinates.getDate().toEpochDay(), coordinates.getValue()));
-	// 		}
-	// 		chartB_lineChart.getData().add(series);
-	// 	});
-	// }
-	//changes drop down text
 	public void handleMenuClose(Event event) {
 		Integer selected = 0;
 		var menu = (MenuButton) event.getSource();
