@@ -258,7 +258,7 @@ public class DataAnalysis {
 			Long vaccination = covidRecord.vaccinationRecord.fullyVaccinated;
 			Long population = covidRecord.population;
 
-			if (locations.contains(recLoc) && covidRecord.date.isBefore(date)){
+			if (locations.contains(recLoc) && covidRecord.date.isBefore(date) || covidRecord.date.equals(date)){
 				//is not a missing value
 				if (!table.containsKey(recLoc) || vaccination > Long.parseLong(table.get(recLoc).fullyVaccinated)) {
 					Float rate = vaccination==0 ? Float.valueOf(0) : (float) vaccination / population * 100;
@@ -283,7 +283,7 @@ public class DataAnalysis {
 
 			if (locations.contains(covidRecord.location)) {
 				LocalDate recDate = covidRecord.date;
-				if (recDate.isAfter(startDate) && recDate.isBefore(endDate)) {
+				if ((recDate.isAfter(startDate) || recDate.equals(startDate)) && (recDate.isBefore(endDate) || recDate.equals(endDate))) {
 					Float rate = covidRecord.confirmedCaseRecord.totalCasesPerMillion;
 					FloatCoordinates coord = new FloatCoordinates(recDate, rate);
 					table.get(covidRecord.location).add(coord);
@@ -306,7 +306,7 @@ public class DataAnalysis {
 
 			if (locations.contains(covidRecord.location)) {
 				LocalDate recDate = covidRecord.date;
-				if (recDate.isAfter(startDate) && recDate.isBefore(endDate)) {
+				if ((recDate.isAfter(startDate) || recDate.equals(startDate)) && (recDate.isBefore(endDate) || recDate.equals(endDate))) {
 					Float deaths = covidRecord.confirmedDeathRecord.totalDeathsPerMillion;
 					FloatCoordinates coord = new FloatCoordinates(recDate, deaths);
 					table.get(covidRecord.location).add(coord);
@@ -335,7 +335,7 @@ public class DataAnalysis {
 			Float rate = prevRate.get(rec.get("location"));
 
 			if (locations.contains(covidRecord.location)) {
-				if (recDate.isAfter(startDate) && recDate.isBefore(endDate)){
+				if ((recDate.isAfter(startDate) || recDate.equals(startDate)) && (recDate.isBefore(endDate) || recDate.equals(endDate))){
 					if (!(population == 0 || vaccination == 0)) {
 						rate = (float) vaccination / population * 100;
 						prevRate.put(covidRecord.location, rate);
