@@ -122,7 +122,7 @@ public class Controller {
 	public void initialize() {
 		String iDataset = textfieldDataset.getText();
 		DataAnalysis.initCountriesDict(iDataset);
-		List<String> countries = new ArrayList<String>(DataAnalysis.countriesDict.values());
+		List<String> countries = new ArrayList<String>(DataAnalysis.countriesDict.keySetBackward());
 		Collections.sort(countries);
 		Collections.reverse(prioritizedCountries);
 		for (String prioritizedCountry: prioritizedCountries){
@@ -272,15 +272,11 @@ public class Controller {
 		String iDataset = textfieldDataset.getText();
 		LocalDate iDate = tableA_date.getValue();
 		List<String> iISOCodes = new ArrayList<String>();
-		HashMap<String, String> invertedCountriesDict = new HashMap<String, String>();
-		for (String ISOCode : DataAnalysis.countriesDict.keySet()) {
-			invertedCountriesDict.put(DataAnalysis.countriesDict.get(ISOCode), ISOCode);
-		}
 		for (MenuItem item : tableA_countriesPicker.getItems()) {
 			CustomMenuItem checkItem = (CustomMenuItem) item;
 			CheckBox checkBox = (CheckBox) checkItem.getContent();
 			if (checkBox.isSelected()) {
-				String ISOCode = invertedCountriesDict.get(checkBox.getText());
+				String ISOCode = DataAnalysis.countriesDict.getBackward(checkBox.getText());
 				iISOCodes.add(ISOCode);
 			}
 		}
@@ -290,13 +286,13 @@ public class Controller {
 
 		HashMap<String, CovidRecord> casesTable = DataAnalysis.getCasesTable(iDataset, iDate, iISOCodes);
 		tableA_tableView.getItems().clear();
-		for (var key : casesTable.keySet()) {
+		for (var key : iISOCodes) {
 			var rec = casesTable.get(key);
 			ConfirmedCaseTable entry;
 			if (rec == null)
-				entry = new ConfirmedCaseTable(DataAnalysis.countriesDict.get(key), "Data not found", "Data not found");
+				entry = new ConfirmedCaseTable(DataAnalysis.countriesDict.getForward(key), "Data not found", "Data not found");
 			else
-				entry = new ConfirmedCaseTable(DataAnalysis.countriesDict.get(key),
+				entry = new ConfirmedCaseTable(DataAnalysis.countriesDict.getForward(key),
 						rec.confirmedCaseRecord.totalCases.toString(),
 						rec.confirmedCaseRecord.totalCasesPerMillion.toString());
 			tableA_tableView.getItems().add(entry);
@@ -554,32 +550,27 @@ public class Controller {
 		String iDataset = textfieldDataset.getText();
 		LocalDate iDate = tableB_date.getValue();
 		List<String> iISOCodes = new ArrayList<String>();
-		HashMap<String, String> invertedCountriesDict = new HashMap<String, String>();
-		for (String ISOCode : DataAnalysis.countriesDict.keySet()) {
-			invertedCountriesDict.put(DataAnalysis.countriesDict.get(ISOCode), ISOCode);
-		}
 		for (MenuItem item : tableB_countriesPicker.getItems()) {
 			CustomMenuItem checkItem = (CustomMenuItem) item;
 			CheckBox checkBox = (CheckBox) checkItem.getContent();
 			if (checkBox.isSelected()) {
-				String ISOCode = invertedCountriesDict.get(checkBox.getText());
+				String ISOCode = DataAnalysis.countriesDict.getBackward(checkBox.getText());
 				iISOCodes.add(ISOCode);
 			}
 		}
 
-
 		if (!tableInputValidate(iDate, iISOCodes))
 			return;
 
-			HashMap<String, CovidRecord> casesTable = DataAnalysis.getCasesTable(iDataset, iDate, iISOCodes);
+		HashMap<String, CovidRecord> casesTable = DataAnalysis.getCasesTable(iDataset, iDate, iISOCodes);
 		tableB_tableView.getItems().clear();
-		for (var key : casesTable.keySet()) {
+		for (var key : iISOCodes) {
 			var rec = casesTable.get(key);
 			DeathCaseTable entry;
 			if (rec == null)
-				entry = new DeathCaseTable(DataAnalysis.countriesDict.get(key), "Data not found", "Data not found");
+				entry = new DeathCaseTable(DataAnalysis.countriesDict.getForward(key), "Data not found", "Data not found");
 			else
-				entry = new DeathCaseTable(DataAnalysis.countriesDict.get(key),
+				entry = new DeathCaseTable(DataAnalysis.countriesDict.getForward(key),
 						rec.confirmedDeathRecord.totalDeaths.toString(),
 						rec.confirmedDeathRecord.totalDeathsPerMillion.toString());
 			tableB_tableView.getItems().add(entry);
