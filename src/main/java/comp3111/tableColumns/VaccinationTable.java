@@ -1,7 +1,7 @@
 package comp3111.tableColumns;
 
 /**
- * <h1>Vaccination Table Column Structure</h1>
+ * Vaccination Table Column Structure
  * The structure required to display vaccination data for task C1
  * @author CHAN Kei Chi
  * @since 2021-10-09

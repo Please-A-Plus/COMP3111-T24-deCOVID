@@ -1,7 +1,7 @@
 package comp3111.tableColumns;
 
 /**
- * <h1>Confirmed Case Table Column Structure</h1>
+ * Confirmed Case Table Column Structure
  * The structure required to display number of Covid cases for Task A1.
  * @author Stefan Tanuwijaya
  * @since 2021-10-09
