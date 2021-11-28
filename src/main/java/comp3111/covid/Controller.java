@@ -246,6 +246,9 @@ public class Controller {
     @FXML
     private CheckBox tableA_selectAll;
 
+    @FXML
+	private Label tableA_title;
+
 	@FXML
 	void selectAllTableA(ActionEvent event) {
 		if (tableA_selectAll.isSelected()){
@@ -302,6 +305,7 @@ public class Controller {
 			tableA_tableView.getItems().add(entry);
 		}
 
+		tableA_title.setText(String.format("Number of Confirmed COVID-19 Cases as of %s", iDate.toString()));
 		textAreaConsole.setText("COVID-19 cases table generated successfully.");
 	}
 
@@ -388,6 +392,9 @@ public class Controller {
     @FXML
     private CheckBox tableC_selectAll;
 
+    @FXML
+	private Label tableC_title;
+
 	@FXML
 	void selectAllTableC(ActionEvent event) {
 		if (tableC_selectAll.isSelected()){
@@ -432,6 +439,7 @@ public class Controller {
 		vaccineReport.forEach((location, row) -> {
 			tableC_tableView.getItems().add(row);
 		});
+		tableC_title.setText(String.format("Rate of Vaccination against COVID-19 as of %s", iDate.toString()));
 		textAreaConsole.setText("COVID-19 vaccination rate table generated successfully.");
 	}
 
@@ -585,6 +593,7 @@ public class Controller {
 			tableB_tableView.getItems().add(entry);
 		}
 
+		tableB_title.setText(String.format("Number of Confirmed COVID-19 Deaths as of %s", iDate.toString()));
 		textAreaConsole.setText("COVID-19 deaths table generated successfully.");
 	}
 
