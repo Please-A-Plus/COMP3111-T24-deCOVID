@@ -154,6 +154,10 @@ public class Controller {
 		tableC_rateOfVaccinationColumn.setCellValueFactory(new PropertyValueFactory<>("rateOfVaccination"));
 
 		chartA_lineChart.setTitle("Cumulative Confirmed COVID-19 Cases (per 1M)");
+		chartA_lineChart.setCreateSymbols(false);
+		chartB_lineChart.setCreateSymbols(false);
+		chartC_lineChart.setCreateSymbols(false);
+
 		chartA_yAxis.setTickLabelFormatter(new NumberAxis.DefaultFormatter(chartA_yAxis, null, ""));
 		chartA_xAxis.setTickLabelFormatter(xAxisLabelFactory(chartA_xAxis));
 
@@ -325,6 +329,7 @@ public class Controller {
 		chartA_lineChart.getData().clear();
 		casesChart.forEach((location, line) -> {
 			XYChart.Series<Long, Float> series = new XYChart.Series<>();
+			series.setName(location);
 			for (FloatCoordinates coordinates : line) {
 				series.getData().add(new XYChart.Data<>(coordinates.getDate().toEpochDay(), coordinates.getValue()));
 			}
@@ -571,6 +576,7 @@ public class Controller {
 		chartB_lineChart.getData().clear();
 		deathChart.forEach((location, line) -> {
 			XYChart.Series<Long, Float> series = new XYChart.Series<>();
+			series.setName(location);
 			for (FloatCoordinates coordinates : line) {
 				series.getData().add(new XYChart.Data<>(coordinates.getDate().toEpochDay(), coordinates.getValue()));
 			}
