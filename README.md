@@ -35,6 +35,11 @@ Please find the unit tests and the code coverage report in the [Unit Test Report
 
 Please find the project documentation in the the [JavaDoc Documentation](https://please-a-plus.github.io/COMP3111-T24-deCOVID/build/docs/javadoc/).
 
+
+## Supplementary Notes
+
+Please find the supplementary notes in the the [supplementary notes](https://please-a-plus.github.io/COMP3111-T24-deCOVID/docs/supplementaryNotes/supplementaryNotes.pdf).
+
 ## List of Contributors
 
 1. [TANUWIJAYA Randy Stefan](https://github.com/rstanuwijaya) ([rstanuwijaya](mailto:rstanuwijaya@connect.ust.hk))
