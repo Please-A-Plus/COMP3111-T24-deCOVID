@@ -25,7 +25,7 @@ To generate a chart of the statistics, the user must first input the starting an
 
 ## Unit testing
 
-Please find the unit tests and the code coverage report in the [Unit Test Report](https://please-a-plus.github.io/COMP3111-T24-deCOVID/build/reports/tests/test/index.html) and [Jacoco Coverage Report](https://please-a-plus.github.io/COMP3111-T24-deCOVID/build/jacocoHTML/index.html) folders respectively.
+Please find the unit tests and the code coverage report in the [Unit Test Report](https://please-a-plus.github.io/COMP3111-T24-deCOVID/build/reports/tests/test/) and [Jacoco Coverage Report](https://please-a-plus.github.io/COMP3111-T24-deCOVID/build/jacocoHTML/) folders respectively.
 
 ## List of Contributors
 
