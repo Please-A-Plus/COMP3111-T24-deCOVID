@@ -8,13 +8,12 @@ import java.time.format.DateTimeFormatter;
 import org.junit.Before;
 import org.junit.Test;
 
-import comp3111.covid.*;
 import comp3111.covidEntity.ConfirmedCaseRecord;
 import comp3111.covidEntity.ConfirmedDeathRecord;
 import comp3111.covidEntity.CovidRecord;
 import comp3111.covidEntity.VaccinationRecord;
 
-public class CovidRecordTester {
+public class CovidEntityTester {
 	CovidRecord covidRecord;
 	
 	@Before
@@ -37,7 +36,6 @@ public class CovidRecordTester {
 		Float totalDeathsPerMillion = Float.valueOf(totalDeaths/population);
 		Float newDeathsPerMillion = Float.valueOf(newDeaths/population);
 		Long vaccinated = Long.valueOf(2000);
-		Float vaccinatedRate = Float.valueOf(vaccinated / population);
 		
 		//TODO: parse vaccination data
 		
@@ -80,16 +78,49 @@ public class CovidRecordTester {
 	}
 
 	@Test
+	public void assertTotalCases(){
+		assertEquals(Long.valueOf(4000), covidRecord.confirmedCaseRecord.totalCases);
+	}
+
+	@Test
+	public void assertNewCases(){
+		assertEquals(Long.valueOf(200), covidRecord.confirmedCaseRecord.newCases);
+	}
+
+	@Test
+	public void assertTotalCasesPerMillionCases(){
+		assertEquals(Float.valueOf(4000/5000000), covidRecord.confirmedCaseRecord.totalCasesPerMillion);
+	}
+
+	@Test
+	public void assertNewCasesPerMillionCases(){
+		assertEquals(Float.valueOf(200/5000000), covidRecord.confirmedCaseRecord.newCasesPerMillion);
+	}
+
+	@Test
 	public void assertTotalDeaths(){
-		assertEquals(Long.valueOf(3000), covidRecord.confirmedDeathRecord.getTotalDeaths());
+		assertEquals(Long.valueOf(3000), covidRecord.confirmedDeathRecord.totalDeaths);
 	}
 
 	@Test
 	public void assertNewDeaths(){
-		assertEquals(Long.valueOf(200), covidRecord.confirmedDeathRecord.getNewDeaths());
+		assertEquals(Long.valueOf(200), covidRecord.confirmedDeathRecord.newDeaths);
 	}
 
+	@Test
+	public void assertTotalDeathsPerMillionCases(){
+		assertEquals(Float.valueOf(3000/5000000), covidRecord.confirmedDeathRecord.totalDeathsPerMillion);
+	}
 
+	@Test
+	public void assertNewDeathsPerMillionCases(){
+		assertEquals(Float.valueOf(200/5000000), covidRecord.confirmedDeathRecord.newDeathsPerMillion);
+	}
+	
+	@Test
+	public void assertFullyVaccinated(){
+		assertEquals(Long.valueOf(2000), covidRecord.vaccinationRecord.fullyVaccinated);
+	}
 }
 
 
