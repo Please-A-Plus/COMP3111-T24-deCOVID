@@ -25,7 +25,7 @@ To generate a chart of the statistics, the user must first input the starting an
 
 ## Unit testing
 
-Please find the unit tests and the code coverage report in the [Unit Test Report]()
+Please find the unit tests and the code coverage report in the [Unit Test Report](/build/reports/tests/test/index.html) and [Jacoco Coverage Report](/build/jacocoHTML/index.html) folders respectively.
 
 ## List of Contributors
 
