@@ -151,12 +151,13 @@ public class DataAnalysis {
 		Float totalDeathsPerMillion = parseFloatWithDefault(rec.get("total_deaths_per_million"));
 		Float newDeathsPerMillion = parseFloatWithDefault(rec.get("new_deaths_per_million"));
 		Long vaccinated = parseLongWithDefault(rec.get("people_fully_vaccinated"));
+		Float backupVaccinationRate = parseFloatWithDefault(rec.get("total_vaccinations_per_hundred"));
 
 		//TODO: parse vaccination data
 
 		ConfirmedCaseRecord confirmedCaseRecord = new ConfirmedCaseRecord(totalCases, newCases, totalCasesPerMillion, newCasesPerMillion);
 		ConfirmedDeathRecord confirmedDeathRecord = new ConfirmedDeathRecord(totalDeaths, newDeaths, totalDeathsPerMillion, newDeathsPerMillion);
-		VaccinationRecord vaccinationRecord = new VaccinationRecord(vaccinated);
+		VaccinationRecord vaccinationRecord = new VaccinationRecord(vaccinated, backupVaccinationRate);
 
 		CovidRecord covidRecord = new CovidRecord(iso_code, location, recDate, population, confirmedCaseRecord, confirmedDeathRecord, vaccinationRecord);
 
@@ -258,11 +259,15 @@ public class DataAnalysis {
 			Long vaccination = covidRecord.vaccinationRecord.fullyVaccinated;
 			Long population = covidRecord.population;
 
-			if (locations.contains(recLoc) && covidRecord.date.isBefore(date) || covidRecord.date.equals(date)){
+			if (locations.contains(recLoc) && covidRecord.date.isBefore(date) || covidRecord.date.equals(date)) {
 				//is not a missing value
 				if (!table.containsKey(recLoc) || vaccination > Long.parseLong(table.get(recLoc).fullyVaccinated)) {
-					Float rate = vaccination==0 ? Float.valueOf(0) : (float) vaccination / population * 100;
-					var row = new VaccinationTable(covidRecord.location, population.toString(), String.format("%.2f%%", rate));
+					Float rate = vaccination == 0 ? Float.valueOf(0) : (float) vaccination / population * 100;
+					//cuz poor northern cyprus had NULL population
+					if (recLoc.equals("Northern Cyprus")) {
+						rate = covidRecord.vaccinationRecord.backupRate;
+					}
+					var row = new VaccinationTable(covidRecord.location, vaccination.toString(), String.format("%.2f%%", rate));
 					table.put(covidRecord.location, row);
 				}
 			}
