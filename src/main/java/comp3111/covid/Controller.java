@@ -160,7 +160,7 @@ public class Controller {
 		chartA_yAxis.setTickLabelFormatter(new NumberAxis.DefaultFormatter(chartA_yAxis, null, ""));
 		chartA_xAxis.setTickLabelFormatter(xAxisLabelFactory(chartA_xAxis));
 
-		chartB_yAxis.setTickLabelFormatter(new NumberAxis.DefaultFormatter(chartB_yAxis, null, "Million"));
+		chartB_yAxis.setTickLabelFormatter(new NumberAxis.DefaultFormatter(chartB_yAxis, null, ""));
 		chartB_xAxis.setTickLabelFormatter(xAxisLabelFactory(chartB_xAxis));
 
 		chartC_yAxis.setTickLabelFormatter(new NumberAxis.DefaultFormatter(chartC_yAxis, null, "%"));
