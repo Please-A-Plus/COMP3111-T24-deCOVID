@@ -118,12 +118,12 @@ public class Controller {
 	private TextField textfieldISO;
 	
 	// initialize the controller class
-	private final List<String> prioritizedCountries = Arrays.asList("Hong Kong", "India", "Israel", "Japan", "Macao", "Singapore", "United Kingdom",  "World");
+	private final List<String> prioritizedCountries = Arrays.asList("Hong Kong", "India", "Israel", "Japan", "Macao", "Singapore", "United Kingdom", "World");
 
 	public void initialize() {
 		String iDataset = textfieldDataset.getText();
 		DataAnalysis.initCountriesDict(iDataset);
-		List<String> countries = new ArrayList<String>(DataAnalysis.countriesDict.values());
+		List<String> countries = new ArrayList<String>(DataAnalysis.countriesDict.keySetBackward());
 		Collections.sort(countries);
 		Collections.reverse(prioritizedCountries);
 		for (String prioritizedCountry: prioritizedCountries){
@@ -154,7 +154,6 @@ public class Controller {
 		tableC_fullyVaccinatedColumn.setCellValueFactory(new PropertyValueFactory<>("fullyVaccinated"));
 		tableC_rateOfVaccinationColumn.setCellValueFactory(new PropertyValueFactory<>("rateOfVaccination"));
 
-		chartA_lineChart.setTitle("Cumulative Confirmed COVID-19 Cases (per 1M)");
 		chartA_lineChart.setCreateSymbols(false);
 		chartB_lineChart.setCreateSymbols(false);
 		chartC_lineChart.setCreateSymbols(false);
@@ -244,21 +243,44 @@ public class Controller {
 
 	@FXML
 	private TableColumn<?, ?> tableA_totalCasesPerMillionColumn;
+	
+    @FXML
+    private CheckBox tableA_selectAll;
+
+    @FXML
+	private Label tableA_title;
+
+	@FXML
+	void selectAllTableA(ActionEvent event) {
+		if (tableA_selectAll.isSelected()){
+			tableA_countriesPicker.setDisable(true);
+			for (MenuItem item: tableA_countriesPicker.getItems()) {
+				CustomMenuItem checkItem = (CustomMenuItem) item;
+				CheckBox checkBox = (CheckBox) checkItem.getContent();
+				checkBox.setSelected(true);
+			}
+			tableA_countriesPicker.setText("All countries selected");
+		} else {
+			tableA_countriesPicker.setDisable(false);
+			for (MenuItem item: tableA_countriesPicker.getItems()) {
+				CustomMenuItem checkItem = (CustomMenuItem) item;
+				CheckBox checkBox = (CheckBox) checkItem.getContent();
+				checkBox.setSelected(false);
+			}
+			tableA_countriesPicker.setText("Click to select");
+		}
+	}
 
 	@FXML
 	void submitTableA(ActionEvent event) {
 		String iDataset = textfieldDataset.getText();
 		LocalDate iDate = tableA_date.getValue();
 		List<String> iISOCodes = new ArrayList<String>();
-		HashMap<String, String> invertedCountriesDict = new HashMap<String, String>();
-		for (String ISOCode : DataAnalysis.countriesDict.keySet()) {
-			invertedCountriesDict.put(DataAnalysis.countriesDict.get(ISOCode), ISOCode);
-		}
 		for (MenuItem item : tableA_countriesPicker.getItems()) {
 			CustomMenuItem checkItem = (CustomMenuItem) item;
 			CheckBox checkBox = (CheckBox) checkItem.getContent();
 			if (checkBox.isSelected()) {
-				String ISOCode = invertedCountriesDict.get(checkBox.getText());
+				String ISOCode = DataAnalysis.countriesDict.getBackward(checkBox.getText());
 				iISOCodes.add(ISOCode);
 			}
 		}
@@ -268,18 +290,19 @@ public class Controller {
 
 		HashMap<String, CovidRecord> casesTable = DataAnalysis.getCasesTable(iDataset, iDate, iISOCodes);
 		tableA_tableView.getItems().clear();
-		for (var key : casesTable.keySet()) {
+		for (var key : iISOCodes) {
 			var rec = casesTable.get(key);
 			ConfirmedCaseTable entry;
 			if (rec == null)
-				entry = new ConfirmedCaseTable(DataAnalysis.countriesDict.get(key), "Data not found", "Data not found");
+				entry = new ConfirmedCaseTable(DataAnalysis.countriesDict.getForward(key), "Data not found", "Data not found");
 			else
-				entry = new ConfirmedCaseTable(DataAnalysis.countriesDict.get(key),
+				entry = new ConfirmedCaseTable(DataAnalysis.countriesDict.getForward(key),
 						rec.confirmedCaseRecord.totalCases.toString(),
 						rec.confirmedCaseRecord.totalCasesPerMillion.toString());
 			tableA_tableView.getItems().add(entry);
 		}
 
+		tableA_title.setText(String.format("Number of Confirmed COVID-19 Cases as of %s", iDate.toString()));
 		textAreaConsole.setText("COVID-19 cases table generated successfully.");
 	}
 
@@ -363,6 +386,33 @@ public class Controller {
 	@FXML
 	private TableColumn<VaccinationTable, String> tableC_rateOfVaccinationColumn;
 
+    @FXML
+    private CheckBox tableC_selectAll;
+
+    @FXML
+	private Label tableC_title;
+
+	@FXML
+	void selectAllTableC(ActionEvent event) {
+		if (tableC_selectAll.isSelected()){
+			tableC_countriesPicker.setDisable(true);
+			for (MenuItem item: tableC_countriesPicker.getItems()) {
+				CustomMenuItem checkItem = (CustomMenuItem) item;
+				CheckBox checkBox = (CheckBox) checkItem.getContent();
+				checkBox.setSelected(true);
+			}
+			tableC_countriesPicker.setText("All countries selected");
+		} else {
+			tableC_countriesPicker.setDisable(false);
+			for (MenuItem item: tableC_countriesPicker.getItems()) {
+				CustomMenuItem checkItem = (CustomMenuItem) item;
+				CheckBox checkBox = (CheckBox) checkItem.getContent();
+				checkBox.setSelected(false);
+			}
+			tableC_countriesPicker.setText("Click to select");
+		}
+	}
+
 	@FXML
 	void submitTableC(ActionEvent event) {
 		String iDataset = textfieldDataset.getText();
@@ -386,6 +436,7 @@ public class Controller {
 		vaccineReport.forEach((location, row) -> {
 			tableC_tableView.getItems().add(row);
 		});
+		tableC_title.setText(String.format("Rate of Vaccination against COVID-19 as of %s", iDate.toString()));
 		textAreaConsole.setText("COVID-19 vaccination rate table generated successfully.");
 	}
 
@@ -462,9 +513,6 @@ public class Controller {
     private DatePicker tableB_date;
 
     @FXML
-    private CheckBox tableB_selectAll;
-
-    @FXML
     private Button tableB_submitButton;
 
     @FXML
@@ -483,41 +531,61 @@ public class Controller {
     private TableColumn<?, ?> tableB_totalDeathsPerMillionColumn;
 
 	@FXML
+    private CheckBox tableB_selectAll;
+
+	@FXML
+	void selectAllTableB(ActionEvent event) {
+		if (tableB_selectAll.isSelected()){
+			tableB_countriesPicker.setDisable(true);
+			for (MenuItem item: tableB_countriesPicker.getItems()) {
+				CustomMenuItem checkItem = (CustomMenuItem) item;
+				CheckBox checkBox = (CheckBox) checkItem.getContent();
+				checkBox.setSelected(true);
+			}
+			tableB_countriesPicker.setText("All countries selected");
+		} else {
+			tableB_countriesPicker.setDisable(false);
+			for (MenuItem item: tableB_countriesPicker.getItems()) {
+				CustomMenuItem checkItem = (CustomMenuItem) item;
+				CheckBox checkBox = (CheckBox) checkItem.getContent();
+				checkBox.setSelected(false);
+			}
+			tableB_countriesPicker.setText("Click to select");
+		}
+	}
+
+	@FXML
 	void submitTableB(ActionEvent event) {
 		String iDataset = textfieldDataset.getText();
 		LocalDate iDate = tableB_date.getValue();
 		List<String> iISOCodes = new ArrayList<String>();
-		HashMap<String, String> invertedCountriesDict = new HashMap<String, String>();
-		for (String ISOCode : DataAnalysis.countriesDict.keySet()) {
-			invertedCountriesDict.put(DataAnalysis.countriesDict.get(ISOCode), ISOCode);
-		}
 		for (MenuItem item : tableB_countriesPicker.getItems()) {
 			CustomMenuItem checkItem = (CustomMenuItem) item;
 			CheckBox checkBox = (CheckBox) checkItem.getContent();
 			if (checkBox.isSelected()) {
-				String ISOCode = invertedCountriesDict.get(checkBox.getText());
+				String ISOCode = DataAnalysis.countriesDict.getBackward(checkBox.getText());
 				iISOCodes.add(ISOCode);
 			}
 		}
 
-
 		if (!tableInputValidate(iDate, iISOCodes))
 			return;
 
-			HashMap<String, CovidRecord> casesTable = DataAnalysis.getCasesTable(iDataset, iDate, iISOCodes);
+		HashMap<String, CovidRecord> casesTable = DataAnalysis.getCasesTable(iDataset, iDate, iISOCodes);
 		tableB_tableView.getItems().clear();
-		for (var key : casesTable.keySet()) {
+		for (var key : iISOCodes) {
 			var rec = casesTable.get(key);
 			DeathCaseTable entry;
 			if (rec == null)
-				entry = new DeathCaseTable(DataAnalysis.countriesDict.get(key), "Data not found", "Data not found");
+				entry = new DeathCaseTable(DataAnalysis.countriesDict.getForward(key), "Data not found", "Data not found");
 			else
-				entry = new DeathCaseTable(DataAnalysis.countriesDict.get(key),
+				entry = new DeathCaseTable(DataAnalysis.countriesDict.getForward(key),
 						rec.confirmedDeathRecord.totalDeaths.toString(),
 						rec.confirmedDeathRecord.totalDeathsPerMillion.toString());
 			tableB_tableView.getItems().add(entry);
 		}
 
+		tableB_title.setText(String.format("Number of Confirmed COVID-19 Deaths as of %s", iDate.toString()));
 		textAreaConsole.setText("COVID-19 deaths table generated successfully.");
 	}
 
@@ -531,9 +599,6 @@ public class Controller {
 
     @FXML
     private LineChart<Long, Float> chartB_lineChart;
-
-    @FXML
-    private CheckBox chartB_selectAll;
 
     @FXML
     private DatePicker chartB_startDate;

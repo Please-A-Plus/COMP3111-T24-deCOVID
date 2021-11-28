@@ -22,7 +22,7 @@ import java.util.HashMap;
  * 
  */
 public class DataAnalysis {
-	public static HashMap<String, String> countriesDict = null;
+	public static TwoWaysHashMap<String, String> countriesDict = null;
 
 	public static CSVParser getFileParser(String dataset) {
 		FileResource fr = new FileResource("dataset/" + dataset);
@@ -33,11 +33,11 @@ public class DataAnalysis {
 		if (dataset == null) {
 			dataset = "COVID_Dataset_v1.0.csv";
 		}
-		countriesDict = new HashMap<String, String>();
+		countriesDict = new TwoWaysHashMap<String, String>();
 		for (CSVRecord rec : getFileParser(dataset)) {
 			String loc = rec.get("location");
 			String ISO = rec.get("iso_code");
-			if (!countriesDict.containsKey(ISO)) {
+			if (!countriesDict.containsKeyForward(ISO)) {
 				countriesDict.put(ISO, loc);
 			}
 		}
@@ -151,12 +151,13 @@ public class DataAnalysis {
 		Float totalDeathsPerMillion = parseFloatWithDefault(rec.get("total_deaths_per_million"));
 		Float newDeathsPerMillion = parseFloatWithDefault(rec.get("new_deaths_per_million"));
 		Long vaccinated = parseLongWithDefault(rec.get("people_fully_vaccinated"));
+		Float backupVaccinationRate = parseFloatWithDefault(rec.get("total_vaccinations_per_hundred"));
 
 		//TODO: parse vaccination data
 
 		ConfirmedCaseRecord confirmedCaseRecord = new ConfirmedCaseRecord(totalCases, newCases, totalCasesPerMillion, newCasesPerMillion);
 		ConfirmedDeathRecord confirmedDeathRecord = new ConfirmedDeathRecord(totalDeaths, newDeaths, totalDeathsPerMillion, newDeathsPerMillion);
-		VaccinationRecord vaccinationRecord = new VaccinationRecord(vaccinated);
+		VaccinationRecord vaccinationRecord = new VaccinationRecord(vaccinated, backupVaccinationRate);
 
 		CovidRecord covidRecord = new CovidRecord(iso_code, location, recDate, population, confirmedCaseRecord, confirmedDeathRecord, vaccinationRecord);
 
@@ -171,7 +172,7 @@ public class DataAnalysis {
 		for (CSVRecord rec : getFileParser(dataset)) {
 			CovidRecord covidRecord = parseDataset(rec);
 			if (ISOCodes.contains(covidRecord.iso_code)){
-				if (covidRecord.date.isBefore(date)){
+				if (covidRecord.date.isBefore(date) || covidRecord.date.isEqual(date)){
 					table.put(covidRecord.iso_code, covidRecord);
 				}
 			}
@@ -188,11 +189,15 @@ public class DataAnalysis {
 			Long vaccination = covidRecord.vaccinationRecord.fullyVaccinated;
 			Long population = covidRecord.population;
 
-			if (locations.contains(recLoc) && covidRecord.date.isBefore(date)){
+			if (locations.contains(recLoc) && covidRecord.date.isBefore(date) || covidRecord.date.equals(date)) {
 				//is not a missing value
 				if (!table.containsKey(recLoc) || vaccination > Long.parseLong(table.get(recLoc).fullyVaccinated)) {
-					Float rate = vaccination==0 ? Float.valueOf(0) : (float) vaccination / population * 100;
-					var row = new VaccinationTable(covidRecord.location, population.toString(), String.format("%.2f%%", rate));
+					Float rate = vaccination == 0 ? Float.valueOf(0) : (float) vaccination / population * 100;
+					//cuz poor northern cyprus had NULL population
+					if (recLoc.equals("Northern Cyprus")) {
+						rate = covidRecord.vaccinationRecord.backupRate;
+					}
+					var row = new VaccinationTable(covidRecord.location, vaccination.toString(), String.format("%.2f%%", rate));
 					table.put(covidRecord.location, row);
 				}
 			}
@@ -213,7 +218,7 @@ public class DataAnalysis {
 
 			if (locations.contains(covidRecord.location)) {
 				LocalDate recDate = covidRecord.date;
-				if (recDate.isAfter(startDate) && recDate.isBefore(endDate)) {
+				if ((recDate.isAfter(startDate) || recDate.equals(startDate)) && (recDate.isBefore(endDate) || recDate.equals(endDate))) {
 					Float rate = covidRecord.confirmedCaseRecord.totalCasesPerMillion;
 					FloatCoordinates coord = new FloatCoordinates(recDate, rate);
 					table.get(covidRecord.location).add(coord);
@@ -236,7 +241,7 @@ public class DataAnalysis {
 
 			if (locations.contains(covidRecord.location)) {
 				LocalDate recDate = covidRecord.date;
-				if (recDate.isAfter(startDate) && recDate.isBefore(endDate)) {
+				if ((recDate.isAfter(startDate) || recDate.equals(startDate)) && (recDate.isBefore(endDate) || recDate.equals(endDate))) {
 					Float deaths = covidRecord.confirmedDeathRecord.totalDeathsPerMillion;
 					FloatCoordinates coord = new FloatCoordinates(recDate, deaths);
 					table.get(covidRecord.location).add(coord);
@@ -265,7 +270,7 @@ public class DataAnalysis {
 			Float rate = prevRate.get(rec.get("location"));
 
 			if (locations.contains(covidRecord.location)) {
-				if (recDate.isAfter(startDate) && recDate.isBefore(endDate)){
+				if ((recDate.isAfter(startDate) || recDate.equals(startDate)) && (recDate.isBefore(endDate) || recDate.equals(endDate))){
 					if (!(population == 0 || vaccination == 0)) {
 						rate = (float) vaccination / population * 100;
 						prevRate.put(covidRecord.location, rate);
