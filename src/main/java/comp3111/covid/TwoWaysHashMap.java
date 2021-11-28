@@ -4,7 +4,12 @@ import java.util.Hashtable;
 import java.util.Map;
 import java.util.Set;
 
-
+/**
+ * A two-way hash map. This class implements a hashMap that can be seached from both ends.
+ * 
+ * @param K the first key of the HashMap
+ * @param V the second key of the HashMap
+ */
 public class TwoWaysHashMap<K extends Object, V extends Object> {
 
     public Map<K,V> forward = new Hashtable<K, V>();
