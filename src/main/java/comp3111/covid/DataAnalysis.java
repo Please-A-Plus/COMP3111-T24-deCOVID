@@ -171,7 +171,7 @@ public class DataAnalysis {
 		for (CSVRecord rec : getFileParser(dataset)) {
 			CovidRecord covidRecord = parseDataset(rec);
 			if (ISOCodes.contains(covidRecord.iso_code)){
-				if (covidRecord.date.isBefore(date)){
+				if (covidRecord.date.isBefore(date) || covidRecord.date.isEqual(date)){
 					table.put(covidRecord.iso_code, covidRecord);
 				}
 			}

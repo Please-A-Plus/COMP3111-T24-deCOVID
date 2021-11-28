@@ -153,7 +153,6 @@ public class Controller {
 		tableC_fullyVaccinatedColumn.setCellValueFactory(new PropertyValueFactory<>("fullyVaccinated"));
 		tableC_rateOfVaccinationColumn.setCellValueFactory(new PropertyValueFactory<>("rateOfVaccination"));
 
-		chartA_lineChart.setTitle("Cumulative Confirmed COVID-19 Cases (per 1M)");
 		chartA_lineChart.setCreateSymbols(false);
 		chartB_lineChart.setCreateSymbols(false);
 		chartC_lineChart.setCreateSymbols(false);
@@ -243,6 +242,30 @@ public class Controller {
 
 	@FXML
 	private TableColumn<?, ?> tableA_totalCasesPerMillionColumn;
+	
+    @FXML
+    private CheckBox tableA_selectAll;
+
+	@FXML
+	void selectAllTableA(ActionEvent event) {
+		if (tableA_selectAll.isSelected()){
+			tableA_countriesPicker.setDisable(true);
+			for (MenuItem item: tableA_countriesPicker.getItems()) {
+				CustomMenuItem checkItem = (CustomMenuItem) item;
+				CheckBox checkBox = (CheckBox) checkItem.getContent();
+				checkBox.setSelected(true);
+			}
+			tableA_countriesPicker.setText("All countries selected");
+		} else {
+			tableA_countriesPicker.setDisable(false);
+			for (MenuItem item: tableA_countriesPicker.getItems()) {
+				CustomMenuItem checkItem = (CustomMenuItem) item;
+				CheckBox checkBox = (CheckBox) checkItem.getContent();
+				checkBox.setSelected(false);
+			}
+			tableA_countriesPicker.setText("Click to select");
+		}
+	}
 
 	@FXML
 	void submitTableA(ActionEvent event) {
@@ -362,6 +385,30 @@ public class Controller {
 	@FXML
 	private TableColumn<VaccinationTable, String> tableC_rateOfVaccinationColumn;
 
+    @FXML
+    private CheckBox tableC_selectAll;
+
+	@FXML
+	void selectAllTableC(ActionEvent event) {
+		if (tableC_selectAll.isSelected()){
+			tableC_countriesPicker.setDisable(true);
+			for (MenuItem item: tableC_countriesPicker.getItems()) {
+				CustomMenuItem checkItem = (CustomMenuItem) item;
+				CheckBox checkBox = (CheckBox) checkItem.getContent();
+				checkBox.setSelected(true);
+			}
+			tableC_countriesPicker.setText("All countries selected");
+		} else {
+			tableC_countriesPicker.setDisable(false);
+			for (MenuItem item: tableC_countriesPicker.getItems()) {
+				CustomMenuItem checkItem = (CustomMenuItem) item;
+				CheckBox checkBox = (CheckBox) checkItem.getContent();
+				checkBox.setSelected(false);
+			}
+			tableC_countriesPicker.setText("Click to select");
+		}
+	}
+
 	@FXML
 	void submitTableC(ActionEvent event) {
 		String iDataset = textfieldDataset.getText();
@@ -461,9 +508,6 @@ public class Controller {
     private DatePicker tableB_date;
 
     @FXML
-    private CheckBox tableB_selectAll;
-
-    @FXML
     private Button tableB_submitButton;
 
     @FXML
@@ -480,6 +524,30 @@ public class Controller {
 
     @FXML
     private TableColumn<?, ?> tableB_totalDeathsPerMillionColumn;
+
+	@FXML
+    private CheckBox tableB_selectAll;
+
+	@FXML
+	void selectAllTableB(ActionEvent event) {
+		if (tableB_selectAll.isSelected()){
+			tableB_countriesPicker.setDisable(true);
+			for (MenuItem item: tableB_countriesPicker.getItems()) {
+				CustomMenuItem checkItem = (CustomMenuItem) item;
+				CheckBox checkBox = (CheckBox) checkItem.getContent();
+				checkBox.setSelected(true);
+			}
+			tableB_countriesPicker.setText("All countries selected");
+		} else {
+			tableB_countriesPicker.setDisable(false);
+			for (MenuItem item: tableB_countriesPicker.getItems()) {
+				CustomMenuItem checkItem = (CustomMenuItem) item;
+				CheckBox checkBox = (CheckBox) checkItem.getContent();
+				checkBox.setSelected(false);
+			}
+			tableB_countriesPicker.setText("Click to select");
+		}
+	}
 
 	@FXML
 	void submitTableB(ActionEvent event) {
@@ -530,9 +598,6 @@ public class Controller {
 
     @FXML
     private LineChart<Long, Float> chartB_lineChart;
-
-    @FXML
-    private CheckBox chartB_selectAll;
 
     @FXML
     private DatePicker chartB_startDate;
