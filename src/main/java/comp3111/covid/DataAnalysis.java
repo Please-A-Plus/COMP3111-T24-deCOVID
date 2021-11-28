@@ -23,12 +23,21 @@ import java.util.HashMap;
  */
 public class DataAnalysis {
 	public static TwoWaysHashMap<String, String> countriesDict = null;
-
+	
+	/**
+	 * 
+	 * @param dataset COVID-19 CSV dataset location
+	 * @return a CSVParser instance 
+	 */
 	public static CSVParser getFileParser(String dataset) {
 		FileResource fr = new FileResource("dataset/" + dataset);
 		return fr.getCSVParser(true);
 	}
 
+	/**
+	 * 
+	 * @param dataset COVID-19 CSV dataset location
+	 */
 	public static void initCountriesDict(String dataset) {
 		if (dataset == null) {
 			dataset = "COVID_Dataset_v1.0.csv";
@@ -42,7 +51,13 @@ public class DataAnalysis {
 			}
 		}
 	}
-
+	
+	/**
+	 * 
+	 * @param dataset COVID-19 CSV dataset location
+	 * @param iso_code ISO code of the country
+	 * @return Confirmed cases report of the country
+	 */
 	public static String getConfirmedCases(String dataset, String iso_code) {
 		String oReport = "";
 		long confirmedCases = 0;
@@ -69,7 +84,12 @@ public class DataAnalysis {
 		return oReport;
 	}
 
-
+	/**
+	 * 
+	 * @param dataset COVID-19 CSV dataset location
+	 * @param iso_code ISO code of the country
+	 * @return Confirmed deaths report of the country
+	 */
 	public static String getConfirmedDeaths(String dataset, String iso_code) {
 		String oReport = "";
 		long confirmedDeaths = 0;
@@ -96,6 +116,12 @@ public class DataAnalysis {
 		return oReport;
 	}
 
+	/**
+	 * 
+	 * @param dataset COVID-19 CSV dataset location
+	 * @param iso_code ISO code of the country
+	 * @return Vaccination rate report of the country
+	 */
 	public static String getRateOfVaccination(String dataset, String iso_code) {
 		String oReport = "";
 		long fullyVaccinated = 0;
@@ -132,6 +158,11 @@ public class DataAnalysis {
 		return oReport;
 	}
 
+	/**
+	 * 
+	 * @param rec a CSVRecord instance to be parsed
+	 * @return a parsed CovidRecord instance 
+	 */
 	public static CovidRecord parseDataset(CSVRecord rec) {
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("M/d/yyyy");
 
@@ -164,6 +195,14 @@ public class DataAnalysis {
 		return covidRecord;
 	}
 
+	/**
+	 * 
+	 * @param dataset COVID-19 CSV dataset location
+	 * @param date date of interest
+	 * @param ISOCodes list of ISO codes of the countries
+	 * 
+	 * @return HashMap of ISO codes and the most relevant COVID-19 cases and deaths records of the countries
+	 */
 	public static HashMap<String, CovidRecord> getCasesTable(String dataset, LocalDate date, List<String> ISOCodes) {
 		HashMap<String, CovidRecord> table = new HashMap<String, CovidRecord>();
 		for (var ISOCode: ISOCodes) {
@@ -181,75 +220,14 @@ public class DataAnalysis {
 	}
 
 
-	// public static HashMap<String, Long> getTotalDeath(String dataset, LocalDate date) {
-	// 	HashMap<String, Long> totalDeathCasesMap = new HashMap<String, Long>();
-	// 	for (CSVRecord rec : getFileParser(dataset)) {
-	// 		CovidRecord covidRecord = parseDataset(rec);
-			
-	// 		if (!totalDeathCasesMap.containsKey(covidRecord.iso_code)) {
-	// 			totalDeathCasesMap.put(covidRecord.iso_code, Long.valueOf(0));
-	// 		}
-	// 		totalDeathCasesMap.put(covidRecord.iso_code, covidRecord.confirmedDeathRecord.getTotalDeaths());	
-	// 	}
-	// 	return totalDeathCasesMap;
-	// }
-
-	// public static HashMap<String, Float> getTotalDeathPerMillion(String dataset, LocalDate date) {
-	// 	HashMap<String, Float> totalDeathCasesMap = new HashMap<String, Float>();
-	// 	for (CSVRecord rec : getFileParser(dataset)) {
-	// 		CovidRecord covidRecord = parseDataset(rec);
-			
-	// 		if (!totalDeathCasesMap.containsKey(covidRecord.iso_code)) {
-	// 			totalDeathCasesMap.put(covidRecord.iso_code, Float.valueOf(0));
-	// 		}
-	// 		totalDeathCasesMap.put(covidRecord.iso_code, covidRecord.confirmedDeathRecord.getTotalDeathsPerMillion());	
-	// 	}
-	// 	return totalDeathCasesMap;
-	// }
-
-	// public static HashMap<String, List<FloatCoordinates>> getTotalDeathPerMillionPeriod(String dataset, LocalDate startDate, LocalDate endDate, List<String> locations) {
-	// 	//initialize return hashmap
-	// 	HashMap<String, List<FloatCoordinates>> table = new HashMap<String, List<FloatCoordinates>>();
-	// 	for (String location: locations) {
-	// 		List<FloatCoordinates> series = new ArrayList<FloatCoordinates>();
-	// 		table.put(location, series);
-	// 	}
-	// 	//search csv
-	// 	for (CSVRecord rec : getFileParser(dataset)) {
-	// 		String recLoc = rec.get("location");
-
-	// 		if (locations.contains(recLoc)) {
-	// 			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("M/d/yyyy");
-	// 			LocalDate recDate = LocalDate.parse(rec.get("date"), formatter);
-
-	// 			if (recDate.isAfter(startDate)){
-	// 				if (recDate.isBefore(endDate)){
-	// 					Float deathPerMillion;
-	// 					String deathPerMillionString = rec.get("total_deaths_per_million");
-	// 					// System.out.println(deathPerMillionString);
-	// 					deathPerMillion = Float.parseFloat(deathPerMillionString);
-	// 					FloatCoordinates coordinates = new FloatCoordinates(recDate, deathPerMillion);
-	// 					table.get(recLoc).add(coordinates);
-	// 				}
-	// 			}
-	// 		}
-	// 	}
-	// 	return table;
-	// }
-
-	// public static HashMap<String, Long> getNewDeath(String dataset, LocalDate date) {
-	// 	HashMap<String, Long> newDeathCasesMap = new HashMap<String, Long>();
-	// 	for (CSVRecord rec : getFileParser(dataset)) {
-	// 		CovidRecord covidRecord = parseDataset(rec);
-			
-	// 		if (!newDeathCasesMap.containsKey(covidRecord.iso_code)) {
-	// 			newDeathCasesMap.put(covidRecord.iso_code, Long.valueOf(0));
-	// 		}
-	// 		newDeathCasesMap.put(covidRecord.iso_code, covidRecord.confirmedDeathRecord.getNewDeaths());	
-	// 	}
-	// 	return newDeathCasesMap;
-	// }
-
+	/**
+	 * 
+	 * @param dataset COVID-19 CSV dataset location
+	 * @param date date of interest
+	 * @param ISOCodes list of ISO codes of the countries
+	 * 
+	 * @return HashMap of ISO codes and the most relevant COVID-19 vaccination rate of the countries
+	 */
 	public static HashMap<String, VaccinationTable> getVaccinationTable(String dataset, LocalDate date, List<String> locations) {
 		var table = new HashMap<String, VaccinationTable>();
 		for (CSVRecord rec : getFileParser(dataset)) {
@@ -275,6 +253,15 @@ public class DataAnalysis {
 		return table;
 	}
 
+	/**
+	 * 
+	 * @param dataset COVID-19 CSV dataset location
+	 * @param startDate starting date of interest
+	 * @param endDate ending date of interest
+	 * @param ISOCodes list of ISO codes of the countries
+	 * 
+	 * @return HashMap of ISO codes and the chart coodinates of the COVID-19 cases of the countries
+	 */
 	public static HashMap<String, List<FloatCoordinates>> getCasesChart(String dataset, LocalDate startDate, LocalDate endDate, List<String> locations) {
 		//initialize return hashmap
 		HashMap<String, List<FloatCoordinates>> table = new HashMap<String, List<FloatCoordinates>>();
@@ -298,6 +285,15 @@ public class DataAnalysis {
 		return table;
 	}
 
+	/**
+	 * 
+	 * @param dataset COVID-19 CSV dataset location
+	 * @param startDate starting date of interest
+	 * @param endDate ending date of interest
+	 * @param ISOCodes list of ISO codes of the countries
+	 * 
+	 * @return HashMap of ISO codes and the chart coodinates of the COVID-19 deaths of the countries
+	 */
 	public static HashMap<String, List<FloatCoordinates>> getDeathsChart(String dataset, LocalDate startDate, LocalDate endDate, List<String> locations) {
 		//initialize return hashmap
 		HashMap<String, List<FloatCoordinates>> table = new HashMap<String, List<FloatCoordinates>>();
@@ -320,6 +316,16 @@ public class DataAnalysis {
 		}
 		return table;
 	}
+
+	/**
+	 * 
+	 * @param dataset COVID-19 CSV dataset location
+	 * @param startDate starting date of interest
+	 * @param endDate ending date of interest
+	 * @param ISOCodes list of ISO codes of the countries
+	 * 
+	 * @return HashMap of ISO codes and the chart coodinates of the COVID-19 vaccination rate of the countries
+	 */
 
 	public static HashMap<String, List<FloatCoordinates>> getVaccinationChart(String dataset, LocalDate startDate, LocalDate endDate, List<String> locations) {
 		//initialize return hashmap
@@ -353,6 +359,11 @@ public class DataAnalysis {
 		return table;
 	}
 
+	/**
+	 * 
+	 * @param str string input to be parsed
+	 * @return Long representaion of the string if the string is a number, else 0
+	 */
 	public static Long parseLongWithDefault(String str) {
 	    if (str == null || str.equals("")) {
 	        return Long.valueOf(0);
@@ -360,6 +371,11 @@ public class DataAnalysis {
 			return Long.parseLong(str);
 	}
 
+	/**
+	 * 
+	 * @param str string input to be parsed
+	 * @return Float representaion of the string if the string is a number, else 0.0
+	 */
 	public static Float parseFloatWithDefault(String str) {
 	    if (str == null || str.equals("")) {
 	        return Float.valueOf(0);
