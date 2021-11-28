@@ -14,8 +14,8 @@ public class ConfirmedCaseTable {
 
 	/**
 	 * Constructor for ConfirmedCaseTable
-	 * @param iCountry Country name where the case exist in.
-	 * @param iTotalCases Total number of cases on a day in the given country in.
+	 * @param iCountry Country name where the cases exist in.
+	 * @param iTotalCases Total number of cases on a day in the given country.
 	 * @param iTotalCasesPerMillion Total number of cases per million on a day in the given country.
 	 */
 	public ConfirmedCaseTable(String iCountry, String iTotalCases, String iTotalCasesPerMillion) {
@@ -42,7 +42,7 @@ public class ConfirmedCaseTable {
 	
 	/**
 	 * Get the amount of total cases per million population until a day in the country.
-	 * @return String on total number of cases per million.
+	 * @return String on total number of cases per million population.
 	 */
 	public String getTotalCasesPerMillion() {
 		return totalCasesPerMillion;
