@@ -94,7 +94,7 @@
                                                       <TableColumn fx:id="tableA_totalCasesPerMillionColumn" prefWidth="200.0" text="Total Cases (per 1M)" />
                                                   </columns>
                                                 </TableView>
-                                                <CheckBox fx:id="tableA_selectAll" layoutX="330.0" layoutY="60.0" mnemonicParsing="false" text="Select All" />
+                                                <CheckBox fx:id="tableA_selectAll" layoutX="330.0" layoutY="60.0" mnemonicParsing="false" onAction="#selectAllTableA" text="Select All" />
                                                 <Label fx:id="tableA_title" alignment="CENTER" layoutX="21.0" layoutY="100.0" prefHeight="20.0" prefWidth="565.0" text="Number of Confirmed COVID-19 Cases" textAlignment="CENTER">
                                                    <font>
                                                       <Font name="System Bold" size="15.0" />
@@ -131,7 +131,6 @@
                                                       <Font name="System Bold" size="15.0" />
                                                    </font>
                                                 </Label>
-                                                <CheckBox fx:id="chartA_selectAll" layoutX="330.0" layoutY="60.0" mnemonicParsing="false" text="Select All" />
                                              </children>
                                           </AnchorPane>
                                       </content>
@@ -180,7 +179,7 @@
                                                       <TableColumn fx:id="tableB_totalDeathsPerMillionColumn" prefWidth="200.0" text="Total Deaths (per 1M)" />
                                                    </columns>
                                                 </TableView>
-                                                <CheckBox fx:id="tableB_selectAll" layoutX="330.0" layoutY="60.0" mnemonicParsing="false" text="Select All" />
+                                                <CheckBox fx:id="tableB_selectAll" layoutX="330.0" layoutY="60.0" mnemonicParsing="false" onAction="#selectAllTableB" text="Select All" />
                                                 <Label fx:id="tableB_title" alignment="CENTER" layoutX="21.0" layoutY="100.0" prefHeight="20.0" prefWidth="565.0" text="Number of Confirmed COVID-19 Deaths" textAlignment="CENTER">
                                                    <font>
                                                       <Font name="System Bold" size="15.0" />
@@ -217,7 +216,6 @@
                                                       <Font name="System Bold" size="15.0" />
                                                    </font>
                                                 </Label>
-                                                <CheckBox fx:id="chartB_selectAll" layoutX="330.0" layoutY="60.0" mnemonicParsing="false" text="Select All" />
                                              </children>
                                           </AnchorPane>
                                        </content>
@@ -266,7 +264,7 @@
                                                       <TableColumn fx:id="tableC_rateOfVaccinationColumn" prefWidth="200.0" text="Rate of Vaccination" />
                                                    </columns>
                                                 </TableView>
-                                                <CheckBox fx:id="tableC_selectAll" layoutX="330.0" layoutY="60.0" mnemonicParsing="false" text="Select All" />
+                                                <CheckBox fx:id="tableC_selectAll" layoutX="330.0" layoutY="60.0" mnemonicParsing="false" onAction="#selectAllTableC" text="Select All" />
                                                 <Label fx:id="tableC_title" alignment="CENTER" layoutX="21.0" layoutY="100.0" prefHeight="20.0" prefWidth="565.0" text="Rate of Vaccination against COVID-19" textAlignment="CENTER">
                                                    <font>
                                                       <Font name="System Bold" size="15.0" />
@@ -303,7 +301,6 @@
                                                       <Font name="System Bold" size="15.0" />
                                                    </font>
                                                 </Label>
-                                                <CheckBox fx:id="chartC_selectAll" layoutX="330.0" layoutY="60.0" mnemonicParsing="false" text="Select All" />
                                              </children>
                                           </AnchorPane>
                                        </content>
