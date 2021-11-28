@@ -232,7 +232,7 @@ public class DataAnalysis {
 
 	 * @param dataset COVID-19 CSV dataset location
 	 * @param date date of interest
-	 * @param ISOCodes list of ISO codes of the countries
+	 * @param locations list of ISO codes of the countries
 	 * 
 	 * @return HashMap of ISO codes and the most relevant COVID-19 vaccination rate of the countries
 	 */
@@ -267,7 +267,7 @@ public class DataAnalysis {
 	 * @param dataset COVID-19 CSV dataset location
 	 * @param startDate starting date of interest
 	 * @param endDate ending date of interest
-	 * @param ISOCodes list of ISO codes of the countries
+	 * @param locations list of ISO codes of the countries
 	 * 
 	 * @return HashMap of ISO codes and the chart coodinates of the COVID-19 cases of the countries
 	 */
@@ -300,7 +300,7 @@ public class DataAnalysis {
 	 * @param dataset COVID-19 CSV dataset location
 	 * @param startDate starting date of interest
 	 * @param endDate ending date of interest
-	 * @param ISOCodes list of ISO codes of the countries
+	 * @param locations list of ISO codes of the countries
 	 * 
 	 * @return HashMap of ISO codes and the chart coodinates of the COVID-19 deaths of the countries
 	 */
@@ -333,7 +333,7 @@ public class DataAnalysis {
 	 * @param dataset COVID-19 CSV dataset location
 	 * @param startDate starting date of interest
 	 * @param endDate ending date of interest
-	 * @param ISOCodes list of ISO codes of the countries
+	 * @param locations list of ISO codes of the countries
 	 * 
 	 * @return HashMap of ISO codes and the chart coodinates of the COVID-19 vaccination rate of the countries
 	 */
