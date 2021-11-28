@@ -25,6 +25,7 @@ public class DataAnalysis {
 	public static TwoWaysHashMap<String, String> countriesDict = null;
 	
 	/**
+	 * To get the CSV parser for the given file
 	 * 
 	 * @param dataset COVID-19 CSV dataset location
 	 * @return a CSVParser instance 
@@ -35,6 +36,7 @@ public class DataAnalysis {
 	}
 
 	/**
+	 * Initialize the countries dictionary using TwoWaysHashMap
 	 * 
 	 * @param dataset COVID-19 CSV dataset location
 	 */
@@ -53,6 +55,7 @@ public class DataAnalysis {
 	}
 	
 	/**
+	 * Get the confirmed cases report for a given country
 	 * 
 	 * @param dataset COVID-19 CSV dataset location
 	 * @param iso_code ISO code of the country
@@ -85,7 +88,8 @@ public class DataAnalysis {
 	}
 
 	/**
-	 * 
+	 * Get the confirmed deaths report for a given country
+	 *
 	 * @param dataset COVID-19 CSV dataset location
 	 * @param iso_code ISO code of the country
 	 * @return Confirmed deaths report of the country
@@ -117,6 +121,7 @@ public class DataAnalysis {
 	}
 
 	/**
+	 * Get the vaccination rate reportfor a given country
 	 * 
 	 * @param dataset COVID-19 CSV dataset location
 	 * @param iso_code ISO code of the country
@@ -159,6 +164,7 @@ public class DataAnalysis {
 	}
 
 	/**
+	 * Parse the given CSV record and return CovidRecord representation of the entry
 	 * 
 	 * @param rec a CSVRecord instance to be parsed
 	 * @return a parsed CovidRecord instance 
@@ -196,6 +202,7 @@ public class DataAnalysis {
 	}
 
 	/**
+	 * Get the table entries of COVID-19 cases and deaths for a given country as of the specified date
 	 * 
 	 * @param dataset COVID-19 CSV dataset location
 	 * @param date date of interest
@@ -221,7 +228,8 @@ public class DataAnalysis {
 
 
 	/**
-	 * 
+	 * Get the table entries of COVID-19 vaccination rate for a given country as of the specified date
+
 	 * @param dataset COVID-19 CSV dataset location
 	 * @param date date of interest
 	 * @param locations list of ISO codes of the countries
@@ -254,7 +262,8 @@ public class DataAnalysis {
 	}
 
 	/**
-	 * 
+	 * Get the table entries of COVID-19 confirmed cases chart coordinates for a given country between startDate and endDate
+	 *
 	 * @param dataset COVID-19 CSV dataset location
 	 * @param startDate starting date of interest
 	 * @param endDate ending date of interest
@@ -286,6 +295,7 @@ public class DataAnalysis {
 	}
 
 	/**
+	 * Get the table entries of COVID-19 confirmed deaths chart coordinates for a given country between startDate and endDate
 	 * 
 	 * @param dataset COVID-19 CSV dataset location
 	 * @param startDate starting date of interest
@@ -318,6 +328,7 @@ public class DataAnalysis {
 	}
 
 	/**
+	 * Get the table entries of COVID-19 vaccination rate chart coordinates for a given country between startDate and endDate
 	 * 
 	 * @param dataset COVID-19 CSV dataset location
 	 * @param startDate starting date of interest
@@ -360,6 +371,7 @@ public class DataAnalysis {
 	}
 
 	/**
+	 * Parse string into Long with a default value of 0
 	 * 
 	 * @param str string input to be parsed
 	 * @return Long representaion of the string if the string is a number, else 0
@@ -372,7 +384,8 @@ public class DataAnalysis {
 	}
 
 	/**
-	 * 
+	 * Parse string into Float with a default value of 0
+	 *
 	 * @param str string input to be parsed
 	 * @return Float representaion of the string if the string is a number, else 0.0
 	 */
