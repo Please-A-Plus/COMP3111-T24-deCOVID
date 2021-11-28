@@ -117,12 +117,15 @@ public class Controller {
 	private TextField textfieldISO;
 	
 	// initialize the controller class
+	private final List<String> prioritizedCountries = Arrays.asList("Hong Kong", "India", "Israel", "Japan", "Macao", "Singapore", "United Kingdom",  "World");
+
 	public void initialize() {
 		String iDataset = textfieldDataset.getText();
 		DataAnalysis.initCountriesDict(iDataset);
 		List<String> countries = new ArrayList<String>(DataAnalysis.countriesDict.values());
 		Collections.sort(countries);
-		for (String prioritizedCountry: Arrays.asList( "World", "United Kingdom", "Singapore", "Macao", "Japan", "Israel", "India", "Hong Kong")){
+		Collections.reverse(prioritizedCountries);
+		for (String prioritizedCountry: prioritizedCountries){
 			countries.remove(prioritizedCountry);
 			countries.add(0, prioritizedCountry);
 		}

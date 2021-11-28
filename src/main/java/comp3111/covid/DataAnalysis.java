@@ -251,36 +251,19 @@ public class DataAnalysis {
 
 	public static HashMap<String, VaccinationTable> getVaccinationTable(String dataset, LocalDate date, List<String> locations) {
 		var table = new HashMap<String, VaccinationTable>();
-		var prev = new HashMap<String, ArrayList<String>>();
-		for (String location: locations) {
-			var arr = new ArrayList<String>();
-			arr.add("0");
-			arr.add("0");
-			prev.put(location, arr);
-		}
 		for (CSVRecord rec : getFileParser(dataset)) {
+			CovidRecord covidRecord = parseDataset(rec);
 
-			if (locations.contains(rec.get("location"))){
-				DateTimeFormatter formatter = DateTimeFormatter.ofPattern("M/d/yyyy");
-				LocalDate recDate = LocalDate.parse(rec.get("date"), formatter);
+			String recLoc = covidRecord.location;
+			Long vaccination = covidRecord.vaccinationRecord.fullyVaccinated;
+			Long population = covidRecord.population;
 
-				if (recDate.isBefore(date)){
-					//set to prev value
-					String populationString = prev.get(rec.get("location")).get(0);
-					String vaccinationString = prev.get(rec.get("location")).get(1);
-					//if record exist, use current record
-					if (!(rec.get("population").equals("") || rec.get("people_fully_vaccinated").equals(""))){
-						populationString = rec.get("population");
-						vaccinationString = rec.get("people_fully_vaccinated");
-						var arr = new ArrayList<String>();
-						arr.add(populationString);
-						arr.add(vaccinationString);
-						prev.put(rec.get("location"), arr);
-					}
-					List<String> entry = new ArrayList<String>();
-					Float rate = (float) Long.parseLong(vaccinationString) / Long.parseLong((populationString)) * 100;
-					var row = new VaccinationTable(rec.get("location"), vaccinationString, String.format("%.2f%%",rate));
-					table.put(rec.get("location"), row);
+			if (locations.contains(recLoc) && covidRecord.date.isBefore(date)){
+				//is not a missing value
+				if (!table.containsKey(recLoc) || vaccination > Long.parseLong(table.get(recLoc).fullyVaccinated)) {
+					Float rate = vaccination==0 ? Float.valueOf(0) : (float) vaccination / population * 100;
+					var row = new VaccinationTable(covidRecord.location, population.toString(), String.format("%.2f%%", rate));
+					table.put(covidRecord.location, row);
 				}
 			}
 		}
@@ -345,22 +328,20 @@ public class DataAnalysis {
 		}
 		//search csv
 		for (CSVRecord rec : getFileParser(dataset)) {
-			String recLoc = rec.get("location");
+			CovidRecord covidRecord = parseDataset(rec);
+			LocalDate recDate = covidRecord.date;
+			Long population = covidRecord.population;
+			Long vaccination = covidRecord.vaccinationRecord.fullyVaccinated;
+			Float rate = prevRate.get(rec.get("location"));
 
-			if (locations.contains(recLoc)) {
-				DateTimeFormatter formatter = DateTimeFormatter.ofPattern("M/d/yyyy");
-				LocalDate recDate = LocalDate.parse(rec.get("date"), formatter);
-
+			if (locations.contains(covidRecord.location)) {
 				if (recDate.isAfter(startDate) && recDate.isBefore(endDate)){
-					String populationString = rec.get("population");
-					String vaccinationString = rec.get("people_fully_vaccinated");
-					Float rate = prevRate.get(rec.get("location"));
-					if (!(populationString.equals("") || vaccinationString.equals(""))) {
-						rate = (float) Long.parseLong(vaccinationString) / Long.parseLong((populationString)) * 100;
-						prevRate.put(rec.get("location"), rate);
+					if (!(population == 0 || vaccination == 0)) {
+						rate = (float) vaccination / population * 100;
+						prevRate.put(covidRecord.location, rate);
 					}
 					FloatCoordinates coordinates = new FloatCoordinates(recDate, rate);
-					table.get(recLoc).add(coordinates);
+					table.get(covidRecord.location).add(coordinates);
 				}
 			}
 		}
@@ -368,17 +349,18 @@ public class DataAnalysis {
 	}
 
 	public static Long parseLongWithDefault(String str) {
-	    if (str == null || str == "") {
+	    if (str == null || str.equals("")) {
 	        return Long.valueOf(0);
 	    }
-	    return Long.parseLong(str);
+			return Long.parseLong(str);
 	}
 
 	public static Float parseFloatWithDefault(String str) {
-	    if (str == null || str == "") {
+	    if (str == null || str.equals("")) {
 	        return Float.valueOf(0);
-	    }
+	    } else {
 	    return Float.parseFloat(str);
+	    }
 	}
 
 }
