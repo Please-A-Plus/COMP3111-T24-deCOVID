@@ -82,6 +82,12 @@ loadScripts(document, 'script');</script>
 <hr>
 <pre>public class <span class="type-name-label">DeathCaseTable</span>
 extends java.lang.Object</pre>
+<div class="block"><h1>Death Cases Table Column Structure</h1>
+ The structure required to display number of death cases due to Covid for Task B1.</div>
+<dl class="notes">
+<dt>Since:</dt>
+<dd>2021-10-09</dd>
+</dl>
 </section>
 <section class="summary">
 <ul class="summary-list">
@@ -138,7 +144,9 @@ extends java.lang.Object</pre>
 <th class="col-constructor-name" scope="row"><code><span class="member-name-link"><a href="#%3Cinit%3E(java.lang.String,java.lang.String,java.lang.String)">DeathCaseTable</a></span>&#8203;(java.lang.String&nbsp;iCountry,
 java.lang.String&nbsp;iTotalDeaths,
 java.lang.String&nbsp;iTotalDeathsPerMillion)</code></th>
-<td class="col-last">&nbsp;</td>
+<td class="col-last">
+<div class="block">Constructor for ConfirmedCaseTable</div>
+</td>
 </tr>
 </tbody>
 </table>
@@ -164,17 +172,23 @@ java.lang.String&nbsp;iTotalDeathsPerMillion)</code></th>
 <tr class="alt-color" id="i0">
 <td class="col-first"><code>java.lang.String</code></td>
 <th class="col-second" scope="row"><code><span class="member-name-link"><a href="#getCountry()">getCountry</a></span>()</code></th>
-<td class="col-last">&nbsp;</td>
+<td class="col-last">
+<div class="block">Get the name of the country recorded until a day.</div>
+</td>
 </tr>
 <tr class="row-color" id="i1">
 <td class="col-first"><code>java.lang.String</code></td>
 <th class="col-second" scope="row"><code><span class="member-name-link"><a href="#getTotalDeaths()">getTotalDeaths</a></span>()</code></th>
-<td class="col-last">&nbsp;</td>
+<td class="col-last">
+<div class="block">Get the amount of total death cases due to Covid until a day in the country.</div>
+</td>
 </tr>
 <tr class="alt-color" id="i2">
 <td class="col-first"><code>java.lang.String</code></td>
 <th class="col-second" scope="row"><code><span class="member-name-link"><a href="#getTotalDeathsPerMillion()">getTotalDeathsPerMillion</a></span>()</code></th>
-<td class="col-last">&nbsp;</td>
+<td class="col-last">
+<div class="block">Get the amount of total death cases due to Covid until a day in the country.</div>
+</td>
 </tr>
 </tbody>
 </table>
@@ -226,6 +240,13 @@ java.lang.String&nbsp;iTotalDeathsPerMillion)</code></th>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="member-name">DeathCaseTable</span>&#8203;(<span class="parameters">java.lang.String&nbsp;iCountry,
 java.lang.String&nbsp;iTotalDeaths,
 java.lang.String&nbsp;iTotalDeathsPerMillion)</span></div>
+<div class="block">Constructor for ConfirmedCaseTable</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>iCountry</code> - Country name where the death cases due to Covid exist in.</dd>
+<dd><code>iTotalCases</code> - Total number of death cases due to Covid on a day in the given country.</dd>
+<dd><code>iTotalCasesPerMillion</code> - Total number of death cases per million due to covid on a day in the given country.</dd>
+</dl>
 </section>
 </li>
 </ul>
@@ -240,18 +261,33 @@ java.lang.String&nbsp;iTotalDeathsPerMillion)</span></div>
 <section class="detail" id="getCountry()">
 <h3>getCountry</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">java.lang.String</span>&nbsp;<span class="member-name">getCountry</span>()</div>
+<div class="block">Get the name of the country recorded until a day.</div>
+<dl class="notes">
+<dt>Returns:</dt>
+<dd>String representing the country's name.</dd>
+</dl>
 </section>
 </li>
 <li>
 <section class="detail" id="getTotalDeaths()">
 <h3>getTotalDeaths</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">java.lang.String</span>&nbsp;<span class="member-name">getTotalDeaths</span>()</div>
+<div class="block">Get the amount of total death cases due to Covid until a day in the country.</div>
+<dl class="notes">
+<dt>Returns:</dt>
+<dd>String on total number of deaths.</dd>
+</dl>
 </section>
 </li>
 <li>
 <section class="detail" id="getTotalDeathsPerMillion()">
 <h3>getTotalDeathsPerMillion</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">java.lang.String</span>&nbsp;<span class="member-name">getTotalDeathsPerMillion</span>()</div>
+<div class="block">Get the amount of total death cases due to Covid until a day in the country.</div>
+<dl class="notes">
+<dt>Returns:</dt>
+<dd>String on total number of deaths per million population.</dd>
+</dl>
 </section>
 </li>
 </ul>

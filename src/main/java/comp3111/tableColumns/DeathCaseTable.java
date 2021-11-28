@@ -1,7 +1,7 @@
 package comp3111.tableColumns;
 
 /**
- * <h1>Death Cases Table Column Structure</h1>
+ * Death Cases Table Column Structure
  * The structure required to display number of death cases due to Covid for Task B1.
  * @author Bryan Suryaraso Gani
  * @since 2021-10-09
