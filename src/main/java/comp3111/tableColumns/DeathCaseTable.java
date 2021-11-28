@@ -14,8 +14,8 @@ public class DeathCaseTable {
 	/**
 	 * Constructor for ConfirmedCaseTable
 	 * @param iCountry Country name where the death cases due to Covid exist in.
-	 * @param iTotalCases Total number of death cases due to Covid on a day in the given country.
-	 * @param iTotalCasesPerMillion Total number of death cases per million due to covid on a day in the given country.
+	 * @param iTotalDeaths Total number of death cases due to Covid on a day in the given country.
+	 * @param iTotalDeathsPerMillion Total number of death cases per million due to covid on a day in the given country.
 	 */
 	public DeathCaseTable(String iCountry, String iTotalDeaths, String iTotalDeathsPerMillion) {
         country = iCountry;
