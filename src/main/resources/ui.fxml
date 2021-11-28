@@ -170,7 +170,7 @@
                                     </Tab>
                                     <Tab fx:id="chartB_tab" text="Chart">
                                        <content>
-                                          <AnchorPane fx:id="tabChartA1" minHeight="0.0" minWidth="0.0" prefHeight="471.0" prefWidth="595.0">
+                                          <AnchorPane fx:id="tabChartB" minHeight="0.0" minWidth="0.0" prefHeight="471.0" prefWidth="595.0">
                                              <children>
                                                 <Button fx:id="chartB_submitButton" layoutX="520.0" layoutY="56.0" mnemonicParsing="false" onAction="#submitChartB" text="Generate" />
                                                 <Label layoutX="30.0" layoutY="20.0" text="Date of Interest:" />
@@ -250,7 +250,7 @@
                                     </Tab>
                                     <Tab fx:id="chartC_tab" text="Chart">
                                        <content>
-                                          <AnchorPane fx:id="tabChartA2" minHeight="0.0" minWidth="0.0" prefHeight="471.0" prefWidth="595.0">
+                                          <AnchorPane fx:id="tabChartC" minHeight="0.0" minWidth="0.0" prefHeight="471.0" prefWidth="595.0">
                                              <children>
                                                 <Button fx:id="chartC_submitButton" layoutX="520.0" layoutY="56.0" mnemonicParsing="false" onAction="#submitChartC" text="Generate" />
                                                 <Label layoutX="30.0" layoutY="20.0" text="Date of Interest:" />
