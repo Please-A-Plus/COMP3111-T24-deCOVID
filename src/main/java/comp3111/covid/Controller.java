@@ -201,6 +201,10 @@ public class Controller {
 			textAreaConsole.setText("Input Error: Please select countries.");
 			return false;
 		}
+		if (iISOs.size() > 20) {
+			textAreaConsole.setText("Warning: Over 20 countries selected. Please select less for better experience.");
+			return false;
+		}
 		return true;
 	}
 
