@@ -41,7 +41,7 @@ public class Controller {
 	/**
 	 * Task Zero
 	 * To be triggered by the "Confirmed Cases" button on the Task Zero Tab
-	 * 
+	 *
 	 */
 	@FXML
 	void doConfirmedCases(ActionEvent event) {
@@ -54,7 +54,7 @@ public class Controller {
 	/**
 	 * Task Zero
 	 * To be triggered by the "Confirmed Deaths" button on the Task Zero Tab
-	 * 
+	 *
 	 */
 	@FXML
 	void doConfirmedDeaths(ActionEvent event) {
@@ -67,7 +67,7 @@ public class Controller {
 	/**
 	 * Task Zero
 	 * To be triggered by the "Rate of Vaccination" button on the Task Zero Tab
-	 * 
+	 *
 	 */
 	@FXML
 	void doRateOfVaccination(ActionEvent event) {
@@ -115,10 +115,18 @@ public class Controller {
 
 	@FXML
 	private TextField textfieldISO;
-	
+
 	// initialize the controller class
 	private final List<String> prioritizedCountries = Arrays.asList("Hong Kong", "India", "Israel", "Japan", "Macao", "Singapore", "United Kingdom", "World");
 
+	/**
+	 * UI initialization
+	 * It is triggered at the start of the application.
+	 * It creates the dropdown menu for the country pickers,
+	 * Mount factory to table columns so that it acn be populated,
+	 * and set display properties for charts.
+	 *
+	 */
 	public void initialize() {
 		String iDataset = textfieldDataset.getText();
 		DataAnalysis.initCountriesDict(iDataset);
@@ -169,6 +177,14 @@ public class Controller {
 
 	}
 
+	/**
+	 * Data validation
+	 * Checks the user input for tables.
+	 * @param date The date inputted.
+	 * @param iISOs The List of countries (ISOs or names) inputted.
+	 * @return boolean Whether the input is valid.
+	 *
+	 */
 	// Table input validation
 	public boolean tableInputValidate(LocalDate date, List<String> iISOs) {
 		if (date == null) {
@@ -182,6 +198,15 @@ public class Controller {
 		return true;
 	}
 
+	/**
+	 * Data validation
+	 * Checks the user input for charts.
+	 * @param iStartDate The start date inputted.
+	 * @param iEndDate The end date inputted.
+	 * @param iISOs The List of countries (ISOs or names) inputted.
+	 * @return boolean Whether the input is valid.
+	 *
+	 */
 	// Chart input validation
 	public boolean chartInputValidate(LocalDate iStartDate, LocalDate iEndDate, List<String> iISOs) {
 		if (iStartDate == null) {
@@ -207,6 +232,13 @@ public class Controller {
 		return true;
 	}
 
+	/**
+	 * Axis Label Factory
+	 * Creates formatter object that can label an axis with epoch values as "dd LLLL yyyy" format.
+	 * @param xAxis The axis to be labelled with dates. Note that the axis should be populated with epoch values of dates.
+	 * @return NumberAxis.DefaultFormatter A axis formatter object.
+	 *
+	 */
 	// display epoch values in x axis as date
 	public NumberAxis.DefaultFormatter xAxisLabelFactory(NumberAxis xAxis) {
 		return new NumberAxis.DefaultFormatter(xAxis) {
@@ -242,13 +274,20 @@ public class Controller {
 
 	@FXML
 	private TableColumn<?, ?> tableA_totalCasesPerMillionColumn;
-	
+
     @FXML
     private CheckBox tableA_selectAll;
 
     @FXML
 	private Label tableA_title;
 
+	/**
+	 * Task A1
+	 * To be triggered when "select all" is selected on task A1.
+	 * @param event The event object of "select all" being clicked.
+	 * @return Nothing.
+	 *
+	 */
 	@FXML
 	void selectAllTableA(ActionEvent event) {
 		if (tableA_selectAll.isSelected()){
@@ -270,6 +309,13 @@ public class Controller {
 		}
 	}
 
+	/**
+	 * Task A1
+	 * Populates the Task A1 table. To be triggered when "Generate" is clicked on task A1.
+	 * @param event The event object of "Generate" being clicked.
+	 * @return Nothing.
+	 *
+	 */
 	@FXML
 	void submitTableA(ActionEvent event) {
 		String iDataset = textfieldDataset.getText();
@@ -327,6 +373,13 @@ public class Controller {
 	@FXML
 	private NumberAxis chartA_yAxis;
 
+	/**
+	 * Task A2
+	 * Populates the Task A2 chart. To be triggered when "Generate" is clicked on task A2.
+	 * @param event The event object of "Generate" being clicked.
+	 * @return Nothing.
+	 *
+	 */
 	@FXML
 	void submitChartA(ActionEvent event) {
 		String iDataset = textfieldDataset.getText();
@@ -391,6 +444,13 @@ public class Controller {
     @FXML
 	private Label tableC_title;
 
+	/**
+	 * Task C1
+	 * To be triggered when "select all" is selected on task C1.
+	 * @param event The event object of "select all" being clicked.
+	 * @return Nothing.
+	 *
+	 */
 	@FXML
 	void selectAllTableC(ActionEvent event) {
 		if (tableC_selectAll.isSelected()){
@@ -412,6 +472,13 @@ public class Controller {
 		}
 	}
 
+	/**
+	 * Task C1
+	 * Populates the Task C1 table. To be triggered when "Generate" is clicked on task C1.
+	 * @param event The event object of "Generate" being clicked.
+	 * @return Nothing.
+	 *
+	 */
 	@FXML
 	void submitTableC(ActionEvent event) {
 		String iDataset = textfieldDataset.getText();
@@ -462,6 +529,13 @@ public class Controller {
 	@FXML
 	private NumberAxis chartC_yAxis;
 
+	/**
+	 * Task C2
+	 * Populates the Task C2 chart. To be triggered when "Generate" is clicked on task C2.
+	 * @param event The event object of "Generate" being clicked.
+	 * @return Nothing.
+	 *
+	 */
 	@FXML
 	void submitChartC(ActionEvent event) {
 		String iDataset = textfieldDataset.getText();
@@ -532,6 +606,13 @@ public class Controller {
 	@FXML
     private CheckBox tableB_selectAll;
 
+	/**
+	 * Task B1
+	 * To be triggered when "select all" is selected on task B1.
+	 * @param event The event object of "select all" being clicked.
+	 * @return Nothing.
+	 *
+	 */
 	@FXML
 	void selectAllTableB(ActionEvent event) {
 		if (tableB_selectAll.isSelected()){
@@ -553,6 +634,13 @@ public class Controller {
 		}
 	}
 
+	/**
+	 * Task B1
+	 * Populates the Task B1 table. To be triggered when "Generate" is clicked on task B1.
+	 * @param event The event object of "Generate" being clicked.
+	 * @return Nothing.
+	 *
+	 */
 	@FXML
 	void submitTableB(ActionEvent event) {
 		String iDataset = textfieldDataset.getText();
@@ -616,7 +704,14 @@ public class Controller {
 
     @FXML
     private NumberAxis chartB_yAxis;
-	
+
+	/**
+	 * Task B2
+	 * Populates the Task B2 chart. To be triggered when "Generate" is clicked on task B2.
+	 * @param event The event object of "Generate" being clicked.
+	 * @return Nothing.
+	 *
+	 */
 	@FXML
 	void submitChartB(ActionEvent event) {
 		String iDataset = textfieldDataset.getText();
@@ -655,6 +750,13 @@ public class Controller {
 		textAreaConsole.setText("COVID-19 deaths chart generated successfully.");
 	}
 
+	/**
+	 * UI initialization
+	 * Updates the display text to country picker as "[number] countries selected". To be triggered when the drop down menu collapses.
+	 * @param event The event object a MenuButton collapsing its popup.
+	 *
+	 *
+	 */
 	public void handleMenuClose(Event event) {
 		Integer selected = 0;
 		var menu = (MenuButton) event.getSource();
