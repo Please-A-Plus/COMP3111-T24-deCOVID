@@ -1,0 +1,372 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>DataAnalysis.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">deCOVID</a> &gt; <a href="index.source.html" class="el_package">comp3111.covid</a> &gt; <span class="el_source">DataAnalysis.java</span></div><h1>DataAnalysis.java</h1><pre class="source lang-java linenums">package comp3111.covid;
+
+import org.apache.commons.csv.*;
+
+import comp3111.covidEntity.ConfirmedCaseRecord;
+import comp3111.covidEntity.ConfirmedDeathRecord;
+import comp3111.covidEntity.CovidRecord;
+import comp3111.covidEntity.VaccinationRecord;
+import comp3111.tableColumns.VaccinationTable;
+import edu.duke.*;
+import java.util.List;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.HashMap;
+
+/**
+ * 
+ * Data Explorer on COVID-19
+ * @author &lt;a href=mailto:namkiu@ust.hk&gt;Namkiu Chan&lt;/a&gt;
+ * @version	1.1
+ * 
+ */
+<span class="nc" id="L24">public class DataAnalysis {</span>
+<span class="fc" id="L25">	public static TwoWaysHashMap&lt;String, String&gt; countriesDict = null;</span>
+
+	public static CSVParser getFileParser(String dataset) {
+<span class="fc" id="L28">		FileResource fr = new FileResource(&quot;dataset/&quot; + dataset);</span>
+<span class="fc" id="L29">		return fr.getCSVParser(true);</span>
+	}
+
+	public static void initCountriesDict(String dataset) {
+<span class="fc bfc" id="L33" title="All 2 branches covered.">		if (dataset == null) {</span>
+<span class="fc" id="L34">			dataset = &quot;COVID_Dataset_v1.0.csv&quot;;</span>
+		}
+<span class="fc" id="L36">		countriesDict = new TwoWaysHashMap&lt;String, String&gt;();</span>
+<span class="fc bfc" id="L37" title="All 2 branches covered.">		for (CSVRecord rec : getFileParser(dataset)) {</span>
+<span class="fc" id="L38">			String loc = rec.get(&quot;location&quot;);</span>
+<span class="fc" id="L39">			String ISO = rec.get(&quot;iso_code&quot;);</span>
+<span class="fc bfc" id="L40" title="All 2 branches covered.">			if (!countriesDict.containsKeyForward(ISO)) {</span>
+<span class="fc" id="L41">				countriesDict.put(ISO, loc);</span>
+			}
+<span class="fc" id="L43">		}</span>
+<span class="fc" id="L44">	}</span>
+
+	public static String getConfirmedCases(String dataset, String iso_code) {
+<span class="nc" id="L47">		String oReport = &quot;&quot;;</span>
+<span class="nc" id="L48">		long confirmedCases = 0;</span>
+<span class="nc" id="L49">		long numRecord = 0;</span>
+<span class="nc" id="L50">		long totalNumRecord = 0;</span>
+
+<span class="nc bnc" id="L52" title="All 2 branches missed.">		for (CSVRecord rec : getFileParser(dataset)) {</span>
+
+<span class="nc bnc" id="L54" title="All 2 branches missed.">			if (rec.get(&quot;iso_code&quot;).equals(iso_code)) {</span>
+<span class="nc" id="L55">				String s = rec.get(&quot;new_cases&quot;);</span>
+<span class="nc bnc" id="L56" title="All 2 branches missed.">				if (!s.equals(&quot;&quot;)) {</span>
+<span class="nc" id="L57">					confirmedCases += Long.parseLong(s);</span>
+<span class="nc" id="L58">					numRecord++;</span>
+				}
+			}
+<span class="nc" id="L61">			totalNumRecord++;</span>
+<span class="nc" id="L62">		}</span>
+
+<span class="nc" id="L64">		oReport = String.format(&quot;Dataset (%s): %,d Records\n\n&quot;, dataset, totalNumRecord);</span>
+<span class="nc" id="L65">		oReport += String.format(&quot;[Summary (%s)]\n&quot;, iso_code);</span>
+<span class="nc" id="L66">		oReport += String.format(&quot;Number of Confirmed Cases: %,d\n&quot;, confirmedCases);</span>
+<span class="nc" id="L67">		oReport += String.format(&quot;Number of Days Reported: %,d\n&quot;, numRecord);</span>
+
+<span class="nc" id="L69">		return oReport;</span>
+	}
+
+
+	public static String getConfirmedDeaths(String dataset, String iso_code) {
+<span class="nc" id="L74">		String oReport = &quot;&quot;;</span>
+<span class="nc" id="L75">		long confirmedDeaths = 0;</span>
+<span class="nc" id="L76">		long numRecord = 0;</span>
+<span class="nc" id="L77">		long totalNumRecord = 0;</span>
+
+<span class="nc bnc" id="L79" title="All 2 branches missed.">		for (CSVRecord rec : getFileParser(dataset)) {</span>
+
+<span class="nc bnc" id="L81" title="All 2 branches missed.">			if (rec.get(&quot;iso_code&quot;).equals(iso_code)) {</span>
+<span class="nc" id="L82">				String s = rec.get(&quot;new_deaths&quot;);</span>
+<span class="nc bnc" id="L83" title="All 2 branches missed.">				if (!s.equals(&quot;&quot;)) {</span>
+<span class="nc" id="L84">					confirmedDeaths += Long.parseLong(s);</span>
+<span class="nc" id="L85">					numRecord++;</span>
+				}
+			}
+<span class="nc" id="L88">			totalNumRecord++;</span>
+<span class="nc" id="L89">		}</span>
+
+<span class="nc" id="L91">		oReport = String.format(&quot;Dataset (%s): %,d Records\n\n&quot;, dataset, totalNumRecord);</span>
+<span class="nc" id="L92">		oReport += String.format(&quot;[Summary (%s)]\n&quot;, iso_code);</span>
+<span class="nc" id="L93">		oReport += String.format(&quot;Number of Deaths: %,d\n&quot;, confirmedDeaths);</span>
+<span class="nc" id="L94">		oReport += String.format(&quot;Number of Days Reported: %,d\n&quot;, numRecord);</span>
+
+<span class="nc" id="L96">		return oReport;</span>
+	}
+
+	public static String getRateOfVaccination(String dataset, String iso_code) {
+<span class="nc" id="L100">		String oReport = &quot;&quot;;</span>
+<span class="nc" id="L101">		long fullyVaccinated = 0;</span>
+<span class="nc" id="L102">		long numRecord = 0;</span>
+<span class="nc" id="L103">		long totalNumRecord = 0;</span>
+<span class="nc" id="L104">		long population = 0;</span>
+<span class="nc" id="L105">		float rate = 0.0f;</span>
+
+<span class="nc bnc" id="L107" title="All 2 branches missed.">		for (CSVRecord rec : getFileParser(dataset)) {</span>
+
+<span class="nc bnc" id="L109" title="All 2 branches missed.">			if (rec.get(&quot;iso_code&quot;).equals(iso_code)) {</span>
+
+<span class="nc" id="L111">				String s1 = rec.get(&quot;people_fully_vaccinated&quot;);</span>
+<span class="nc" id="L112">				String s2 = rec.get(&quot;population&quot;);</span>
+<span class="nc bnc" id="L113" title="All 4 branches missed.">				if (!s1.equals(&quot;&quot;) &amp;&amp; !s2.equals(&quot;&quot;)) {</span>
+<span class="nc" id="L114">					fullyVaccinated = Long.parseLong(s1);</span>
+<span class="nc" id="L115">					population = Long.parseLong(s2);</span>
+<span class="nc" id="L116">					numRecord++;</span>
+				}
+			}
+<span class="nc" id="L119">			totalNumRecord++;</span>
+<span class="nc" id="L120">		}</span>
+
+<span class="nc bnc" id="L122" title="All 2 branches missed.">		if (population !=0)</span>
+<span class="nc" id="L123">			rate = (float) fullyVaccinated / population * 100;</span>
+
+<span class="nc" id="L125">		oReport = String.format(&quot;Dataset (%s): %,d Records\n\n&quot;, dataset, totalNumRecord);</span>
+<span class="nc" id="L126">		oReport += String.format(&quot;[Summary (%s)]\n&quot;, iso_code);</span>
+<span class="nc" id="L127">		oReport += String.format(&quot;Number of People Fully Vaccinated: %,d\n&quot;, fullyVaccinated);</span>
+<span class="nc" id="L128">		oReport += String.format(&quot;Population: %,d\n&quot;, population);</span>
+<span class="nc" id="L129">		oReport += String.format(&quot;Rate of Vaccination: %.2f%%\n&quot;, rate);</span>
+<span class="nc" id="L130">		oReport += String.format(&quot;Number of Days Reported: %,d\n&quot;, numRecord);</span>
+
+<span class="nc" id="L132">		return oReport;</span>
+	}
+
+	public static CovidRecord parseDataset(CSVRecord rec) {
+<span class="fc" id="L136">		DateTimeFormatter formatter = DateTimeFormatter.ofPattern(&quot;M/d/yyyy&quot;);</span>
+
+<span class="fc" id="L138">		String iso_code = rec.get(&quot;iso_code&quot;);</span>
+<span class="fc" id="L139">		String location = rec.get(&quot;location&quot;);</span>
+<span class="fc" id="L140">		LocalDate recDate = LocalDate.parse(rec.get(&quot;date&quot;), formatter);</span>
+<span class="fc" id="L141">		Long population = parseLongWithDefault(rec.get(&quot;population&quot;));</span>
+
+<span class="fc" id="L143">		Long totalCases = parseLongWithDefault(rec.get(&quot;total_cases&quot;));</span>
+<span class="fc" id="L144">		Long newCases = parseLongWithDefault(rec.get(&quot;new_cases&quot;));</span>
+<span class="fc" id="L145">		Float totalCasesPerMillion = parseFloatWithDefault(rec.get(&quot;total_cases_per_million&quot;));</span>
+<span class="fc" id="L146">		Float newCasesPerMillion = parseFloatWithDefault(rec.get(&quot;new_cases_per_million&quot;));</span>
+
+		//Death Data Parsing
+<span class="fc" id="L149">		Long totalDeaths = parseLongWithDefault(rec.get(&quot;total_deaths&quot;));</span>
+<span class="fc" id="L150">		Long newDeaths = parseLongWithDefault(rec.get(&quot;new_deaths&quot;));</span>
+<span class="fc" id="L151">		Float totalDeathsPerMillion = parseFloatWithDefault(rec.get(&quot;total_deaths_per_million&quot;));</span>
+<span class="fc" id="L152">		Float newDeathsPerMillion = parseFloatWithDefault(rec.get(&quot;new_deaths_per_million&quot;));</span>
+<span class="fc" id="L153">		Long vaccinated = parseLongWithDefault(rec.get(&quot;people_fully_vaccinated&quot;));</span>
+<span class="fc" id="L154">		Float backupVaccinationRate = parseFloatWithDefault(rec.get(&quot;total_vaccinations_per_hundred&quot;));</span>
+
+		//TODO: parse vaccination data
+
+<span class="fc" id="L158">		ConfirmedCaseRecord confirmedCaseRecord = new ConfirmedCaseRecord(totalCases, newCases, totalCasesPerMillion, newCasesPerMillion);</span>
+<span class="fc" id="L159">		ConfirmedDeathRecord confirmedDeathRecord = new ConfirmedDeathRecord(totalDeaths, newDeaths, totalDeathsPerMillion, newDeathsPerMillion);</span>
+<span class="fc" id="L160">		VaccinationRecord vaccinationRecord = new VaccinationRecord(vaccinated, backupVaccinationRate);</span>
+
+<span class="fc" id="L162">		CovidRecord covidRecord = new CovidRecord(iso_code, location, recDate, population, confirmedCaseRecord, confirmedDeathRecord, vaccinationRecord);</span>
+
+<span class="fc" id="L164">		return covidRecord;</span>
+	}
+
+	public static HashMap&lt;String, CovidRecord&gt; getCasesTable(String dataset, LocalDate date, List&lt;String&gt; ISOCodes) {
+<span class="fc" id="L168">		HashMap&lt;String, CovidRecord&gt; table = new HashMap&lt;String, CovidRecord&gt;();</span>
+<span class="fc bfc" id="L169" title="All 2 branches covered.">		for (var ISOCode: ISOCodes) {</span>
+<span class="fc" id="L170">			table.put(ISOCode, null);</span>
+<span class="fc" id="L171">		}</span>
+<span class="fc bfc" id="L172" title="All 2 branches covered.">		for (CSVRecord rec : getFileParser(dataset)) {</span>
+<span class="fc" id="L173">			CovidRecord covidRecord = parseDataset(rec);</span>
+<span class="fc bfc" id="L174" title="All 2 branches covered.">			if (ISOCodes.contains(covidRecord.iso_code)){</span>
+<span class="fc bfc" id="L175" title="All 4 branches covered.">				if (covidRecord.date.isBefore(date) || covidRecord.date.isEqual(date)){</span>
+<span class="fc" id="L176">					table.put(covidRecord.iso_code, covidRecord);</span>
+				}
+			}
+<span class="fc" id="L179">		}</span>
+<span class="fc" id="L180">		return table;</span>
+	}
+
+
+	// public static HashMap&lt;String, Long&gt; getTotalDeath(String dataset, LocalDate date) {
+	// 	HashMap&lt;String, Long&gt; totalDeathCasesMap = new HashMap&lt;String, Long&gt;();
+	// 	for (CSVRecord rec : getFileParser(dataset)) {
+	// 		CovidRecord covidRecord = parseDataset(rec);
+			
+	// 		if (!totalDeathCasesMap.containsKey(covidRecord.iso_code)) {
+	// 			totalDeathCasesMap.put(covidRecord.iso_code, Long.valueOf(0));
+	// 		}
+	// 		totalDeathCasesMap.put(covidRecord.iso_code, covidRecord.confirmedDeathRecord.getTotalDeaths());	
+	// 	}
+	// 	return totalDeathCasesMap;
+	// }
+
+	// public static HashMap&lt;String, Float&gt; getTotalDeathPerMillion(String dataset, LocalDate date) {
+	// 	HashMap&lt;String, Float&gt; totalDeathCasesMap = new HashMap&lt;String, Float&gt;();
+	// 	for (CSVRecord rec : getFileParser(dataset)) {
+	// 		CovidRecord covidRecord = parseDataset(rec);
+			
+	// 		if (!totalDeathCasesMap.containsKey(covidRecord.iso_code)) {
+	// 			totalDeathCasesMap.put(covidRecord.iso_code, Float.valueOf(0));
+	// 		}
+	// 		totalDeathCasesMap.put(covidRecord.iso_code, covidRecord.confirmedDeathRecord.getTotalDeathsPerMillion());	
+	// 	}
+	// 	return totalDeathCasesMap;
+	// }
+
+	// public static HashMap&lt;String, List&lt;FloatCoordinates&gt;&gt; getTotalDeathPerMillionPeriod(String dataset, LocalDate startDate, LocalDate endDate, List&lt;String&gt; locations) {
+	// 	//initialize return hashmap
+	// 	HashMap&lt;String, List&lt;FloatCoordinates&gt;&gt; table = new HashMap&lt;String, List&lt;FloatCoordinates&gt;&gt;();
+	// 	for (String location: locations) {
+	// 		List&lt;FloatCoordinates&gt; series = new ArrayList&lt;FloatCoordinates&gt;();
+	// 		table.put(location, series);
+	// 	}
+	// 	//search csv
+	// 	for (CSVRecord rec : getFileParser(dataset)) {
+	// 		String recLoc = rec.get(&quot;location&quot;);
+
+	// 		if (locations.contains(recLoc)) {
+	// 			DateTimeFormatter formatter = DateTimeFormatter.ofPattern(&quot;M/d/yyyy&quot;);
+	// 			LocalDate recDate = LocalDate.parse(rec.get(&quot;date&quot;), formatter);
+
+	// 			if (recDate.isAfter(startDate)){
+	// 				if (recDate.isBefore(endDate)){
+	// 					Float deathPerMillion;
+	// 					String deathPerMillionString = rec.get(&quot;total_deaths_per_million&quot;);
+	// 					// System.out.println(deathPerMillionString);
+	// 					deathPerMillion = Float.parseFloat(deathPerMillionString);
+	// 					FloatCoordinates coordinates = new FloatCoordinates(recDate, deathPerMillion);
+	// 					table.get(recLoc).add(coordinates);
+	// 				}
+	// 			}
+	// 		}
+	// 	}
+	// 	return table;
+	// }
+
+	// public static HashMap&lt;String, Long&gt; getNewDeath(String dataset, LocalDate date) {
+	// 	HashMap&lt;String, Long&gt; newDeathCasesMap = new HashMap&lt;String, Long&gt;();
+	// 	for (CSVRecord rec : getFileParser(dataset)) {
+	// 		CovidRecord covidRecord = parseDataset(rec);
+			
+	// 		if (!newDeathCasesMap.containsKey(covidRecord.iso_code)) {
+	// 			newDeathCasesMap.put(covidRecord.iso_code, Long.valueOf(0));
+	// 		}
+	// 		newDeathCasesMap.put(covidRecord.iso_code, covidRecord.confirmedDeathRecord.getNewDeaths());	
+	// 	}
+	// 	return newDeathCasesMap;
+	// }
+
+	public static HashMap&lt;String, VaccinationTable&gt; getVaccinationTable(String dataset, LocalDate date, List&lt;String&gt; locations) {
+<span class="fc" id="L254">		var table = new HashMap&lt;String, VaccinationTable&gt;();</span>
+<span class="fc bfc" id="L255" title="All 2 branches covered.">		for (CSVRecord rec : getFileParser(dataset)) {</span>
+<span class="fc" id="L256">			CovidRecord covidRecord = parseDataset(rec);</span>
+
+<span class="fc" id="L258">			String recLoc = covidRecord.location;</span>
+<span class="fc" id="L259">			Long vaccination = covidRecord.vaccinationRecord.fullyVaccinated;</span>
+<span class="fc" id="L260">			Long population = covidRecord.population;</span>
+
+<span class="fc bfc" id="L262" title="All 6 branches covered.">			if (locations.contains(recLoc) &amp;&amp; covidRecord.date.isBefore(date) || covidRecord.date.equals(date)) {</span>
+				//is not a missing value
+<span class="pc bpc" id="L264" title="1 of 4 branches missed.">				if (!table.containsKey(recLoc) || vaccination &gt; Long.parseLong(table.get(recLoc).fullyVaccinated)) {</span>
+<span class="fc bfc" id="L265" title="All 2 branches covered.">					Float rate = vaccination == 0 ? Float.valueOf(0) : (float) vaccination / population * 100;</span>
+					//cuz poor northern cyprus had NULL population
+<span class="fc bfc" id="L267" title="All 2 branches covered.">					if (recLoc.equals(&quot;Northern Cyprus&quot;)) {</span>
+<span class="fc" id="L268">						rate = covidRecord.vaccinationRecord.backupRate;</span>
+					}
+<span class="fc" id="L270">					var row = new VaccinationTable(covidRecord.location, vaccination.toString(), String.format(&quot;%.2f%%&quot;, rate));</span>
+<span class="fc" id="L271">					table.put(covidRecord.location, row);</span>
+				}
+			}
+<span class="fc" id="L274">		}</span>
+<span class="fc" id="L275">		return table;</span>
+	}
+
+	public static HashMap&lt;String, List&lt;FloatCoordinates&gt;&gt; getCasesChart(String dataset, LocalDate startDate, LocalDate endDate, List&lt;String&gt; locations) {
+		//initialize return hashmap
+<span class="fc" id="L280">		HashMap&lt;String, List&lt;FloatCoordinates&gt;&gt; table = new HashMap&lt;String, List&lt;FloatCoordinates&gt;&gt;();</span>
+<span class="fc bfc" id="L281" title="All 2 branches covered.">		for (String location: locations) {</span>
+<span class="fc" id="L282">			List&lt;FloatCoordinates&gt; series = new ArrayList&lt;FloatCoordinates&gt;();</span>
+<span class="fc" id="L283">			table.put(location, series);</span>
+<span class="fc" id="L284">		}</span>
+		//search csv
+<span class="fc bfc" id="L286" title="All 2 branches covered.">		for (CSVRecord rec : getFileParser(dataset)) {</span>
+<span class="fc" id="L287">			CovidRecord covidRecord = parseDataset(rec);</span>
+
+<span class="fc bfc" id="L289" title="All 2 branches covered.">			if (locations.contains(covidRecord.location)) {</span>
+<span class="fc" id="L290">				LocalDate recDate = covidRecord.date;</span>
+<span class="pc bpc" id="L291" title="3 of 8 branches missed.">				if ((recDate.isAfter(startDate) || recDate.equals(startDate)) &amp;&amp; (recDate.isBefore(endDate) || recDate.equals(endDate))) {</span>
+<span class="fc" id="L292">					Float rate = covidRecord.confirmedCaseRecord.totalCasesPerMillion;</span>
+<span class="fc" id="L293">					FloatCoordinates coord = new FloatCoordinates(recDate, rate);</span>
+<span class="fc" id="L294">					table.get(covidRecord.location).add(coord);</span>
+				}
+			}
+<span class="fc" id="L297">		}</span>
+<span class="fc" id="L298">		return table;</span>
+	}
+
+	public static HashMap&lt;String, List&lt;FloatCoordinates&gt;&gt; getDeathsChart(String dataset, LocalDate startDate, LocalDate endDate, List&lt;String&gt; locations) {
+		//initialize return hashmap
+<span class="fc" id="L303">		HashMap&lt;String, List&lt;FloatCoordinates&gt;&gt; table = new HashMap&lt;String, List&lt;FloatCoordinates&gt;&gt;();</span>
+<span class="fc bfc" id="L304" title="All 2 branches covered.">		for (String location: locations) {</span>
+<span class="fc" id="L305">			List&lt;FloatCoordinates&gt; series = new ArrayList&lt;FloatCoordinates&gt;();</span>
+<span class="fc" id="L306">			table.put(location, series);</span>
+<span class="fc" id="L307">		}</span>
+		//search csv
+<span class="fc bfc" id="L309" title="All 2 branches covered.">		for (CSVRecord rec : getFileParser(dataset)) {</span>
+<span class="fc" id="L310">			CovidRecord covidRecord = parseDataset(rec);</span>
+
+<span class="fc bfc" id="L312" title="All 2 branches covered.">			if (locations.contains(covidRecord.location)) {</span>
+<span class="fc" id="L313">				LocalDate recDate = covidRecord.date;</span>
+<span class="pc bpc" id="L314" title="3 of 8 branches missed.">				if ((recDate.isAfter(startDate) || recDate.equals(startDate)) &amp;&amp; (recDate.isBefore(endDate) || recDate.equals(endDate))) {</span>
+<span class="fc" id="L315">					Float deaths = covidRecord.confirmedDeathRecord.totalDeathsPerMillion;</span>
+<span class="fc" id="L316">					FloatCoordinates coord = new FloatCoordinates(recDate, deaths);</span>
+<span class="fc" id="L317">					table.get(covidRecord.location).add(coord);</span>
+				}
+			}
+<span class="fc" id="L320">		}</span>
+<span class="fc" id="L321">		return table;</span>
+	}
+
+	public static HashMap&lt;String, List&lt;FloatCoordinates&gt;&gt; getVaccinationChart(String dataset, LocalDate startDate, LocalDate endDate, List&lt;String&gt; locations) {
+		//initialize return hashmap
+<span class="fc" id="L326">		HashMap&lt;String, List&lt;FloatCoordinates&gt;&gt; table = new HashMap&lt;String, List&lt;FloatCoordinates&gt;&gt;();</span>
+		//to tackle missing values in dataset
+<span class="fc" id="L328">		var prevRate = new HashMap&lt;String, Float&gt;();</span>
+<span class="fc bfc" id="L329" title="All 2 branches covered.">		for (String location: locations) {</span>
+<span class="fc" id="L330">			List&lt;FloatCoordinates&gt; series = new ArrayList&lt;FloatCoordinates&gt;();</span>
+<span class="fc" id="L331">			table.put(location, series);</span>
+<span class="fc" id="L332">			prevRate.put(location, Float.valueOf(0));</span>
+<span class="fc" id="L333">		}</span>
+		//search csv
+<span class="fc bfc" id="L335" title="All 2 branches covered.">		for (CSVRecord rec : getFileParser(dataset)) {</span>
+<span class="fc" id="L336">			CovidRecord covidRecord = parseDataset(rec);</span>
+<span class="fc" id="L337">			LocalDate recDate = covidRecord.date;</span>
+<span class="fc" id="L338">			Long population = covidRecord.population;</span>
+<span class="fc" id="L339">			Long vaccination = covidRecord.vaccinationRecord.fullyVaccinated;</span>
+<span class="fc" id="L340">			Float rate = prevRate.get(rec.get(&quot;location&quot;));</span>
+
+<span class="fc bfc" id="L342" title="All 2 branches covered.">			if (locations.contains(covidRecord.location)) {</span>
+<span class="pc bpc" id="L343" title="3 of 8 branches missed.">				if ((recDate.isAfter(startDate) || recDate.equals(startDate)) &amp;&amp; (recDate.isBefore(endDate) || recDate.equals(endDate))){</span>
+<span class="pc bpc" id="L344" title="1 of 4 branches missed.">					if (!(population == 0 || vaccination == 0)) {</span>
+<span class="fc" id="L345">						rate = (float) vaccination / population * 100;</span>
+<span class="fc" id="L346">						prevRate.put(covidRecord.location, rate);</span>
+					}
+<span class="fc" id="L348">					FloatCoordinates coordinates = new FloatCoordinates(recDate, rate);</span>
+<span class="fc" id="L349">					table.get(covidRecord.location).add(coordinates);</span>
+				}
+			}
+<span class="fc" id="L352">		}</span>
+<span class="fc" id="L353">		return table;</span>
+	}
+
+	public static Long parseLongWithDefault(String str) {
+<span class="pc bpc" id="L357" title="1 of 4 branches missed.">	    if (str == null || str.equals(&quot;&quot;)) {</span>
+<span class="fc" id="L358">	        return Long.valueOf(0);</span>
+	    }
+<span class="fc" id="L360">			return Long.parseLong(str);</span>
+	}
+
+	public static Float parseFloatWithDefault(String str) {
+<span class="pc bpc" id="L364" title="1 of 4 branches missed.">	    if (str == null || str.equals(&quot;&quot;)) {</span>
+<span class="fc" id="L365">	        return Float.valueOf(0);</span>
+	    } else {
+<span class="fc" id="L367">	    return Float.parseFloat(str);</span>
+	    }
+	}
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>
