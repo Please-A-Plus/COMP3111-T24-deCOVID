@@ -7,5 +7,7 @@ jvm.arguments=
 build/*
 !build/jacocoHTML
 !build/reports
+!build/docs
+# Ignore IDE settings
 .settings
 .vscode
