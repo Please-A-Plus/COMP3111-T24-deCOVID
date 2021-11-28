@@ -25,5 +25,4 @@ public class CovidRecord {
 		this.confirmedDeathRecord = confirmedDeathRecord;
 		this.vaccinationRecord = vaccinationRecord;
 	}
-	
 }
