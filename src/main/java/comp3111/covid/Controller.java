@@ -645,44 +645,7 @@ public class Controller {
 
 		textAreaConsole.setText("COVID-19 deaths chart generated successfully.");
 	}
-	// @FXML
-	// void sumbitChartB(ActionEvent event) {
-	// 	String iDataset = textfieldDataset.getText();
-	// 	LocalDate iStartDate = startDeathDate.getValue();
-	// 	LocalDate iEndDate = finishDeathDate.getValue();
 
-	// 	List<String> ilocations = new ArrayList<String>();
-	// 	for (MenuItem item : deathGraphCountryPicker.getItems()) {
-	// 		CustomMenuItem checkItem = (CustomMenuItem) item;
-	// 		CheckBox checkBox = (CheckBox) checkItem.getContent();
-	// 		if (checkBox.isSelected()) {
-	// 			String location = checkBox.getText();
-	// 			ilocations.add(location);
-	// 		}
-	// 	}
-
-	// 	if (!chartInputValidate(iStartDate, iEndDate, ilocations))
-	// 		return;
-
-	// 	chartB_xAxis.setAutoRanging(false);
-	// 	chartB_xAxis.setLowerBound(iStartDate.toEpochDay());
-	// 	chartB_xAxis.setUpperBound(iEndDate.toEpochDay());
-
-	// 	HashMap<String, List<FloatCoordinates>> deathChart = DataAnalysis.getTotalDeathPerMillionPeriod(iDataset,
-	// 			iStartDate, iEndDate, ilocations);
-	// 	for (String key : deathChart.keySet()) {
-	// 		System.out.println(key);
-	// 	}
-	// 	chartB_lineChart.getData().clear();
-	// 	deathChart.forEach((location, line) -> {
-	// 		XYChart.Series<Long, Float> series = new XYChart.Series<>();
-	// 		for (FloatCoordinates coordinates : line) {
-	// 			series.getData().add(new XYChart.Data<>(coordinates.getDate().toEpochDay(), coordinates.getValue()));
-	// 		}
-	// 		chartB_lineChart.getData().add(series);
-	// 	});
-	// }
-	//changes drop down text
 	public void handleMenuClose(Event event) {
 		Integer selected = 0;
 		var menu = (MenuButton) event.getSource();
