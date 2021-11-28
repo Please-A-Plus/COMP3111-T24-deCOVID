@@ -82,6 +82,7 @@ loadScripts(document, 'script');</script>
 <hr>
 <pre>public class <span class="type-name-label">TwoWaysHashMap&lt;K,&#8203;V&gt;</span>
 extends java.lang.Object</pre>
+<div class="block">A two-way hash map. This class implements a hashMap that can be seached from both ends.</div>
 </section>
 <section class="summary">
 <ul class="summary-list">
@@ -103,12 +104,16 @@ extends java.lang.Object</pre>
 <tr class="alt-color">
 <td class="col-first"><code>java.util.Map&lt;<a href="TwoWaysHashMap.html" title="type parameter in TwoWaysHashMap">V</a>,&#8203;<a href="TwoWaysHashMap.html" title="type parameter in TwoWaysHashMap">K</a>&gt;</code></td>
 <th class="col-second" scope="row"><code><span class="member-name-link"><a href="#backward">backward</a></span></code></th>
-<td class="col-last">&nbsp;</td>
+<td class="col-last">
+<div class="block">The backward hash table.</div>
+</td>
 </tr>
 <tr class="row-color">
 <td class="col-first"><code>java.util.Map&lt;<a href="TwoWaysHashMap.html" title="type parameter in TwoWaysHashMap">K</a>,&#8203;<a href="TwoWaysHashMap.html" title="type parameter in TwoWaysHashMap">V</a>&gt;</code></td>
 <th class="col-second" scope="row"><code><span class="member-name-link"><a href="#forward">forward</a></span></code></th>
-<td class="col-last">&nbsp;</td>
+<td class="col-last">
+<div class="block">The forward hash table.</div>
+</td>
 </tr>
 </tbody>
 </table>
@@ -157,32 +162,44 @@ extends java.lang.Object</pre>
 <tr class="alt-color" id="i0">
 <td class="col-first"><code>boolean</code></td>
 <th class="col-second" scope="row"><code><span class="member-name-link"><a href="#containsKeyBackward(V)">containsKeyBackward</a></span>&#8203;(<a href="TwoWaysHashMap.html" title="type parameter in TwoWaysHashMap">V</a>&nbsp;key)</code></th>
-<td class="col-last">&nbsp;</td>
+<td class="col-last">
+<div class="block">check if a backward hash table contains a key.</div>
+</td>
 </tr>
 <tr class="row-color" id="i1">
 <td class="col-first"><code>boolean</code></td>
 <th class="col-second" scope="row"><code><span class="member-name-link"><a href="#containsKeyForward(K)">containsKeyForward</a></span>&#8203;(<a href="TwoWaysHashMap.html" title="type parameter in TwoWaysHashMap">K</a>&nbsp;key)</code></th>
-<td class="col-last">&nbsp;</td>
+<td class="col-last">
+<div class="block">check if a forward hash table contains a key.</div>
+</td>
 </tr>
 <tr class="alt-color" id="i2">
 <td class="col-first"><code><a href="TwoWaysHashMap.html" title="type parameter in TwoWaysHashMap">K</a></code></td>
 <th class="col-second" scope="row"><code><span class="member-name-link"><a href="#getBackward(V)">getBackward</a></span>&#8203;(<a href="TwoWaysHashMap.html" title="type parameter in TwoWaysHashMap">V</a>&nbsp;key)</code></th>
-<td class="col-last">&nbsp;</td>
+<td class="col-last">
+<div class="block">get key from the backward hash table.</div>
+</td>
 </tr>
 <tr class="row-color" id="i3">
 <td class="col-first"><code><a href="TwoWaysHashMap.html" title="type parameter in TwoWaysHashMap">V</a></code></td>
 <th class="col-second" scope="row"><code><span class="member-name-link"><a href="#getForward(K)">getForward</a></span>&#8203;(<a href="TwoWaysHashMap.html" title="type parameter in TwoWaysHashMap">K</a>&nbsp;key)</code></th>
-<td class="col-last">&nbsp;</td>
+<td class="col-last">
+<div class="block">get key from the forward hash table.</div>
+</td>
 </tr>
 <tr class="alt-color" id="i4">
 <td class="col-first"><code>java.util.Set&lt;<a href="TwoWaysHashMap.html" title="type parameter in TwoWaysHashMap">V</a>&gt;</code></td>
 <th class="col-second" scope="row"><code><span class="member-name-link"><a href="#keySetBackward()">keySetBackward</a></span>()</code></th>
-<td class="col-last">&nbsp;</td>
+<td class="col-last">
+<div class="block">get all the keys in the backward hash table.</div>
+</td>
 </tr>
 <tr class="row-color" id="i5">
 <td class="col-first"><code>java.util.Set&lt;<a href="TwoWaysHashMap.html" title="type parameter in TwoWaysHashMap">K</a>&gt;</code></td>
 <th class="col-second" scope="row"><code><span class="member-name-link"><a href="#keySetForward()">keySetForward</a></span>()</code></th>
-<td class="col-last">&nbsp;</td>
+<td class="col-last">
+<div class="block">get all the keys in the forward hash table.</div>
+</td>
 </tr>
 <tr class="alt-color" id="i6">
 <td class="col-first"><code>void</code></td>
@@ -212,12 +229,14 @@ extends java.lang.Object</pre>
 <section class="detail" id="forward">
 <h3>forward</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">java.util.Map&lt;<a href="TwoWaysHashMap.html" title="type parameter in TwoWaysHashMap">K</a>,&#8203;<a href="TwoWaysHashMap.html" title="type parameter in TwoWaysHashMap">V</a>&gt;</span>&nbsp;<span class="member-name">forward</span></div>
+<div class="block">The forward hash table.</div>
 </section>
 </li>
 <li>
 <section class="detail" id="backward">
 <h3>backward</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">java.util.Map&lt;<a href="TwoWaysHashMap.html" title="type parameter in TwoWaysHashMap">V</a>,&#8203;<a href="TwoWaysHashMap.html" title="type parameter in TwoWaysHashMap">K</a>&gt;</span>&nbsp;<span class="member-name">backward</span></div>
+<div class="block">The backward hash table.</div>
 </section>
 </li>
 </ul>
@@ -253,36 +272,74 @@ extends java.lang.Object</pre>
 <section class="detail" id="getForward(K)">
 <h3 id="getForward(java.lang.Object)">getForward</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="TwoWaysHashMap.html" title="type parameter in TwoWaysHashMap">V</a></span>&nbsp;<span class="member-name">getForward</span>&#8203;(<span class="parameters"><a href="TwoWaysHashMap.html" title="type parameter in TwoWaysHashMap">K</a>&nbsp;key)</span></div>
+<div class="block">get key from the forward hash table.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>key</code> - the key to be searched.</dd>
+<dt>Returns:</dt>
+<dd>the value associated with the key.</dd>
+</dl>
 </section>
 </li>
 <li>
 <section class="detail" id="getBackward(V)">
 <h3 id="getBackward(java.lang.Object)">getBackward</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="TwoWaysHashMap.html" title="type parameter in TwoWaysHashMap">K</a></span>&nbsp;<span class="member-name">getBackward</span>&#8203;(<span class="parameters"><a href="TwoWaysHashMap.html" title="type parameter in TwoWaysHashMap">V</a>&nbsp;key)</span></div>
+<div class="block">get key from the backward hash table.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>key</code> - the key to be searched.</dd>
+<dt>Returns:</dt>
+<dd>the value associated with the key.</dd>
+</dl>
 </section>
 </li>
 <li>
 <section class="detail" id="containsKeyForward(K)">
 <h3 id="containsKeyForward(java.lang.Object)">containsKeyForward</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="member-name">containsKeyForward</span>&#8203;(<span class="parameters"><a href="TwoWaysHashMap.html" title="type parameter in TwoWaysHashMap">K</a>&nbsp;key)</span></div>
+<div class="block">check if a forward hash table contains a key.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>key</code> - the key to be checked.</dd>
+<dt>Returns:</dt>
+<dd>true if the key is in the backward hash table.</dd>
+</dl>
 </section>
 </li>
 <li>
 <section class="detail" id="containsKeyBackward(V)">
 <h3 id="containsKeyBackward(java.lang.Object)">containsKeyBackward</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="member-name">containsKeyBackward</span>&#8203;(<span class="parameters"><a href="TwoWaysHashMap.html" title="type parameter in TwoWaysHashMap">V</a>&nbsp;key)</span></div>
+<div class="block">check if a backward hash table contains a key.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>key</code> - the key to be checked.</dd>
+<dt>Returns:</dt>
+<dd>true if the key is in the backward hash table.</dd>
+</dl>
 </section>
 </li>
 <li>
 <section class="detail" id="keySetForward()">
 <h3>keySetForward</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">java.util.Set&lt;<a href="TwoWaysHashMap.html" title="type parameter in TwoWaysHashMap">K</a>&gt;</span>&nbsp;<span class="member-name">keySetForward</span>()</div>
+<div class="block">get all the keys in the forward hash table.</div>
+<dl class="notes">
+<dt>Returns:</dt>
+<dd>a set of keys.</dd>
+</dl>
 </section>
 </li>
 <li>
 <section class="detail" id="keySetBackward()">
 <h3>keySetBackward</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">java.util.Set&lt;<a href="TwoWaysHashMap.html" title="type parameter in TwoWaysHashMap">V</a>&gt;</span>&nbsp;<span class="member-name">keySetBackward</span>()</div>
+<div class="block">get all the keys in the backward hash table.</div>
+<dl class="notes">
+<dt>Returns:</dt>
+<dd>a set of keys.</dd>
+</dl>
 </section>
 </li>
 </ul>

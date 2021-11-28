@@ -76,14 +76,7 @@ loadScripts(document, 'script');</script>
 <hr>
 <pre>public class <span class="type-name-label">ConfirmedCaseRecord</span>
 extends java.lang.Object</pre>
-<div class="block">Confirmed Cases Record Data [TaskA]
- Data related to confirmed cases for CovidRecord</div>
-<dl class="notes">
-<dt>Since:</dt>
-<dd>2021-11-07</dd>
-<dt>See Also:</dt>
-<dd><a href="CovidRecord.html" title="class in comp3111.covidEntity"><code>.</code></a></dd>
-</dl>
+<div class="block">This class is used to store the confirmed case record.</div>
 </section>
 <section class="summary">
 <ul class="summary-list">
@@ -106,25 +99,29 @@ extends java.lang.Object</pre>
 <td class="col-first"><code>java.lang.Long</code></td>
 <th class="col-second" scope="row"><code><span class="member-name-link"><a href="#newCases">newCases</a></span></code></th>
 <td class="col-last">
-<div class="block">New Covid cases on a day</div>
+<div class="block">The number of daily new cases.</div>
 </td>
 </tr>
 <tr class="row-color">
 <td class="col-first"><code>java.lang.Float</code></td>
 <th class="col-second" scope="row"><code><span class="member-name-link"><a href="#newCasesPerMillion">newCasesPerMillion</a></span></code></th>
-<td class="col-last">&nbsp;</td>
+<td class="col-last">
+<div class="block">The number of daily confirmed cases per million population.</div>
+</td>
 </tr>
 <tr class="alt-color">
 <td class="col-first"><code>java.lang.Long</code></td>
 <th class="col-second" scope="row"><code><span class="member-name-link"><a href="#totalCases">totalCases</a></span></code></th>
 <td class="col-last">
-<div class="block">Total number of Covid cases until a day.</div>
+<div class="block">The number of total confirmed cases.</div>
 </td>
 </tr>
 <tr class="row-color">
 <td class="col-first"><code>java.lang.Float</code></td>
 <th class="col-second" scope="row"><code><span class="member-name-link"><a href="#totalCasesPerMillion">totalCasesPerMillion</a></span></code></th>
-<td class="col-last">&nbsp;</td>
+<td class="col-last">
+<div class="block">The number of total confirmed cases per million population.</div>
+</td>
 </tr>
 </tbody>
 </table>
@@ -151,7 +148,7 @@ java.lang.Long&nbsp;newCases,
 java.lang.Float&nbsp;totalCasesPerMillion,
 java.lang.Float&nbsp;newCasesPerMillion)</code></th>
 <td class="col-last">
-<div class="block">Constructor for ConfirmedCaseRecord</div>
+<div class="block">Class constructor.</div>
 </td>
 </tr>
 </tbody>
@@ -180,27 +177,29 @@ java.lang.Float&nbsp;newCasesPerMillion)</code></th>
 <li>
 <section class="detail" id="totalCases">
 <h3>totalCases</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">java.lang.Long</span>&nbsp;<span class="member-name">totalCases</span></div>
-<div class="block">Total number of Covid cases until a day.</div>
+<div class="member-signature"><span class="modifiers">public final</span>&nbsp;<span class="return-type">java.lang.Long</span>&nbsp;<span class="member-name">totalCases</span></div>
+<div class="block">The number of total confirmed cases.</div>
 </section>
 </li>
 <li>
 <section class="detail" id="newCases">
 <h3>newCases</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">java.lang.Long</span>&nbsp;<span class="member-name">newCases</span></div>
-<div class="block">New Covid cases on a day</div>
+<div class="member-signature"><span class="modifiers">public final</span>&nbsp;<span class="return-type">java.lang.Long</span>&nbsp;<span class="member-name">newCases</span></div>
+<div class="block">The number of daily new cases.</div>
 </section>
 </li>
 <li>
 <section class="detail" id="totalCasesPerMillion">
 <h3>totalCasesPerMillion</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">java.lang.Float</span>&nbsp;<span class="member-name">totalCasesPerMillion</span></div>
+<div class="member-signature"><span class="modifiers">public final</span>&nbsp;<span class="return-type">java.lang.Float</span>&nbsp;<span class="member-name">totalCasesPerMillion</span></div>
+<div class="block">The number of total confirmed cases per million population.</div>
 </section>
 </li>
 <li>
 <section class="detail" id="newCasesPerMillion">
 <h3>newCasesPerMillion</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">java.lang.Float</span>&nbsp;<span class="member-name">newCasesPerMillion</span></div>
+<div class="member-signature"><span class="modifiers">public final</span>&nbsp;<span class="return-type">java.lang.Float</span>&nbsp;<span class="member-name">newCasesPerMillion</span></div>
+<div class="block">The number of daily confirmed cases per million population.</div>
 </section>
 </li>
 </ul>
@@ -218,14 +217,7 @@ java.lang.Float&nbsp;newCasesPerMillion)</code></th>
 java.lang.Long&nbsp;newCases,
 java.lang.Float&nbsp;totalCasesPerMillion,
 java.lang.Float&nbsp;newCasesPerMillion)</span></div>
-<div class="block">Constructor for ConfirmedCaseRecord</div>
-<dl class="notes">
-<dt>Parameters:</dt>
-<dd><code>totalCases</code> - Total cases until that day</dd>
-<dd><code>newCases</code> - New cases on that day</dd>
-<dd><code>totalCasesPerMillion</code> - Total cases permillion population</dd>
-<dd><code>newCasesPerMillion</code> - New cases per million population</dd>
-</dl>
+<div class="block">Class constructor.</div>
 </section>
 </li>
 </ul>

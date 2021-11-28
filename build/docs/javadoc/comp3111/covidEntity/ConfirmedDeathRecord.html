@@ -76,6 +76,14 @@ loadScripts(document, 'script');</script>
 <hr>
 <pre>public class <span class="type-name-label">ConfirmedDeathRecord</span>
 extends java.lang.Object</pre>
+<div class="block">Death Record Data [Task B]
+ Data related to death cases due to Covid for CovidRecord</div>
+<dl class="notes">
+<dt>Since:</dt>
+<dd>2021-11-07</dd>
+<dt>See Also:</dt>
+<dd><a href="CovidRecord.html" title="class in comp3111.covidEntity"><code>CovidRecord</code></a></dd>
+</dl>
 </section>
 <section class="summary">
 <ul class="summary-list">
@@ -97,7 +105,9 @@ extends java.lang.Object</pre>
 <tr class="alt-color">
 <td class="col-first"><code>java.lang.Long</code></td>
 <th class="col-second" scope="row"><code><span class="member-name-link"><a href="#newDeaths">newDeaths</a></span></code></th>
-<td class="col-last">&nbsp;</td>
+<td class="col-last">
+<div class="block">New death cases due to covid on a day</div>
+</td>
 </tr>
 <tr class="row-color">
 <td class="col-first"><code>java.lang.Float</code></td>
@@ -107,7 +117,9 @@ extends java.lang.Object</pre>
 <tr class="alt-color">
 <td class="col-first"><code>java.lang.Long</code></td>
 <th class="col-second" scope="row"><code><span class="member-name-link"><a href="#totalDeaths">totalDeaths</a></span></code></th>
-<td class="col-last">&nbsp;</td>
+<td class="col-last">
+<div class="block">Total number of death due to Covid until a day.</div>
+</td>
 </tr>
 <tr class="row-color">
 <td class="col-first"><code>java.lang.Float</code></td>
@@ -138,7 +150,9 @@ extends java.lang.Object</pre>
 java.lang.Long&nbsp;newDeaths,
 java.lang.Float&nbsp;totalDeathsPerMillion,
 java.lang.Float&nbsp;newDeathsPerMillion)</code></th>
-<td class="col-last">&nbsp;</td>
+<td class="col-last">
+<div class="block">Constructor for ConfirmedDeathRecord</div>
+</td>
 </tr>
 </tbody>
 </table>
@@ -166,25 +180,27 @@ java.lang.Float&nbsp;newDeathsPerMillion)</code></th>
 <li>
 <section class="detail" id="totalDeaths">
 <h3>totalDeaths</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">java.lang.Long</span>&nbsp;<span class="member-name">totalDeaths</span></div>
+<div class="member-signature"><span class="modifiers">public final</span>&nbsp;<span class="return-type">java.lang.Long</span>&nbsp;<span class="member-name">totalDeaths</span></div>
+<div class="block">Total number of death due to Covid until a day.</div>
 </section>
 </li>
 <li>
 <section class="detail" id="newDeaths">
 <h3>newDeaths</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">java.lang.Long</span>&nbsp;<span class="member-name">newDeaths</span></div>
+<div class="member-signature"><span class="modifiers">public final</span>&nbsp;<span class="return-type">java.lang.Long</span>&nbsp;<span class="member-name">newDeaths</span></div>
+<div class="block">New death cases due to covid on a day</div>
 </section>
 </li>
 <li>
 <section class="detail" id="totalDeathsPerMillion">
 <h3>totalDeathsPerMillion</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">java.lang.Float</span>&nbsp;<span class="member-name">totalDeathsPerMillion</span></div>
+<div class="member-signature"><span class="modifiers">public final</span>&nbsp;<span class="return-type">java.lang.Float</span>&nbsp;<span class="member-name">totalDeathsPerMillion</span></div>
 </section>
 </li>
 <li>
 <section class="detail" id="newDeathsPerMillion">
 <h3>newDeathsPerMillion</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">java.lang.Float</span>&nbsp;<span class="member-name">newDeathsPerMillion</span></div>
+<div class="member-signature"><span class="modifiers">public final</span>&nbsp;<span class="return-type">java.lang.Float</span>&nbsp;<span class="member-name">newDeathsPerMillion</span></div>
 </section>
 </li>
 </ul>
@@ -202,6 +218,14 @@ java.lang.Float&nbsp;newDeathsPerMillion)</code></th>
 java.lang.Long&nbsp;newDeaths,
 java.lang.Float&nbsp;totalDeathsPerMillion,
 java.lang.Float&nbsp;newDeathsPerMillion)</span></div>
+<div class="block">Constructor for ConfirmedDeathRecord</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>totalDeaths</code> - Total deaths until that day</dd>
+<dd><code>newDeaths</code> - New deaths on that day</dd>
+<dd><code>totalDeathsPerMillion</code> - Total deaths per million population</dd>
+<dd><code>newDeathsPerMillion</code> - New Deaths per million population</dd>
+</dl>
 </section>
 </li>
 </ul>

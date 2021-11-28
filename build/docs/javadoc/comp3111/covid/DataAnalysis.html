@@ -156,26 +156,34 @@ extends java.lang.Object</pre>
 java.time.LocalDate&nbsp;startDate,
 java.time.LocalDate&nbsp;endDate,
 java.util.List&lt;java.lang.String&gt;&nbsp;locations)</code></th>
-<td class="col-last">&nbsp;</td>
+<td class="col-last">
+<div class="block">Get the table entries of COVID-19 confirmed cases chart coordinates for a given country between startDate and endDate</div>
+</td>
 </tr>
 <tr class="row-color" id="i1">
 <td class="col-first"><code>static java.util.HashMap&lt;java.lang.String,&#8203;<a href="../covidEntity/CovidRecord.html" title="class in comp3111.covidEntity">CovidRecord</a>&gt;</code></td>
 <th class="col-second" scope="row"><code><span class="member-name-link"><a href="#getCasesTable(java.lang.String,java.time.LocalDate,java.util.List)">getCasesTable</a></span>&#8203;(java.lang.String&nbsp;dataset,
 java.time.LocalDate&nbsp;date,
 java.util.List&lt;java.lang.String&gt;&nbsp;ISOCodes)</code></th>
-<td class="col-last">&nbsp;</td>
+<td class="col-last">
+<div class="block">Get the table entries of COVID-19 cases and deaths for a given country as of the specified date</div>
+</td>
 </tr>
 <tr class="alt-color" id="i2">
 <td class="col-first"><code>static java.lang.String</code></td>
 <th class="col-second" scope="row"><code><span class="member-name-link"><a href="#getConfirmedCases(java.lang.String,java.lang.String)">getConfirmedCases</a></span>&#8203;(java.lang.String&nbsp;dataset,
 java.lang.String&nbsp;iso_code)</code></th>
-<td class="col-last">&nbsp;</td>
+<td class="col-last">
+<div class="block">Get the confirmed cases report for a given country</div>
+</td>
 </tr>
 <tr class="row-color" id="i3">
 <td class="col-first"><code>static java.lang.String</code></td>
 <th class="col-second" scope="row"><code><span class="member-name-link"><a href="#getConfirmedDeaths(java.lang.String,java.lang.String)">getConfirmedDeaths</a></span>&#8203;(java.lang.String&nbsp;dataset,
 java.lang.String&nbsp;iso_code)</code></th>
-<td class="col-last">&nbsp;</td>
+<td class="col-last">
+<div class="block">Get the confirmed deaths report for a given country</div>
+</td>
 </tr>
 <tr class="alt-color" id="i4">
 <td class="col-first"><code>static java.util.HashMap&lt;java.lang.String,&#8203;java.util.List&lt;<a href="FloatCoordinates.html" title="class in comp3111.covid">FloatCoordinates</a>&gt;&gt;</code></td>
@@ -183,18 +191,24 @@ java.lang.String&nbsp;iso_code)</code></th>
 java.time.LocalDate&nbsp;startDate,
 java.time.LocalDate&nbsp;endDate,
 java.util.List&lt;java.lang.String&gt;&nbsp;locations)</code></th>
-<td class="col-last">&nbsp;</td>
+<td class="col-last">
+<div class="block">Get the table entries of COVID-19 confirmed deaths chart coordinates for a given country between startDate and endDate</div>
+</td>
 </tr>
 <tr class="row-color" id="i5">
 <td class="col-first"><code>static org.apache.commons.csv.CSVParser</code></td>
 <th class="col-second" scope="row"><code><span class="member-name-link"><a href="#getFileParser(java.lang.String)">getFileParser</a></span>&#8203;(java.lang.String&nbsp;dataset)</code></th>
-<td class="col-last">&nbsp;</td>
+<td class="col-last">
+<div class="block">To get the CSV parser for the given file</div>
+</td>
 </tr>
 <tr class="alt-color" id="i6">
 <td class="col-first"><code>static java.lang.String</code></td>
 <th class="col-second" scope="row"><code><span class="member-name-link"><a href="#getRateOfVaccination(java.lang.String,java.lang.String)">getRateOfVaccination</a></span>&#8203;(java.lang.String&nbsp;dataset,
 java.lang.String&nbsp;iso_code)</code></th>
-<td class="col-last">&nbsp;</td>
+<td class="col-last">
+<div class="block">Get the vaccination rate reportfor a given country</div>
+</td>
 </tr>
 <tr class="row-color" id="i7">
 <td class="col-first"><code>static java.util.HashMap&lt;java.lang.String,&#8203;java.util.List&lt;<a href="FloatCoordinates.html" title="class in comp3111.covid">FloatCoordinates</a>&gt;&gt;</code></td>
@@ -202,34 +216,46 @@ java.lang.String&nbsp;iso_code)</code></th>
 java.time.LocalDate&nbsp;startDate,
 java.time.LocalDate&nbsp;endDate,
 java.util.List&lt;java.lang.String&gt;&nbsp;locations)</code></th>
-<td class="col-last">&nbsp;</td>
+<td class="col-last">
+<div class="block">Get the table entries of COVID-19 vaccination rate chart coordinates for a given country between startDate and endDate</div>
+</td>
 </tr>
 <tr class="alt-color" id="i8">
 <td class="col-first"><code>static java.util.HashMap&lt;java.lang.String,&#8203;<a href="../tableColumns/VaccinationTable.html" title="class in comp3111.tableColumns">VaccinationTable</a>&gt;</code></td>
 <th class="col-second" scope="row"><code><span class="member-name-link"><a href="#getVaccinationTable(java.lang.String,java.time.LocalDate,java.util.List)">getVaccinationTable</a></span>&#8203;(java.lang.String&nbsp;dataset,
 java.time.LocalDate&nbsp;date,
 java.util.List&lt;java.lang.String&gt;&nbsp;locations)</code></th>
-<td class="col-last">&nbsp;</td>
+<td class="col-last">
+<div class="block">Get the table entries of COVID-19 vaccination rate for a given country as of the specified date</div>
+</td>
 </tr>
 <tr class="row-color" id="i9">
 <td class="col-first"><code>static void</code></td>
 <th class="col-second" scope="row"><code><span class="member-name-link"><a href="#initCountriesDict(java.lang.String)">initCountriesDict</a></span>&#8203;(java.lang.String&nbsp;dataset)</code></th>
-<td class="col-last">&nbsp;</td>
+<td class="col-last">
+<div class="block">Initialize the countries dictionary using TwoWaysHashMap</div>
+</td>
 </tr>
 <tr class="alt-color" id="i10">
 <td class="col-first"><code>static <a href="../covidEntity/CovidRecord.html" title="class in comp3111.covidEntity">CovidRecord</a></code></td>
 <th class="col-second" scope="row"><code><span class="member-name-link"><a href="#parseDataset(org.apache.commons.csv.CSVRecord)">parseDataset</a></span>&#8203;(org.apache.commons.csv.CSVRecord&nbsp;rec)</code></th>
-<td class="col-last">&nbsp;</td>
+<td class="col-last">
+<div class="block">Parse the given CSV record and return CovidRecord representation of the entry</div>
+</td>
 </tr>
 <tr class="row-color" id="i11">
 <td class="col-first"><code>static java.lang.Float</code></td>
 <th class="col-second" scope="row"><code><span class="member-name-link"><a href="#parseFloatWithDefault(java.lang.String)">parseFloatWithDefault</a></span>&#8203;(java.lang.String&nbsp;str)</code></th>
-<td class="col-last">&nbsp;</td>
+<td class="col-last">
+<div class="block">Parse string into Float with a default value of 0</div>
+</td>
 </tr>
 <tr class="alt-color" id="i12">
 <td class="col-first"><code>static java.lang.Long</code></td>
 <th class="col-second" scope="row"><code><span class="member-name-link"><a href="#parseLongWithDefault(java.lang.String)">parseLongWithDefault</a></span>&#8203;(java.lang.String&nbsp;str)</code></th>
-<td class="col-last">&nbsp;</td>
+<td class="col-last">
+<div class="block">Parse string into Long with a default value of 0</div>
+</td>
 </tr>
 </tbody>
 </table>
@@ -281,6 +307,7 @@ java.util.List&lt;java.lang.String&gt;&nbsp;locations)</code></th>
 <section class="detail" id="getFileParser(java.lang.String)">
 <h3>getFileParser</h3>
 <div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">org.apache.commons.csv.CSVParser</span>&nbsp;<span class="member-name">getFileParser</span>&#8203;(<span class="parameters">java.lang.String&nbsp;dataset)</span></div>
+<div class="block">To get the CSV parser for the given file</div>
 <dl class="notes">
 <dt>Parameters:</dt>
 <dd><code>dataset</code> - COVID-19 CSV dataset location</dd>
@@ -293,6 +320,7 @@ java.util.List&lt;java.lang.String&gt;&nbsp;locations)</code></th>
 <section class="detail" id="initCountriesDict(java.lang.String)">
 <h3>initCountriesDict</h3>
 <div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="member-name">initCountriesDict</span>&#8203;(<span class="parameters">java.lang.String&nbsp;dataset)</span></div>
+<div class="block">Initialize the countries dictionary using TwoWaysHashMap</div>
 <dl class="notes">
 <dt>Parameters:</dt>
 <dd><code>dataset</code> - COVID-19 CSV dataset location</dd>
@@ -304,6 +332,7 @@ java.util.List&lt;java.lang.String&gt;&nbsp;locations)</code></th>
 <h3>getConfirmedCases</h3>
 <div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">java.lang.String</span>&nbsp;<span class="member-name">getConfirmedCases</span>&#8203;(<span class="parameters">java.lang.String&nbsp;dataset,
 java.lang.String&nbsp;iso_code)</span></div>
+<div class="block">Get the confirmed cases report for a given country</div>
 <dl class="notes">
 <dt>Parameters:</dt>
 <dd><code>dataset</code> - COVID-19 CSV dataset location</dd>
@@ -318,6 +347,7 @@ java.lang.String&nbsp;iso_code)</span></div>
 <h3>getConfirmedDeaths</h3>
 <div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">java.lang.String</span>&nbsp;<span class="member-name">getConfirmedDeaths</span>&#8203;(<span class="parameters">java.lang.String&nbsp;dataset,
 java.lang.String&nbsp;iso_code)</span></div>
+<div class="block">Get the confirmed deaths report for a given country</div>
 <dl class="notes">
 <dt>Parameters:</dt>
 <dd><code>dataset</code> - COVID-19 CSV dataset location</dd>
@@ -332,6 +362,7 @@ java.lang.String&nbsp;iso_code)</span></div>
 <h3>getRateOfVaccination</h3>
 <div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">java.lang.String</span>&nbsp;<span class="member-name">getRateOfVaccination</span>&#8203;(<span class="parameters">java.lang.String&nbsp;dataset,
 java.lang.String&nbsp;iso_code)</span></div>
+<div class="block">Get the vaccination rate reportfor a given country</div>
 <dl class="notes">
 <dt>Parameters:</dt>
 <dd><code>dataset</code> - COVID-19 CSV dataset location</dd>
@@ -345,6 +376,7 @@ java.lang.String&nbsp;iso_code)</span></div>
 <section class="detail" id="parseDataset(org.apache.commons.csv.CSVRecord)">
 <h3>parseDataset</h3>
 <div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="../covidEntity/CovidRecord.html" title="class in comp3111.covidEntity">CovidRecord</a></span>&nbsp;<span class="member-name">parseDataset</span>&#8203;(<span class="parameters">org.apache.commons.csv.CSVRecord&nbsp;rec)</span></div>
+<div class="block">Parse the given CSV record and return CovidRecord representation of the entry</div>
 <dl class="notes">
 <dt>Parameters:</dt>
 <dd><code>rec</code> - a CSVRecord instance to be parsed</dd>
@@ -359,6 +391,7 @@ java.lang.String&nbsp;iso_code)</span></div>
 <div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">java.util.HashMap&lt;java.lang.String,&#8203;<a href="../covidEntity/CovidRecord.html" title="class in comp3111.covidEntity">CovidRecord</a>&gt;</span>&nbsp;<span class="member-name">getCasesTable</span>&#8203;(<span class="parameters">java.lang.String&nbsp;dataset,
 java.time.LocalDate&nbsp;date,
 java.util.List&lt;java.lang.String&gt;&nbsp;ISOCodes)</span></div>
+<div class="block">Get the table entries of COVID-19 cases and deaths for a given country as of the specified date</div>
 <dl class="notes">
 <dt>Parameters:</dt>
 <dd><code>dataset</code> - COVID-19 CSV dataset location</dd>
@@ -375,6 +408,7 @@ java.util.List&lt;java.lang.String&gt;&nbsp;ISOCodes)</span></div>
 <div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">java.util.HashMap&lt;java.lang.String,&#8203;<a href="../tableColumns/VaccinationTable.html" title="class in comp3111.tableColumns">VaccinationTable</a>&gt;</span>&nbsp;<span class="member-name">getVaccinationTable</span>&#8203;(<span class="parameters">java.lang.String&nbsp;dataset,
 java.time.LocalDate&nbsp;date,
 java.util.List&lt;java.lang.String&gt;&nbsp;locations)</span></div>
+<div class="block">Get the table entries of COVID-19 vaccination rate for a given country as of the specified date</div>
 <dl class="notes">
 <dt>Parameters:</dt>
 <dd><code>dataset</code> - COVID-19 CSV dataset location</dd>
@@ -392,6 +426,7 @@ java.util.List&lt;java.lang.String&gt;&nbsp;locations)</span></div>
 java.time.LocalDate&nbsp;startDate,
 java.time.LocalDate&nbsp;endDate,
 java.util.List&lt;java.lang.String&gt;&nbsp;locations)</span></div>
+<div class="block">Get the table entries of COVID-19 confirmed cases chart coordinates for a given country between startDate and endDate</div>
 <dl class="notes">
 <dt>Parameters:</dt>
 <dd><code>dataset</code> - COVID-19 CSV dataset location</dd>
@@ -410,6 +445,7 @@ java.util.List&lt;java.lang.String&gt;&nbsp;locations)</span></div>
 java.time.LocalDate&nbsp;startDate,
 java.time.LocalDate&nbsp;endDate,
 java.util.List&lt;java.lang.String&gt;&nbsp;locations)</span></div>
+<div class="block">Get the table entries of COVID-19 confirmed deaths chart coordinates for a given country between startDate and endDate</div>
 <dl class="notes">
 <dt>Parameters:</dt>
 <dd><code>dataset</code> - COVID-19 CSV dataset location</dd>
@@ -428,6 +464,7 @@ java.util.List&lt;java.lang.String&gt;&nbsp;locations)</span></div>
 java.time.LocalDate&nbsp;startDate,
 java.time.LocalDate&nbsp;endDate,
 java.util.List&lt;java.lang.String&gt;&nbsp;locations)</span></div>
+<div class="block">Get the table entries of COVID-19 vaccination rate chart coordinates for a given country between startDate and endDate</div>
 <dl class="notes">
 <dt>Parameters:</dt>
 <dd><code>dataset</code> - COVID-19 CSV dataset location</dd>
@@ -443,6 +480,7 @@ java.util.List&lt;java.lang.String&gt;&nbsp;locations)</span></div>
 <section class="detail" id="parseLongWithDefault(java.lang.String)">
 <h3>parseLongWithDefault</h3>
 <div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">java.lang.Long</span>&nbsp;<span class="member-name">parseLongWithDefault</span>&#8203;(<span class="parameters">java.lang.String&nbsp;str)</span></div>
+<div class="block">Parse string into Long with a default value of 0</div>
 <dl class="notes">
 <dt>Parameters:</dt>
 <dd><code>str</code> - string input to be parsed</dd>
@@ -455,6 +493,7 @@ java.util.List&lt;java.lang.String&gt;&nbsp;locations)</span></div>
 <section class="detail" id="parseFloatWithDefault(java.lang.String)">
 <h3>parseFloatWithDefault</h3>
 <div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">java.lang.Float</span>&nbsp;<span class="member-name">parseFloatWithDefault</span>&#8203;(<span class="parameters">java.lang.String&nbsp;str)</span></div>
+<div class="block">Parse string into Float with a default value of 0</div>
 <dl class="notes">
 <dt>Parameters:</dt>
 <dd><code>str</code> - string input to be parsed</dd>
